@@ -150,7 +150,26 @@ $.extend(
 </div>
 </nav>
 </div>
+                        </div>
+                        <div class="dashboard-wrapper">
+                
+                <div class="container-fluid dashboard-content">
+                    
+                    <!-- pageheader -->
+                    
+                    <div class="row">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                            <div class="page-header">
+                                <h2 class="pageheader-title">Student Dashboard</h2>
+                            </div>
+                        </div>
+                    </div>
 
+                    <!-- code here -->
+Hi man
+                </div>
+                        </div>
+        
 
 </div>
                         <div class="footer" style="position:fixed; bottom:0; width:100%; z-index:-1;">
