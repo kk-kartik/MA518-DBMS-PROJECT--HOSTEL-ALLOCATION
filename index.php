@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
-    <title>Student Affairs Portal</title>
+    <title>Student Hostel Portal</title>
     <link rel="icon" href="assets/images/iitg.ico" type="image/icon">
     <!-- Bootstrap CSS -->
     <link
@@ -37,11 +37,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       html,
       body {
         height: 100%;
+        background-image: url("https://iitg.ac.in/ccd/assets/img/iitg.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: rgba(07, 11, 02, 0.5);
+ background-blend-mode: soft-light;
       }
 
       body {
         display: -ms-flexbox;
         display: flex;
+
         -ms-flex-align: center;
         align-items: center;
         padding-top: 40px;
@@ -78,7 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           <a href="https://www.iitg.ac.in" target="_blank"
             ><img class="logo-img" src="assets/images/iitg.ico" alt="logo"
           /></a>
-          <span class="splash-description">Students' Affairs Portal</span>
+          <span class="splash-description">Student Hostel Portal</span>
           <?php if (array_key_exists('postdata', $_SESSION) && isset($_SESSION['postdata']['error'])) : ?>
           <div class="p-2">
                     <div class="alert alert-danger" role="alert">
@@ -138,17 +145,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           </div>
         </div>
       </div>
-      <span class="splash-container card-footer-item mt-0 pt-0 mb-0 mt-0"> MA518- DBMS Project 2022<br> KARTIK KURUPASWAMY - 212123027 <br> VICTOR IMMANUVEL S - 212123057</span>
-      <span class="splash-container card-footer-item mt-0 pt-0 mb-0 mt-0"
+      <!-- <span class="splash-container card-footer-item mt-0 pt-0 mb-0 mt-0" style="color: #9497a3;"> MA518- DBMS Project 2022<br> KARTIK KURUPASWAMY - 212123027 <br> VICTOR IMMANUVEL S - 212123057</span>
+      <span class="splash-container card-footer-item mt-0 pt-0 mb-0 mt-0" style="color: #9497a3;"
         >We strongly recommend to use updated browsers only</span
       ><br /><img
         src="assets/images/main-desktop-browser-logos.png"
         width="40%"
         height="40%"
         class="center"
-      />
-    </div>
-
+      /> -->
+</div>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"

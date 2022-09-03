@@ -187,9 +187,9 @@
 body {
     font-family: 'Circular Std Book';
     font-style: normal;
-    font-weight: normal;
+    font-weight: bold;
     font-size: 14px;
-    color: #5d6975;
+    color: #2f3a45;
     background-color: #e7e9f0;
     -webkit-font-smoothing: antialiased;
 }
