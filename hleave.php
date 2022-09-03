@@ -166,7 +166,57 @@ $.extend(
                     </div>
 
                     <!-- code here -->
-Hi man
+                   <!------------------------------- Change Room Request Table --------------------------->
+                    
+                   <div class="row">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                            <h3 class="text-right"><!-- Button trigger modal -->
+                            <a href="#" class="btn btn-info" target="_blank">
+                                    Apply Hostel Leave
+                                </a> 
+                            </h3>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                            <div class="card text-dark">
+                                <div class="card-header">
+                                    Change Room Request History
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-bordered first">
+                                            <thead>
+                                                <tr>
+                                                    <th>Request Date</th>
+                                                    <th>Previous Room</th>
+                                                    <th>Reason for Change</th>
+                                                    <th>Current Desk</th>
+                                                    <th>Status</th>
+                                                    <th>New Room</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <th>Request Date</th>
+                                                    <th>Previous Room</th>
+                                                    <th>Reason for Change</th>
+                                                    <th>Current Desk</th>
+                                                    <th>Status</th>
+                                                    <th>New Room</th>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                         </div>
         
