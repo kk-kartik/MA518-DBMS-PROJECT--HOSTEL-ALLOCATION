@@ -79,7 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             ><img class="logo-img" src="assets/images/iitg.ico" alt="logo"
           /></a>
           <span class="splash-description">Students' Affairs Portal</span>
-          <?php if (array_key_exists('postdata', $_SESSION)) : ?>
+          <?php if (array_key_exists('postdata', $_SESSION) && isset($_SESSION['postdata']['error'])) : ?>
           <div class="p-2">
                     <div class="alert alert-danger" role="alert">
 			<?php echo $_SESSION['postdata']['error']; unset($_SESSION['postdata']);
