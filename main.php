@@ -293,7 +293,7 @@ $.extend(
                                             <tbody>
                                                 
                                                                 <tr>
-                                                                    <td>2022-08-08</td>
+                                                                    <td>2022-08-26</td>
                                                                     <td>Umiam</td>
                                                                     <td>Siang</td>
                                                                     <td class="text-dark-green">
