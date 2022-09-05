@@ -18,7 +18,7 @@ if (array_key_exists('postdata', $_SESSION)): ?>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="refresh" content="300">
-    <title>Student Affairs Portal</title>
+    <title>Student Hostel Portal</title>
     <link rel="icon" href="assets/images/iitg.ico" type="image/icon">
 
     <!-- Bootstrap CSS -->
@@ -27,13 +27,10 @@ if (array_key_exists('postdata', $_SESSION)): ?>
     <script src="https://kit.fontawesome.com/099dc0ed07.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/fontawesome-all.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.bootstrap4.min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedheader/3.2.4/css/fixedHeader.dataTables.min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.4.0/css/select.dataTables.min.css">
-    <!-- <link rel="stylesheet" type="text/css" href="assets/vendor/datatables/css/buttons.bootstrap4.css">
-        <link rel="stylesheet" type="text/css" href="assets/vendor/datatables/css/select.bootstrap4.css">
-        <link rel="stylesheet" type="text/css" href="assets/vendor/datatables/css/fixedHeader.bootstrap4.css"> -->
+    <link rel="stylesheet" type="text/css" href="css/dataTables.bootstrap4.css">
+    <link rel="stylesheet" type="text/css" href="css/buttons.bootstrap4.css">
+        <link rel="stylesheet" type="text/css" href="css/select.bootstrap4.css">
+        <link rel="stylesheet" type="text/css" href="css/fixedHeader.bootstrap4.css">
     <style>
         .input-height {
             height: 2.4rem;
@@ -120,14 +117,14 @@ $.extend(
         </nav>
         <div class="nav-left-sidebar sidebar-dark">
 
-            <div class="menu-list">
+            <div class="menu-list" style="overflow: hidden; width:auto; height:100%;">
                 <nav class="navbar navbar-expand-lg navbar-light">
-                    <a class="d-xl-none d-lg-none" href="#">Student Affairs Portal</a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <a class="d-xl-none d-lg-none" href="#">Student Hostel Portal</a>
+                    <button class="navbar-toggler" type="button" onclick="showmenu();" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
            
-    <div class="collapse navbar-collapse" id="navbarNav">
+    <div class="navbar-collapse collapse" id="navbarNav">
                     <ul class="navbar-nav flex-column">
                         <!-- --------------          PROJECT STAFF MENU START   --------------           -->
         
@@ -419,7 +416,7 @@ $.extend(
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jQuery-slimScroll/1.3.8/jquery.slimscroll.js"></script>
-        <script src="js/main-js.js"></script>
+        <!-- <script src="js/main-js.js"></script> -->
         <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
         <script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
         <script src="https://cdn.datatables.net/fixedheader/3.2.4/js/dataTables.fixedHeader.min.js"></script>
@@ -446,6 +443,12 @@ $.extend(
                             document.getElementsByClassName('nav-user-img')[0].ariaExpanded=true;
                             $('.nav-user').toggleClass('show');
                             $('.nav-user-dropdown').toggleClass('show');
+                        }
+                        function showmenu() {
+                            
+                            document.getElementsByClassName('navbar-toggler')[0].ariaExpanded=true;
+                            $('.navbar-toggler').toggleClass('collapsed');
+                            $('#navbarNav').toggleClass('show');
                         }
                     </script>
                     <?php elseif (

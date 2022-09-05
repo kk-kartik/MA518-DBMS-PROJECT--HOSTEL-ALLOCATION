@@ -6954,7 +6954,7 @@ Media Query
         color: #404040;
         border-bottom: 1px solid #e6e6f2;
     }
-    .aside-nav.collapse {
+    .aside-nav .collapse {
         display: none;
     }
     .dashboard-main-wrapper .main-content {
