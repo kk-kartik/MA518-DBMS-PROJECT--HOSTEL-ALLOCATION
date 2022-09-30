@@ -18,7 +18,7 @@ if (array_key_exists('postdata', $_SESSION)): ?>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="refresh" content="300">
-    <title>Student Affairs Portal</title>
+    <title>Student Hostel Portal</title>
     <link rel="icon" href="assets/images/iitg.ico" type="image/icon">
 
     <!-- Bootstrap CSS -->
@@ -117,8 +117,8 @@ $.extend(
 
     <div class="menu-list">
         <nav class="navbar navbar-expand-lg navbar-light">
-            <a class="d-xl-none d-lg-none" href="#">Student Affairs Portal</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <a class="d-xl-none d-lg-none" href="#">Student Hostel Portal</a>
+            <button class="navbar-toggler" type="button" onclick="showmenu();" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
    
@@ -144,7 +144,7 @@ $.extend(
                                 <a class="nav-link" href="hleave.php"><i class="fas fa-cog"></i>Hostel leave</a>
                             </li>
                 <!-- --------------          PROJECT STAFF MENU ENDS   --------------           -->
-                <li class="nav-divider"></li><li class="nav-item"></li><li class="nav-item">&nbsp;</li><li class="nav-item">&nbsp;</li><li class="nav-item">&nbsp;</li>
+                <!-- <li class="nav-divider"></li><li class="nav-item"></li><li class="nav-item">&nbsp;</li><li class="nav-item">&nbsp;</li><li class="nav-item">&nbsp;</li> -->
 
 </ul>
 </div>
@@ -239,7 +239,7 @@ $.extend(
         </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jQuery-slimScroll/1.3.8/jquery.slimscroll.js"></script>
-        <script src="js/main-js.js"></script>
+        <!-- <script src="js/main-js.js"></script> -->
         <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
         <script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
         <script src="https://cdn.datatables.net/fixedheader/3.2.4/js/dataTables.fixedHeader.min.js"></script>
@@ -266,6 +266,12 @@ $.extend(
                             document.getElementsByClassName('nav-user-img')[0].ariaExpanded=true;
                             $('.nav-user').toggleClass('show');
                             $('.nav-user-dropdown').toggleClass('show');
+                        }
+                        function showmenu() {
+                            
+                            document.getElementsByClassName('navbar-toggler')[0].ariaExpanded=true;
+                            $('.navbar-toggler').toggleClass('collapsed');
+                            $('#navbarNav').toggleClass('show');
                         }
                     </script>
 <?php endif;

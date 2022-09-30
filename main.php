@@ -27,7 +27,7 @@ if (array_key_exists('postdata', $_SESSION)): ?>
     <script src="https://kit.fontawesome.com/099dc0ed07.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/fontawesome-all.css">
-    <link rel="stylesheet" type="text/css" href="css/dataTables.bootstrap4.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
     <link rel="stylesheet" type="text/css" href="css/buttons.bootstrap4.css">
         <link rel="stylesheet" type="text/css" href="css/select.bootstrap4.css">
         <link rel="stylesheet" type="text/css" href="css/fixedHeader.bootstrap4.css">
@@ -115,6 +115,7 @@ $.extend(
             </div>
 
         </nav>
+        <?php if($_SESSION['postdata']['username'] == "samarth"): ?>
         <div class="nav-left-sidebar sidebar-dark">
 
             <div class="menu-list" style="overflow: hidden; width:auto; height:100%;">
@@ -146,7 +147,7 @@ $.extend(
                                         <a class="nav-link" href="hleave.php"><i class="fas fa-cog"></i>Hostel leave</a>
                                     </li>
                         <!-- --------------          PROJECT STAFF MENU ENDS   --------------           -->
-                        <li class="nav-divider"></li><li class="nav-item"></li><li class="nav-item">&nbsp;</li><li class="nav-item">&nbsp;</li><li class="nav-item">&nbsp;</li>
+                        <!-- <li class="nav-divider"></li><li class="nav-item"></li><li class="nav-item">&nbsp;</li><li class="nav-item">&nbsp;</li><li class="nav-item">&nbsp;</li> -->
         
         </ul>
     </div>
@@ -399,6 +400,263 @@ $.extend(
                     </div>
                 </div>
 </div>
+<?php elseif($_SESSION['postdata']['username']=="office"): ?>
+    <div class="nav-left-sidebar sidebar-dark">
+
+            <div class="menu-list" style="overflow: hidden; width:auto; height:100%;">
+                <nav class="navbar navbar-expand-lg navbar-light">
+                    <a class="d-xl-none d-lg-none" href="#">Hostel Portal</a>
+                    <button class="navbar-toggler" type="button" onclick="showmenu();" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+           
+    <div class="navbar-collapse collapse" id="navbarNav">
+                    <ul class="navbar-nav flex-column">
+                        <!-- --------------          PROJECT STAFF MENU START   --------------           -->
+        
+                        
+                        <li class="nav-divider">
+                                        Student Menu
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="main.php"><i class="fas fa-home"></i>Home</a>
+                                    </li>
+                                    
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="complaints.php"><i class="fas fa-hand-paper"></i>Complaints</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="cyreg.php"><i class="fa-solid fa-person-biking"></i>Cycle Registration</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="hleave.php"><i class="fas fa-cog"></i>Hostel leave</a>
+                                    </li>
+                        <!-- --------------          PROJECT STAFF MENU ENDS   --------------           -->
+                        <!-- <li class="nav-divider"></li><li class="nav-item"></li><li class="nav-item">&nbsp;</li><li class="nav-item">&nbsp;</li><li class="nav-item">&nbsp;</li> -->
+        
+        </ul>
+    </div>
+</nav>
+</div>
+
+
+</div>
+<div class="dashboard-wrapper">
+                
+                <div class="container-fluid dashboard-content">
+                    
+                    <!-- pageheader -->
+                    
+                    <div class="row">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                            <div class="page-header">
+                                <h2 class="pageheader-title">Hostel Office Dashboard</h2>
+                            </div>
+                        </div>
+                    </div>
+                    
+                   
+                    <!-- end pageheader -->
+                    
+                 
+                
+                    <!------------------------------- Change Room Request Table --------------------------->
+                    
+                    <div class="row">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                            <h3 class="text-right"><!-- Button trigger modal -->
+                            <a href="#" class="btn btn-info" target="_blank">
+                                    Change Room
+                                </a> 
+                            </h3>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                            <div class="card text-dark">
+                                <div class="card-header">
+                                    Change Room Request History
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-bordered first">
+                                            <thead>
+                                                <tr>
+                                                    <th>Request Date</th>
+                                                    <th>Previous Room</th>
+                                                    <th>Reason for Change</th>
+                                                    <th>Current Desk</th>
+                                                    <th>Status</th>
+                                                    <th>New Room</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <th>Request Date</th>
+                                                    <th>Previous Room</th>
+                                                    <th>Reason for Change</th>
+                                                    <th>Current Desk</th>
+                                                    <th>Status</th>
+                                                    <th>New Room</th>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                         
+                    <!------------------------------- Hostel Shift Request Table --------------------------->
+
+                    <div class="row">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                            <h3 class="text-right"><!-- Button trigger modal -->
+                            <a href="vacatingform.pdf" class="btn btn-info" target="_blank">
+                                    Hostel Shift
+                                </a>
+                            </h3>
+                        </div>
+                    </div>
+                    
+                                                                                              
+                    <div class="row">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                            <div class="card text-dark">
+                                <div class="card-header">
+                                    Hostel Shift Request History
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-bordered first">
+                                            <thead>
+                                                <tr>
+                                                    <th>Request Date</th>
+                                                    <th>Previous Hostel</th>
+                                                    <th>New Hostel</th>
+                                                    <th>Current Desk</th>
+                                                    <th>Status</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                
+                                                                <tr>
+                                                                    <td>2022-08-26</td>
+                                                                    <td>Umiam</td>
+                                                                    <td>Siang</td>
+                                                                    <td class="text-dark-green">
+                                                                        Hostel Office
+
+                                                                    </td>
+                                                                    <td>
+                                                                        <span class='text-primary'>Approved</span>
+                                                                    </td>
+                                                                    <td>
+                                                                        <a href="javascript:void(0)" class="viewhostelshift" data-name='Kartik Kurupaswamy' data-email='NA'    
+                                                                            data-roll_reg_no='212123027' data-contact='9427686046' 
+                                                                            data-cur_room='Umiam~C~Third Floor~C-302' data-hosfrom='Umiam' 
+                                                                            data-hosto='Siang' data-shiftdate='2022-08-13' 
+                                                                            data-reason='My classes start at 8 in the morning and go upto 6pm in the evening. Commuting to hostels become hectic and I dont know to ride bicycle, I am unable to maintain my health.' data-hosfee='0' 
+                                                                            data-messfee='0' data-canteenfee='0' 
+                                                                            data-stanfee='0' data-juicefee='0' 
+                                                                            data-dsdcfee='0' ><i class="fas fa-eye"></i>
+                                                                        </a>&nbsp&nbsp&nbsp
+                                                                    </td>           
+                                                                </tr>
+                                                            
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <th>Request Date</th>
+                                                    <th>Previous Hostel</th>
+                                                    <th>New Hostel</th>
+                                                    <th>Current Desk</th>
+                                                    <th>Status</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+ <!------------------------------- Accommodation History Table ------------------------------------------------>
+                                     
+ <div class="row">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                            <div class="card text-dark">
+                                <div class="card-header">
+                                    Accomodation History
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-bordered first">
+                                            <thead>
+                                                <tr>
+                                                    <th>Hostel</th>
+                                                    <th>Block</th>
+                                                    <th>Room Number</th>
+                                                    <th>Start Date</th>
+                                                    <th>End Date</th>
+                                                    <th>Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                
+                                                                <tr>
+                                                                    <td>Barak</td>
+                                                                    <td>A</td>
+                                                                    <td>A-024</td>
+                                                                    <td>2022-03-08</td>
+                                                                    <td>2022-03-08</td>
+                                                                    <td><span class='text-dark-green'>Completed</span></td>
+                                                                </tr>
+                                                            
+                                                                <tr>
+                                                                    <td>Barak</td>
+                                                                    <td>A</td>
+                                                                    <td>A-029</td>
+                                                                    <td>2022-03-08</td>
+                                                                    <td>2022-07-19</td>
+                                                                    <td><span class='text-dark-green'>Completed</span></td>
+                                                                </tr>
+                                                            
+                                                                <tr>
+                                                                    <td>Umiam</td>
+                                                                    <td>C</td>
+                                                                    <td>C-302</td>
+                                                                    <td>2022-07-28</td>
+                                                                    <td>-</td>
+                                                                    <td><span class='text-primary'>On Going</span></td>
+                                                                </tr>
+                                                            
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <th>Hostel</th>
+                                                    <th>Block</th>
+                                                    <th>Room Number</th>
+                                                    <th>Start Date</th>
+                                                    <th>End Date</th>
+                                                    <th>Status</th>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+</div>
+    <?php endif; ?>
                     <div class="footer" style="position:fixed; bottom:0; width:100%; z-index:-1;">
 	<div class="container-fluid">
 		<div class="row">
@@ -418,6 +676,7 @@ $.extend(
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jQuery-slimScroll/1.3.8/jquery.slimscroll.js"></script>
         <!-- <script src="js/main-js.js"></script> -->
         <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+       
         <script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
         <script src="https://cdn.datatables.net/fixedheader/3.2.4/js/dataTables.fixedHeader.min.js"></script>
         <script src="https://cdn.datatables.net/select/1.4.0/js/dataTables.select.min.js"></script>

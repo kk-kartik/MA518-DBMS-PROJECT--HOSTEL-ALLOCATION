@@ -4,7 +4,7 @@ jQuery(document).ready(function($) {
     if ($("table.first").length) {
 
         $(document).ready(function() {
-            $('table.first').DataTable();
+            $('.first').DataTable();
         });
     }
 

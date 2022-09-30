@@ -37,11 +37,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       html,
       body {
         height: 100%;
-        background-image: url("https://iitg.ac.in/ccd/assets/img/iitg.jpg");
+        background-image: url("assets/images/Background.webp");
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    background-color: rgba(07, 11, 02, 0.5);
+    background-color: rgba(07, 11, 02, 0.2);
  background-blend-mode: soft-light;
       }
 
