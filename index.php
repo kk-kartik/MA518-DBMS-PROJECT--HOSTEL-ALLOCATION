@@ -145,15 +145,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           </div>
         </div>
       </div>
-      <!-- <span class="splash-container card-footer-item mt-0 pt-0 mb-0 mt-0" style="color: #9497a3;"> MA518- DBMS Project 2022<br> KARTIK KURUPASWAMY - 212123027 <br> VICTOR IMMANUVEL S - 212123057</span>
-      <span class="splash-container card-footer-item mt-0 pt-0 mb-0 mt-0" style="color: #9497a3;"
-        >We strongly recommend to use updated browsers only</span
-      ><br /><img
-        src="assets/images/main-desktop-browser-logos.png"
-        width="40%"
-        height="40%"
-        class="center"
-      /> -->
 </div>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"

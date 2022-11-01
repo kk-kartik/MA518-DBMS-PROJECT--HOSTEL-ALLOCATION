@@ -1,4 +1,5 @@
 <?php
+require_once "connect.php";
 
 if (!isset($_SESSION)) {
     session_start();
@@ -10,7 +11,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     header('Location: ' . $_SERVER['PHP_SELF']);
     exit();
 }
-if (array_key_exists('postdata', $_SESSION)): ?>
+if (array_key_exists('postdata', $_SESSION)): 
+    $query="SELECT * FROM hab.users WHERE email = '{$_SESSION['postdata']['username']}' and pwd ='{$_SESSION['postdata']['password']}' ; ";
+    $sql=$conn->query($query);
+    $row=$sql->fetch(PDO::FETCH_ASSOC)
+?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -65,7 +70,7 @@ $.extend(
     </script>
 <?php if (
     isset($_SESSION['postdata']['submit']) &&
-    $_SESSION['postdata']['username'] == $_SESSION['postdata']['password']
+    $row['pwd'] == $_SESSION['postdata']['password']
 ): ?>
     <!-- main wrapper -->
 
@@ -115,7 +120,7 @@ $.extend(
             </div>
 
         </nav>
-        <?php if($_SESSION['postdata']['username'] == "samarth"): ?>
+        <?php if($row['type'] == "STUD"): ?>
         <div class="nav-left-sidebar sidebar-dark">
 
             <div class="menu-list" style="overflow: hidden; width:auto; height:100%;">
@@ -127,7 +132,7 @@ $.extend(
            
     <div class="navbar-collapse collapse" id="navbarNav">
                     <ul class="navbar-nav flex-column">
-                        <!-- --------------          PROJECT STAFF MENU START   --------------           -->
+                        <!-- --------------          STUDENT MENU START   --------------           -->
         
                         
                         <li class="nav-divider">
@@ -178,27 +183,31 @@ $.extend(
                     <div class="row">
                         <div class="card-body border-top">
                             <h3>Current Profile</h3>
+<?php
+$query="SELECT * FROM hab.students WHERE email = '{$_SESSION['postdata']['username']}'; ";
+$sql2=$conn->query($query);
+$details=$sql2->fetch(PDO::FETCH_ASSOC);
 
+
+?>
                             
 
                             <div id="curprofiledata" class="alert alert-primary" 
-                                    data-studname="KARTIK KURUPASWAMY" data-studemail="kartik.kurupaswamy" data-studmobile="9427686046" data-studemp="212123027" 
-                                    data-studdept="MATHS" data-studprog="MSc" data-studhostel="Umiam" data-studblock="C" 
-                                    data-studfloor="Third Floor" data-studroom="C-302" data-deptid='8' data-progid='5' role="alert">
+                                    role="alert">
 
                                 <div class="row">
-                                    <h4 class="col-md-4">Name: <span class="text-muted">KARTIK KURUPASWAMY </span>  </h4>
-                                    <h4 class="col-md-4">Department: <span class="text-muted">MATHS</span> </h4>
+                                    <h4 class="col-md-4">Name: <span class="text-muted"><?php echo $details['name'];?> </span>  </h4>
+                                    <h4 class="col-md-4">Department: <span class="text-muted"><?php echo $details['dept'];?></span> </h4>
                                     <h4 class="col-md-4">Hostel: <span class="text-muted">Umiam</span> </h4>
                                 </div>
                                 <div class="row">
-                                    <h4 class="col-md-4">Email: <span class="text-muted">kartik.kurupaswamy</span> </h4>
-                                    <h4 class="col-md-4">Programme: <span class="text-muted">MSc</span> </h4>
+                                    <h4 class="col-md-4">Email: <span class="text-muted"><?php echo $details['email'];?></span> </h4>
+                                    <h4 class="col-md-4">Programme: <span class="text-muted"><?php echo $details['prog'];?></span> </h4>
                                     <h4 class="col-md-4">Room No: <span class="text-muted">C-302</span> </h4>
                                 </div>
                                 <div class="row">
-                                    <h4 class="col-md-4">Roll No: <span class="text-muted">212123027</span></h4>
-                                    <h4 class="col-md-4">Cycle No: <span class="text-muted">2102001</span></h4>
+                                    <h4 class="col-md-4">Roll No: <span class="text-muted"><?php echo $details['rollno'];?></span></h4>
+                                    <h4 class="col-md-4">Date of Birth: <span class="text-muted"><?php echo $details['dob'];?></span></h4>
                                     <h4 class="col-md-4">Floor: <span class="text-muted">Third Floor</span> </h4>
                                 </div>
                             </div>
@@ -223,29 +232,42 @@ $.extend(
                                 <div class="card-header">
                                     Change Room Request History
                                 </div>
+
+                               
                                 <div class="card-body">
                                     <div class="table-responsive">
                                         <table class="table table-striped table-bordered first">
                                             <thead>
                                                 <tr>
-                                                    <th>Request Date</th>
+                                                    <th>Request ID</th>
                                                     <th>Previous Room</th>
-                                                    <th>Reason for Change</th>
                                                     <th>Current Desk</th>
-                                                    <th>Status</th>
+                                                    <th>Current Status</th>
                                                     <th>New Room</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                
+                                                <?php 
+                                                $query="SELECT * FROM hab.rchange Where rollno={$details['rollno']};";
+                                                $sql=$conn->query($query);
+                                                while($row=$sql->fetch(PDO::FETCH_ASSOC))
+                                                 {
+                                                ?>
+                                                <tr>
+                                                    <th><?php echo $row['rcid'];?></th>
+                                                    <th><?php echo $row['rfrom'];?></th>
+                                                    <th><?php echo $row['empid'];?></th>
+                                                    <th><?php echo $row['status'];?></th>
+                                                    <th><?php echo $row['rto'];?></th>
+                                                </tr>
+                                                <?php } ?>
                                             </tbody>
                                             <tfoot>
                                                 <tr>
-                                                    <th>Request Date</th>
+                                                    <th>Request ID</th>
                                                     <th>Previous Room</th>
-                                                    <th>Reason for Change</th>
                                                     <th>Current Desk</th>
-                                                    <th>Status</th>
+                                                    <th>Current Status</th>
                                                     <th>New Room</th>
                                                 </tr>
                                             </tfoot>
@@ -290,29 +312,20 @@ $.extend(
                                             </thead>
                                             <tbody>
                                                 
-                                                                <tr>
-                                                                    <td>2022-08-26</td>
-                                                                    <td>Umiam</td>
-                                                                    <td>Siang</td>
-                                                                    <td class="text-dark-green">
-                                                                        Hostel Office
-
-                                                                    </td>
-                                                                    <td>
-                                                                        <span class='text-primary'>Approved</span>
-                                                                    </td>
-                                                                    <td>
-                                                                        <a href="javascript:void(0)" class="viewhostelshift" data-name='Kartik Kurupaswamy' data-email='NA'    
-                                                                            data-roll_reg_no='212123027' data-contact='9427686046' 
-                                                                            data-cur_room='Umiam~C~Third Floor~C-302' data-hosfrom='Umiam' 
-                                                                            data-hosto='Siang' data-shiftdate='2022-08-13' 
-                                                                            data-reason='My classes start at 8 in the morning and go upto 6pm in the evening. Commuting to hostels become hectic and I dont know to ride bicycle, I am unable to maintain my health.' data-hosfee='0' 
-                                                                            data-messfee='0' data-canteenfee='0' 
-                                                                            data-stanfee='0' data-juicefee='0' 
-                                                                            data-dsdcfee='0' ><i class="fas fa-eye"></i>
-                                                                        </a>&nbsp&nbsp&nbsp
-                                                                    </td>           
-                                                                </tr>
+                                            <?php 
+                                                $query="SELECT * FROM hab.hchange Where rollno={$details['rollno']};";
+                                                $sql=$conn->query($query);
+                                                while($row=$sql->fetch(PDO::FETCH_ASSOC))
+                                                 {
+                                                ?>
+                                                <tr>
+                                                    <th><?php echo $row['chid'];?></th>
+                                                    <th><?php echo $row['hfrom'];?></th>
+                                                    <th><?php echo $row['empid'];?></th>
+                                                    <th><?php echo $row['chstatus'];?></th>
+                                                    <th><?php echo $row['hto'];?></th>
+                                                </tr>
+                                                <?php } ?>
                                                             
                                             </tbody>
                                             <tfoot>
@@ -353,34 +366,20 @@ $.extend(
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                
-                                                                <tr>
-                                                                    <td>Barak</td>
-                                                                    <td>A</td>
-                                                                    <td>A-024</td>
-                                                                    <td>2022-03-08</td>
-                                                                    <td>2022-03-08</td>
-                                                                    <td><span class='text-dark-green'>Completed</span></td>
-                                                                </tr>
-                                                            
-                                                                <tr>
-                                                                    <td>Barak</td>
-                                                                    <td>A</td>
-                                                                    <td>A-029</td>
-                                                                    <td>2022-03-08</td>
-                                                                    <td>2022-07-19</td>
-                                                                    <td><span class='text-dark-green'>Completed</span></td>
-                                                                </tr>
-                                                            
-                                                                <tr>
-                                                                    <td>Umiam</td>
-                                                                    <td>C</td>
-                                                                    <td>C-302</td>
-                                                                    <td>2022-07-28</td>
-                                                                    <td>-</td>
-                                                                    <td><span class='text-primary'>On Going</span></td>
-                                                                </tr>
-                                                            
+                                            <?php 
+                                                $query="SELECT * FROM hab.roomrecords Where rollno={$details['rollno']};";
+                                                $sql=$conn->query($query);
+                                                while($row=$sql->fetch(PDO::FETCH_ASSOC))
+                                                 {
+                                                ?>
+                                                <tr>
+                                                    <th><?php echo $row['recordid'];?></th>
+                                                    <th><?php echo $row['roomid'];?></th>
+                                                    <th><?php echo $row['sdate'];?></th>
+                                                    <th><?php echo $row['tdate'];?></th>
+                                                    <th><?php echo "Completed";?></th>
+                                                </tr>
+                                                <?php } ?>
                                             </tbody>
                                             <tfoot>
                                                 <tr>
@@ -400,7 +399,7 @@ $.extend(
                     </div>
                 </div>
 </div>
-<?php elseif($_SESSION['postdata']['username']=="office"): ?>
+<?php elseif($row['type']=="HAB"): ?>
     <div class="nav-left-sidebar sidebar-dark">
 
             <div class="menu-list" style="overflow: hidden; width:auto; height:100%;">
@@ -416,7 +415,7 @@ $.extend(
         
                         
                         <li class="nav-divider">
-                                        Student Menu
+                            STAFF Menu
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" href="main.php"><i class="fas fa-home"></i>Home</a>
@@ -727,5 +726,7 @@ $.extend(
 <?php endif; ?>
 </body>
 </html>
-<?php endif;
+<?php 
+
+endif;
 ?>
