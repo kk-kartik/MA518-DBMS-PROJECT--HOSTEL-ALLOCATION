@@ -243,9 +243,9 @@ $cdetails = $sql2->fetch(PDO::FETCH_ASSOC);
                     <div class="row">
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                             <h3 class="text-right"><!-- Button trigger modal -->
-                            <a href="#" class="btn btn-primary" target="_blank">
-                                    Change Room
-                                </a> 
+                            <button  class="btn btn-primary showmshmodal" onclick="showcrreqmodal()" >
+                                                Change Room Request
+                                            </button> 
                             </h3>
                         </div>
                     </div>
@@ -321,9 +321,9 @@ $cdetails = $sql2->fetch(PDO::FETCH_ASSOC);
                     <div class="row">
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                             <h3 class="text-right"><!-- Button trigger modal -->
-                            <a href="vacatingform.pdf" class="btn btn-info" target="_blank">
-                                    Hostel Shift
-                                </a>
+                            <button  class="btn btn-primary showmshmodal" onclick="showhsreqmodal()" >
+                                                Hostel Shift Request
+                                            </button>
                             </h3>
                         </div>
                     </div>
@@ -477,6 +477,180 @@ $cdetails = $sql2->fetch(PDO::FETCH_ASSOC);
                     </div>
                 </div>
 </div>
+
+<!----------------------------------- Hostel Shift Request Modal ---------------------------------------------->
+
+<div class="modal fade" id="updatehostelModal" tabindex="-1" role="dialog" aria-labelledby="updatehostelModalH" aria-hidden="true">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title text-center" id="updatehostelModalH">Hostel Shift Request</h5>
+                                    <button class="close closebtn" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="changehostelreqtooldhs.jsp" method="POST" id="changehostelreqform">
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="hsbname">Name</label>
+                                                <input id="hsbname" type="text" name="hsbname"  required placeholder="" autocomplete="off" class="form-control" readonly>
+                                            </div>
+                                                
+                                            <div class="form-group col-md-6">
+                                                <label for="hsrollno">Roll Number</label>
+                                                <input id="hsrollno" type="text" name="hsrollno"  required placeholder="" autocomplete="off" class="form-control" readonly>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="hsphone">Phone</label>
+                                                <input id="hsphone" type="number" name="hsphone"  required placeholder="" autocomplete="off" class="form-control" readonly>
+                                            </div>
+                                                
+                                            <div class="form-group col-md-6">
+                                                <label for="hsemail">Email</label>
+                                                <input id="hsemail" type="email" name="hsemail"  required placeholder="" autocomplete="off" class="form-control" readonly>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="hshostelfrom">Hostel From</label>
+                                                <input id="hshostelfrom" type="text" name="hshostelfrom"  required placeholder="" autocomplete="off" class="form-control" readonly>
+                                            </div>
+                                                
+                                            <div class="form-group col-md-6">
+                                                <label for="hshostelto">Hostel To<span class="text-danger">*</span></label>
+                                                <select name="hshostelto" id="hshostelto" class="form-control">
+                                                    <option value="">Choose Hostel...</option>
+                                                    
+                                                </select>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="hsoldroom">Old Hostel Room Details</label>
+                                                <input id="hsoldroom" type="text" name="hsoldroom"  required placeholder="" autocomplete="off" class="form-control" readonly>
+                                            </div>
+                                                
+                                            <div class="form-group col-md-6">
+                                                <label for="hsshiftdate">Tentative Date of Shift<span class="text-danger">*</span></label>
+                                                <input id="hsshiftdate" type="date" name="hsshiftdate"  required placeholder="" autocomplete="off" class="form-control">
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-row">
+                                            <div class="form-group col-md-12">
+                                                <label for="hsreason">Reason of Shift<span class="text-danger">*(Max 180 Characters)</span></label>
+                                                <input id="hsreason" type="text" name="hsreason"  maxlength="180" required placeholder="" autocomplete="off" class="form-control">
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-row">
+                                            <div class="form-group col-md-4">
+                                                <label for="dhostelfees">Dues: Hostel Fee</label>
+                                                <input id="dhostelfees" type="text" name="dhostelfees" maxlength="5"  placeholder="" autocomplete="off" class="form-control numberonly" >
+                                            </div>
+                                                
+                                            <div class="form-group col-md-4">
+                                                <label for="dmessfees">Dues: Mess Fee</label>
+                                                <input id="dmessfees" type="text" name="dmessfees" maxlength="5" placeholder="" autocomplete="off" class="form-control numberonly">
+                                            </div>
+                                            
+                                            <div class="form-group col-md-4">
+                                                <label for="dsdcfee">Dues: HDC/IHDC/SDC Fee</label>
+                                                <input id="dsdcfee" type="text" name="dsdcfee" maxlength="5"  placeholder="" autocomplete="off" class="form-control numberonly">
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-row">
+                                            <div class="form-group col-md-4">
+                                                <label for="dcanteen">Dues: Canteen</label>
+                                                <input id="dcanteen" type="text" name="dcanteen" maxlength="5"  placeholder="" autocomplete="off" class="form-control numberonly" >
+                                            </div>
+                                                
+                                            <div class="form-group col-md-4">
+                                                <label for="dstationary">Dues: Stationary Shop</label>
+                                                <input id="dstationary" type="text" name="dstationary" maxlength="5" placeholder="" autocomplete="off" class="form-control numberonly">
+                                            </div>
+                                            
+                                            <div class="form-group col-md-4">
+                                                <label for="djuicecen">Dues: Juice Center</label>
+                                                <input id="djuicecen" type="text" name="djuicecen" maxlength="5" placeholder="" autocomplete="off" class="form-control numberonly">
+                                            </div>
+                                        </div>
+                                        
+                                        <h3>DECLARATION</h3>
+                                        <h5>
+                                            <ol>
+                                                <li>I, Mr./Ms <span class="text-danger"> KARTIK KURUPASWAMY</span> hereby declare that, the above information is true to the best of my knowledge and belief. I am aware that, if I found false anytime, appropriate action will be taken against me.</li>
+                                                <li>I have declared that I have no dues in Hostel Canteen, Juice Center or Stationary Shop during my stay in the <span class="text-danger"> </span> Hostel.</li>
+                                                <li>I agree with the decision of the Competent Authority on my hostel change request. I am aware that hostel change request are considered only under medical/specific issues as considered suitable by the Competent Authority.</li>
+                                            </ol>
+                                        </h5>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-secondary closebtn" data-dismiss="modal">Close</button>
+                                    <button onclick="changehostelRequest()" class="btn btn-primary">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!----------------------------------- Change Room Request Modal ----------------------------------------------->
+              
+                    <div class="modal fade" id="changeRoomReqModal" tabindex="-1" role="dialog" aria-labelledby="addhosModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title text-center" id="changeRoomReqModalH">Reason For Change</h5>
+                                    <button class="close closebtn" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="changeroomreqstudtohs.jsp" method="POST" id="changeroomreqform">
+                                        <div class="form-row">
+                                            <div class="form-group col-md-3">
+                                                <label for="presentH">Present Hostel</label>
+                                                <input id="presentH" type="text" name="presentH" required placeholder="" autocomplete="off" class="form-control" readonly>
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <label for="presentB">Present Block</label>
+                                                <input id="presentB" type="text" name="presentB" required placeholder="" autocomplete="off" class="form-control" readonly>
+                                            </div>
+                                            
+                                            <div class="form-group col-md-3">
+                                                <label for="presentF">Present Floor</label>
+                                                <input id="presentF" type="text" name="presentF" required placeholder="" autocomplete="off" class="form-control" readonly>
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <label for="presentR">Present Room Number</label>
+                                                <input id="presentR" type="text" name="presentR" required placeholder="" autocomplete="off" class="form-control" readonly>
+                                            </div>
+                                        </div>
+                                    
+                                        <div class="form-row">
+                                            <div class="form-group col-md-12">
+                                                <label for="changereason">Reason For Change<span class="text-danger">*(Max 180 Characters)</span></label>
+                                                <input id="changereason" type="text" name="changereason" maxlength="180" required placeholder="" autocomplete="off" class="form-control">
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-secondary closebtn" data-dismiss="modal">Close</button>
+                                    <button onclick="changeRoom()" class="btn btn-primary">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div> 
+
+
+
 <?php elseif ($row['type'] == 'HAB'): ?>
     <div class="nav-left-sidebar sidebar-dark">
 
@@ -783,6 +957,20 @@ $cdetails = $sql2->fetch(PDO::FETCH_ASSOC);
                             $('.navbar-toggler').toggleClass('collapsed');
                             $('#navbarNav').toggleClass('show');
                         }
+                        function showcrreqmodal()
+            {
+                $("#changeRoomReqModal").modal("show");
+            }
+            function showhsreqmodal()
+            {
+                $("#updatehostelModal").modal("show");
+            }
+            $(".closebtn").click(function()
+                {
+                    $("#updateprofileModal,#changeRoomReqModal,#updatehostelModal,#viewhostelshift,#viewmshrequestM").find("input,textarea,select").val('').end().find("input[type=checkbox], input[type=radio],input[type=date]").prop("checked", "").end();
+                    $('#updateprofileModal,#changeRoomReqModal,#updatehostelModal,#viewhostelshift,#viewmshrequestM').modal('hide');
+                    $(".addon").remove();
+                });
                     </script>
                     <?php elseif (
     $_SESSION['postdata']['username'] == 'admin'
