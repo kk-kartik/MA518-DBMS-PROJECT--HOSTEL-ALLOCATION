@@ -160,7 +160,6 @@ $.extend(
                     </div>
 
                     <!-- code here -->
-                   <!------------------------------- Change Room Request Table --------------------------->
                    <?php
                    require_once 'connect.php';
                    $query = "SELECT * FROM hab.students WHERE email = '{$_SESSION['postdata']['username']}'; ";
@@ -170,9 +169,9 @@ $.extend(
                    <div class="row">
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                             <h3 class="text-right"><!-- Button trigger modal -->
-                            <a href="#" class="btn btn-primary" target="_blank">
-                                    Raise a Complaint
-                                </a> 
+                                <button  class="btn btn-primary showmshmodal" onclick="showmshreqmodal()" >
+                                                Raise a Complaint
+                                            </button>
                             </h3>
                         </div>
                     </div>
@@ -246,6 +245,65 @@ $.extend(
         
 
 </div>
+
+
+<!----------------------------------- Married Scholar Accommodation Request Details Modal --------------------->
+
+<div class="modal fade" id="viewmshrequestM" tabindex="-1" role="dialog" aria-labelledby="viewmshrequestMH" aria-hidden="true">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title text-center" id="viewmshrequestMH">View Married Scholar Hostel Accomodation Request</h5>
+                                    <button class="close closebtn" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                </div>
+                                <form>
+                                    <div class="modal-body">
+                                        <div id="basicform">
+
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="vmshbname">Name</label>
+                                                    <input id="vmshbname" type="text" name="name"  required placeholder="" autocomplete="off" class="form-control" readonly >
+                                                </div>
+                                                    
+                                                <div class="form-group col-md-6">
+                                                    <label for="vmshrollno">Roll Number</label>
+                                                    <input id="vmshrollno" type="number" name="rollno"  required placeholder="" autocomplete="off" class="form-control" readonly>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="vmshphone">Hostel</label>
+                                                    <input id="vmshphone" type="text" name="hostel"  required placeholder="" autocomplete="off" class="form-control" readonly>
+                                                </div>
+                                                    
+                                                <div class="form-group col-md-6">
+                                                    <label for="vmshemail">Room No.</label>
+                                                    <input id="vmshemail" type="number" name="rommno"  required placeholder="" autocomplete="off" class="form-control" readonly>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="form-row">
+                                                <div class="form-group col-md-12">
+                                                    <label for="vmshperadd">Describe your complaint</label>
+                                                    <input id="vmshperadd" type="text" name="desc"  required placeholder="" autocomplete="off" class="form-control">
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-primary" type="submit">Submit</button>
+                                        <button class="btn btn-secondary closebtn" data-dismiss="modal">Close</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+<!-- end request -->
+
+
                         <div class="footer" style="position:fixed; bottom:0; width:100%; z-index:-1;">
 	<div class="container-fluid">
 		<div class="row">
@@ -297,6 +355,19 @@ $.extend(
                             $('.navbar-toggler').toggleClass('collapsed');
                             $('#navbarNav').toggleClass('show');
                         }
+                        function showmshreqmodal()
+            {
+                $("#viewmshrequestM").modal("show");
+            }
+            $(".closebtn").click(function()
+                {
+                    $("#updateprofileModal,#changeRoomReqModal,#updatehostelModal,#viewhostelshift,#viewmshrequestM").find("input,textarea,select").val('').end().find("input[type=checkbox], input[type=radio],input[type=date]").prop("checked", "").end();
+                    $('#updateprofileModal,#changeRoomReqModal,#updatehostelModal,#viewhostelshift,#viewmshrequestM').modal('hide');
+                    $(".addon").remove();
+                });
+
+
+
                     </script>
 <?php endif;
 ?>
