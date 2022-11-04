@@ -254,11 +254,11 @@ $details=$sql2->fetch(PDO::FETCH_ASSOC);
                                                  {
                                                 ?>
                                                 <tr>
-                                                    <th><?php echo $row['rcid'];?></th>
-                                                    <th><?php echo $row['rfrom'];?></th>
-                                                    <th><?php echo $row['empid'];?></th>
-                                                    <th><?php echo $row['status'];?></th>
-                                                    <th><?php echo $row['rto'];?></th>
+                                                    <td><?php echo $row['rcid'];?></td>
+                                                    <td><?php echo $row['rfrom'];?></td>
+                                                    <td><?php echo $row['empid'];?></td>
+                                                    <td><?php echo $row['status'];?></td>
+                                                    <td><?php echo $row['rto'];?></td>
                                                 </tr>
                                                 <?php } ?>
                                             </tbody>
@@ -319,11 +319,11 @@ $details=$sql2->fetch(PDO::FETCH_ASSOC);
                                                  {
                                                 ?>
                                                 <tr>
-                                                    <th><?php echo $row['chid'];?></th>
-                                                    <th><?php echo $row['hfrom'];?></th>
-                                                    <th><?php echo $row['empid'];?></th>
-                                                    <th><?php echo $row['chstatus'];?></th>
-                                                    <th><?php echo $row['hto'];?></th>
+                                                    <td><?php echo $row['chid'];?></td>
+                                                    <td><?php echo $row['hfrom'];?></td>
+                                                    <td><?php echo $row['empid'];?></td>
+                                                    <td><?php echo $row['chstatus'];?></td>
+                                                    <td><?php echo $row['hto'];?></td>
                                                 </tr>
                                                 <?php } ?>
                                                             
@@ -373,11 +373,11 @@ $details=$sql2->fetch(PDO::FETCH_ASSOC);
                                                  {
                                                 ?>
                                                 <tr>
-                                                    <th><?php echo $row['recordid'];?></th>
-                                                    <th><?php echo $row['roomid'];?></th>
-                                                    <th><?php echo $row['sdate'];?></th>
-                                                    <th><?php echo $row['tdate'];?></th>
-                                                    <th><?php echo "Completed";?></th>
+                                                    <td><?php echo $row['recordid'];?></td>
+                                                    <td><?php echo $row['roomid'];?></td>
+                                                    <td><?php echo $row['sdate'];?></td>
+                                                    <td><?php echo $row['tdate'];?></td>
+                                                    <td class="text-dark-green"><?php echo "Completed";?></td>
                                                 </tr>
                                                 <?php } ?>
                                             </tbody>
