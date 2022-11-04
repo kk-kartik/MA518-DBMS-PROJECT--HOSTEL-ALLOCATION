@@ -162,15 +162,15 @@ $.extend(
                     <!-- code here -->
                    <!------------------------------- Change Room Request Table --------------------------->
                    <?php
-                   require_once "connect.php";
-$query="SELECT * FROM hab.students WHERE email = '{$_SESSION['postdata']['username']}'; ";
-$sql2=$conn->query($query);
-$details=$sql2->fetch(PDO::FETCH_ASSOC);
-?>
+                   require_once 'connect.php';
+                   $query = "SELECT * FROM hab.students WHERE email = '{$_SESSION['postdata']['username']}'; ";
+                   $sql2 = $conn->query($query);
+                   $details = $sql2->fetch(PDO::FETCH_ASSOC);
+                   ?>
                    <div class="row">
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                             <h3 class="text-right"><!-- Button trigger modal -->
-                            <a href="#" class="btn btn-info" target="_blank">
+                            <a href="#" class="btn btn-primary" target="_blank">
                                     Raise a Complaint
                                 </a> 
                             </h3>
@@ -198,20 +198,33 @@ $details=$sql2->fetch(PDO::FETCH_ASSOC);
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                            <?php 
-                                                $query="SELECT * FROM hab.complaints Where givenby={$details['rollno']};";
-                                                $sql=$conn->query($query);
-                                                while($row=$sql->fetch(PDO::FETCH_ASSOC))
-                                                 {
-                                                ?>
+                                            <?php
+                                            $query = "SELECT * FROM hab.complaints Where givenby={$details['rollno']};";
+                                            $sql = $conn->query($query);
+                                            while (
+                                                $row = $sql->fetch(
+                                                    PDO::FETCH_ASSOC
+                                                )
+                                            ) { ?>
                                                 <tr>
-                                                    <td><?php echo $row['cmpid'];?></td>
-                                                    <td><?php echo $row['cdate'];?></td>
-                                                    <td><?php echo $row['description'];?></td>
-                                                    <td><?php echo $row['offid'];?></td>
-                                                    <td><?php echo $row['cstatus'];?></td>
+                                                    <td><?php echo $row[
+                                                        'cmpid'
+                                                    ]; ?></td>
+                                                    <td><?php echo $row[
+                                                        'cdate'
+                                                    ]; ?></td>
+                                                    <td><?php echo $row[
+                                                        'description'
+                                                    ]; ?></td>
+                                                    <td><?php echo $row[
+                                                        'offid'
+                                                    ]; ?></td>
+                                                    <td><?php echo $row[
+                                                        'cstatus'
+                                                    ]; ?></td>
                                                 </tr>
-                                                <?php } ?>
+                                                <?php }
+                                            ?>
                                             </tbody>
                                             <tfoot>
                                                 <tr>

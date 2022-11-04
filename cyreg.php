@@ -148,19 +148,19 @@ $.extend(
 
                         <?php
                         require_once 'connect.php';
-                        $query="SELECT * FROM hab.students WHERE email = '{$_SESSION['postdata']['username']}'; ";
-                        $sql2=$conn->query($query);
-                        $details=$sql2->fetch(PDO::FETCH_ASSOC);
-                        $query="SELECT * FROM hab.roomrecords WHERE rollno = {$details['rollno']}; ";
-                        $sql2=$conn->query($query);
-                        $rdetails=$sql2->fetch(PDO::FETCH_ASSOC);
-                        $query="SELECT * FROM hab.hostel WHERE hid IN (SELECT s.hid FROM hab.rooms s WHERE s.roomid={$rdetails['roomid']}) ; ";
-                        $sql2=$conn->query($query);
-                        $hdetails=$sql2->fetch(PDO::FETCH_ASSOC);
-                        $query="SELECT * FROM hab.cycles WHERE ownerid ={$details['rollno']} ; ";
+                        $query = "SELECT * FROM hab.students WHERE email = '{$_SESSION['postdata']['username']}'; ";
+                        $sql2 = $conn->query($query);
+                        $details = $sql2->fetch(PDO::FETCH_ASSOC);
+                        $query = "SELECT * FROM hab.roomrecords WHERE rollno = {$details['rollno']}; ";
+                        $sql2 = $conn->query($query);
+                        $rdetails = $sql2->fetch(PDO::FETCH_ASSOC);
+                        $query = "SELECT * FROM hab.hostel WHERE hid IN (SELECT s.hid FROM hab.rooms s WHERE s.roomid={$rdetails['roomid']}) ; ";
+                        $sql2 = $conn->query($query);
+                        $hdetails = $sql2->fetch(PDO::FETCH_ASSOC);
+                        $query = "SELECT * FROM hab.cycles WHERE ownerid ={$details['rollno']} ; ";
                         //$cdetails['cycleid']=" ";
-                        $sql2=$conn->query($query);
-                        $cdetails=$sql2->fetch(PDO::FETCH_ASSOC);
+                        $sql2 = $conn->query($query);
+                        $cdetails = $sql2->fetch(PDO::FETCH_ASSOC);
                         ?>
                         <div class="dashboard-wrapper">
                 
@@ -168,7 +168,7 @@ $.extend(
                     
                     <!-- pageheader -->
                     <!-- In case no cycle was registered by user yet -->
-                    <?php if(empty($cdetails)): ?>
+                    <?php if (empty($cdetails)): ?>
                     <div class="row">
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                             <div class="page-header">
@@ -182,38 +182,52 @@ $.extend(
 												<div class="form-row">
 													<div class="form-group col-md-6">
 														<label for="bname">Name</label>
-														<input id="bname" type="text" name="bname" readonly="" placeholder="" autocomplete="off" class="form-control" value="<?php echo $details['name'];?>">
+														<input id="bname" type="text" name="bname" readonly="" placeholder="" autocomplete="off" class="form-control" value="<?php echo $details[
+                  'name'
+              ]; ?>">
 													</div>
 													<div class="form-group col-md-6">
 														<label for="bcategory">Date of Birth</label>
-														<input id="bcategory" type="text" name="bcategory" readonly="" placeholder="" autocomplete="off" class="form-control" value="<?php echo $details['dob'];?>">
+														<input id="bcategory" type="text" name="bcategory" readonly="" placeholder="" autocomplete="off" class="form-control" value="<?php echo $details[
+                  'dob'
+              ]; ?>">
 													</div>
 												</div>
 											
 												<div class="form-row">
 													<div class="form-group col-md-4">
 														<label for="bdept">Department</label>
-														<input id="bdept" type="text" name="bdept" readonly="" placeholder="" autocomplete="off" class="form-control input-height" value="<?php echo $details['dept'];?>">
+														<input id="bdept" type="text" name="bdept" readonly="" placeholder="" autocomplete="off" class="form-control input-height" value="<?php echo $details[
+                  'dept'
+              ]; ?>">
 													</div>
 													<div class="form-group col-md-4">
 														<label for="bprogram">Program</label>
-														<input id="bprogram" type="text" name="bprogram" readonly="" placeholder="" autocomplete="off" class="form-control input-height" value="<?php echo $details['prog'];?>">
+														<input id="bprogram" type="text" name="bprogram" readonly="" placeholder="" autocomplete="off" class="form-control input-height" value="<?php echo $details[
+                  'prog'
+              ]; ?>">
 													</div>
 													
 															<div class="form-group col-md-4">
 																<label for="brollno">Roll Number</label>
-																<input id="brollno" type="text" name="brollno" readonly="" placeholder="" autocomplete="off" class="form-control input-height" value="<?php echo $details['rollno'];?>">
+																<input id="brollno" type="text" name="brollno" readonly="" placeholder="" autocomplete="off" class="form-control input-height" value="<?php echo $details[
+                    'rollno'
+                ]; ?>">
 															</div>
 												</div>
 												
 												<div class="form-row">
 													<div class="form-group col-md-4">
 														<label for="bemail">Email</label>
-														<input id="bemail" type="text" name="bemail" readonly="" placeholder="" autocomplete="off" class="form-control" value="<?php echo $details['email'];?>">
+														<input id="bemail" type="text" name="bemail" readonly="" placeholder="" autocomplete="off" class="form-control" value="<?php echo $details[
+                  'email'
+              ]; ?>">
 													</div>
 													<div class="form-group col-md-5">
 														<label for="bhostel">Hostel Details</label>
-														<input id="bhostel" type="text" name="bhostel" readonly="" placeholder="" autocomplete="off" class="form-control" value="<?php echo $hdetails['hname'];?>">
+														<input id="bhostel" type="text" name="bhostel" readonly="" placeholder="" autocomplete="off" class="form-control" value="<?php echo $hdetails[
+                  'hname'
+              ]; ?>">
 													</div>
 													<div class="form-group col-md-3">
 														<label for="bmobile">Registration No.<span class="text-danger">*</span></label>
@@ -223,11 +237,15 @@ $.extend(
                                                 <div class="form-row">
 													<div class="form-group col-md-4">
 														<label for="bbill">Bill No.</label>
-														<input id="bbill" type="text" name="bbill" required="" placeholder="" autocomplete="off" class="form-control" value="<?php echo $details['email'];?>">
+														<input id="bbill" type="text" name="bbill" required="" placeholder="" autocomplete="off" class="form-control" value="<?php echo $details[
+                  'email'
+              ]; ?>">
 													</div>
 													<div class="form-group col-md-5">
 														<label for="bcolor">Color</label>
-														<input id="bcolor" type="text" name="bcolor" required="" placeholder="" autocomplete="off" class="form-control" value="<?php echo $hdetails['hname'];?>">
+														<input id="bcolor" type="text" name="bcolor" required="" placeholder="" autocomplete="off" class="form-control" value="<?php echo $hdetails[
+                  'hname'
+              ]; ?>">
 													</div>
 													<div class="form-group col-md-3">
 														<label for="bbrand">Brand<span class="text-danger">*</span></label>
@@ -260,26 +278,44 @@ $.extend(
 
                             
 
-                            <div id="curprofiledata" class="alert alert-primary"  role="alert">
+                            <div id="curprofiledata" class="alert alert-primary bg-info"  role="alert">
                             <div class="row">
-                                    <h4 class="col-md-4">Name: <span class="text-muted"><?php echo $details['name'];?> </span>  </h4>
-                                    <h4 class="col-md-4">Department: <span class="text-muted"><?php echo $details['dept'];?></span> </h4>
-                                    <h4 class="col-md-4">Hostel: <span class="text-muted"><?php echo $hdetails['hname'];?></span> </h4>
+                                    <h4 class="col-md-4">Name: <span class="text-muted"><?php echo $details[
+                                        'name'
+                                    ]; ?> </span>  </h4>
+                                    <h4 class="col-md-4">Department: <span class="text-muted"><?php echo $details[
+                                        'dept'
+                                    ]; ?></span> </h4>
+                                    <h4 class="col-md-4">Hostel: <span class="text-muted"><?php echo $hdetails[
+                                        'hname'
+                                    ]; ?></span> </h4>
                                 </div>
                                 <div class="row">
-                                    <h4 class="col-md-4">Email: <span class="text-muted"><?php echo $details['email'];?></span> </h4>
-                                    <h4 class="col-md-4">Cycle No.: <span class="text-muted"><?php echo $cdetails['cycleid'];?></span> </h4>
-                                    <h4 class="col-md-4">Color: <span class="text-muted"><?php echo $cdetails['color'];?></span> </h4>
+                                    <h4 class="col-md-4">Email: <span class="text-muted"><?php echo $details[
+                                        'email'
+                                    ]; ?></span> </h4>
+                                    <h4 class="col-md-4">Cycle No.: <span class="text-muted"><?php echo $cdetails[
+                                        'cycleid'
+                                    ]; ?></span> </h4>
+                                    <h4 class="col-md-4">Color: <span class="text-muted"><?php echo $cdetails[
+                                        'color'
+                                    ]; ?></span> </h4>
                                 </div>
                                 <div class="row">
-                                    <h4 class="col-md-4">Reg No: <span class="text-muted"><?php echo $cdetails['regno'];?></span></h4>
-                                    <h4 class="col-md-4">Bill No: <span class="text-muted"><?php echo $cdetails['billno'];?></span></h4>
-                                    <h4 class="col-md-4">Brand: <span class="text-muted"><?php echo $cdetails['brand'] ?? 'No Cycle registered';?></span> </h4>
+                                    <h4 class="col-md-4">Reg No: <span class="text-muted"><?php echo $cdetails[
+                                        'regno'
+                                    ]; ?></span></h4>
+                                    <h4 class="col-md-4">Bill No: <span class="text-muted"><?php echo $cdetails[
+                                        'billno'
+                                    ]; ?></span></h4>
+                                    <h4 class="col-md-4">Brand: <span class="text-muted"><?php echo $cdetails[
+                                        'brand'
+                                    ] ?? 'No Cycle registered'; ?></span> </h4>
                                 </div>
                             </div>
                         </div>
                     </div>
-                            <?php endif;?>
+                            <?php endif; ?>
                 </div>
                         </div>
         

@@ -1,5 +1,5 @@
 <?php
-require_once "connect.php";
+require_once 'connect.php';
 
 if (!isset($_SESSION)) {
     session_start();
@@ -11,11 +11,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     header('Location: ' . $_SERVER['PHP_SELF']);
     exit();
 }
-if (array_key_exists('postdata', $_SESSION)): 
-    $query="SELECT * FROM hab.users WHERE email = '{$_SESSION['postdata']['username']}' and pwd ='{$_SESSION['postdata']['password']}' ; ";
-    $sql=$conn->query($query);
-    $row=$sql->fetch(PDO::FETCH_ASSOC)
-?>
+if (array_key_exists('postdata', $_SESSION)):
+
+    $query = "SELECT * FROM hab.users WHERE email = '{$_SESSION['postdata']['username']}' and pwd ='{$_SESSION['postdata']['password']}' ; ";
+    $sql = $conn->query($query);
+    $row = $sql->fetch(PDO::FETCH_ASSOC);
+    ?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -121,7 +122,7 @@ $.extend(
             </div>
 
         </nav>
-        <?php if($row['type'] == "STUD"): ?>
+        <?php if ($row['type'] == 'STUD'): ?>
         <div class="nav-left-sidebar sidebar-dark">
 
             <div class="menu-list" style="overflow: hidden; width:auto; height:100%;">
@@ -182,19 +183,19 @@ $.extend(
                         <div class="card-body border-top">
                             <h3>Current Profile</h3>
 <?php
-$query="SELECT * FROM hab.students WHERE email = '{$_SESSION['postdata']['username']}'; ";
-$sql2=$conn->query($query);
-$details=$sql2->fetch(PDO::FETCH_ASSOC);
-$query="SELECT * FROM hab.roomrecords WHERE rollno = {$details['rollno']}; ";
-$sql2=$conn->query($query);
-$rdetails=$sql2->fetch(PDO::FETCH_ASSOC);
-$query="SELECT * FROM hab.hostel WHERE hid IN (SELECT s.hid FROM hab.rooms s WHERE s.roomid={$rdetails['roomid']}) ; ";
-$sql2=$conn->query($query);
-$hdetails=$sql2->fetch(PDO::FETCH_ASSOC);
-$query="SELECT * FROM hab.cycles WHERE ownerid ={$details['rollno']} ; ";
+$query = "SELECT * FROM hab.students WHERE email = '{$_SESSION['postdata']['username']}'; ";
+$sql2 = $conn->query($query);
+$details = $sql2->fetch(PDO::FETCH_ASSOC);
+$query = "SELECT * FROM hab.roomrecords WHERE rollno = {$details['rollno']}; ";
+$sql2 = $conn->query($query);
+$rdetails = $sql2->fetch(PDO::FETCH_ASSOC);
+$query = "SELECT * FROM hab.hostel WHERE hid IN (SELECT s.hid FROM hab.rooms s WHERE s.roomid={$rdetails['roomid']}) ; ";
+$sql2 = $conn->query($query);
+$hdetails = $sql2->fetch(PDO::FETCH_ASSOC);
+$query = "SELECT * FROM hab.cycles WHERE ownerid ={$details['rollno']} ; ";
 //$cdetails['cycleid']=" ";
-$sql2=$conn->query($query);
-$cdetails=$sql2->fetch(PDO::FETCH_ASSOC);
+$sql2 = $conn->query($query);
+$cdetails = $sql2->fetch(PDO::FETCH_ASSOC);
 ?>
                             
 
@@ -202,19 +203,37 @@ $cdetails=$sql2->fetch(PDO::FETCH_ASSOC);
                                     >
 
                                 <div class="row">
-                                    <h4 class="col-md-4">Name: <span class="text-muted"><?php echo $details['name'];?> </span>  </h4>
-                                    <h4 class="col-md-4">Department: <span class="text-muted"><?php echo $details['dept'];?></span> </h4>
-                                    <h4 class="col-md-4">Hostel: <span class="text-muted"><?php echo $hdetails['hname'];?></span> </h4>
+                                    <h4 class="col-md-4">Name: <span class="text-muted"><?php echo $details[
+                                        'name'
+                                    ]; ?> </span>  </h4>
+                                    <h4 class="col-md-4">Department: <span class="text-muted"><?php echo $details[
+                                        'dept'
+                                    ]; ?></span> </h4>
+                                    <h4 class="col-md-4">Hostel: <span class="text-muted"><?php echo $hdetails[
+                                        'hname'
+                                    ]; ?></span> </h4>
                                 </div>
                                 <div class="row">
-                                    <h4 class="col-md-4">Email: <span class="text-muted"><?php echo $details['email'];?></span> </h4>
-                                    <h4 class="col-md-4">Programme: <span class="text-muted"><?php echo $details['prog'];?></span> </h4>
-                                    <h4 class="col-md-4">Room No: <span class="text-muted"><?php echo $rdetails['roomid'];?></span> </h4>
+                                    <h4 class="col-md-4">Email: <span class="text-muted"><?php echo $details[
+                                        'email'
+                                    ]; ?></span> </h4>
+                                    <h4 class="col-md-4">Programme: <span class="text-muted"><?php echo $details[
+                                        'prog'
+                                    ]; ?></span> </h4>
+                                    <h4 class="col-md-4">Room No: <span class="text-muted"><?php echo $rdetails[
+                                        'roomid'
+                                    ]; ?></span> </h4>
                                 </div>
                                 <div class="row">
-                                    <h4 class="col-md-4">Roll No: <span class="text-muted"><?php echo $details['rollno'];?></span></h4>
-                                    <h4 class="col-md-4">Date of Birth: <span class="text-muted"><?php echo $details['dob'];?></span></h4>
-                                    <h4 class="col-md-4">Cycle No: <span class="text-muted"><?php echo $cdetails['cycleid'] ?? 'No Cycle registered';?></span> </h4>
+                                    <h4 class="col-md-4">Roll No: <span class="text-muted"><?php echo $details[
+                                        'rollno'
+                                    ]; ?></span></h4>
+                                    <h4 class="col-md-4">Date of Birth: <span class="text-muted"><?php echo $details[
+                                        'dob'
+                                    ]; ?></span></h4>
+                                    <h4 class="col-md-4">Cycle No: <span class="text-muted"><?php echo $cdetails[
+                                        'cycleid'
+                                    ] ?? 'No Cycle registered'; ?></span> </h4>
                                 </div>
                             </div>
                         </div>
@@ -224,7 +243,7 @@ $cdetails=$sql2->fetch(PDO::FETCH_ASSOC);
                     <div class="row">
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                             <h3 class="text-right"><!-- Button trigger modal -->
-                            <a href="#" class="btn btn-info" target="_blank">
+                            <a href="#" class="btn btn-primary" target="_blank">
                                     Change Room
                                 </a> 
                             </h3>
@@ -253,20 +272,33 @@ $cdetails=$sql2->fetch(PDO::FETCH_ASSOC);
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <?php 
-                                                $query="SELECT * FROM hab.rchange Where rollno={$details['rollno']};";
-                                                $sql=$conn->query($query);
-                                                while($row=$sql->fetch(PDO::FETCH_ASSOC))
-                                                 {
-                                                ?>
+                                                <?php
+                                                $query = "SELECT * FROM hab.rchange Where rollno={$details['rollno']};";
+                                                $sql = $conn->query($query);
+                                                while (
+                                                    $row = $sql->fetch(
+                                                        PDO::FETCH_ASSOC
+                                                    )
+                                                ) { ?>
                                                 <tr>
-                                                    <td><?php echo $row['rcid'];?></td>
-                                                    <td><?php echo $row['rfrom'];?></td>
-                                                    <td><?php echo $row['empid'];?></td>
-                                                    <td><?php echo $row['status'];?></td>
-                                                    <td><?php echo $row['rto'];?></td>
+                                                    <td><?php echo $row[
+                                                        'rcid'
+                                                    ]; ?></td>
+                                                    <td><?php echo $row[
+                                                        'rfrom'
+                                                    ]; ?></td>
+                                                    <td><?php echo $row[
+                                                        'empid'
+                                                    ]; ?></td>
+                                                    <td><?php echo $row[
+                                                        'status'
+                                                    ]; ?></td>
+                                                    <td><?php echo $row[
+                                                        'rto'
+                                                    ]; ?></td>
                                                 </tr>
-                                                <?php } ?>
+                                                <?php }
+                                                ?>
                                             </tbody>
                                             <tfoot>
                                                 <tr>
@@ -318,20 +350,33 @@ $cdetails=$sql2->fetch(PDO::FETCH_ASSOC);
                                             </thead>
                                             <tbody>
                                                 
-                                            <?php 
-                                                $query="SELECT * FROM hab.hchange Where rollno={$details['rollno']};";
-                                                $sql=$conn->query($query);
-                                                while($row=$sql->fetch(PDO::FETCH_ASSOC))
-                                                 {
-                                                ?>
+                                            <?php
+                                            $query = "SELECT * FROM hab.hchange Where rollno={$details['rollno']};";
+                                            $sql = $conn->query($query);
+                                            while (
+                                                $row = $sql->fetch(
+                                                    PDO::FETCH_ASSOC
+                                                )
+                                            ) { ?>
                                                 <tr>
-                                                    <td><?php echo $row['chid'];?></td>
-                                                    <td><?php echo $row['hfrom'];?></td>
-                                                    <td><?php echo $row['empid'];?></td>
-                                                    <td><?php echo $row['chstatus'];?></td>
-                                                    <td><?php echo $row['hto'];?></td>
+                                                    <td><?php echo $row[
+                                                        'chid'
+                                                    ]; ?></td>
+                                                    <td><?php echo $row[
+                                                        'hfrom'
+                                                    ]; ?></td>
+                                                    <td><?php echo $row[
+                                                        'empid'
+                                                    ]; ?></td>
+                                                    <td><?php echo $row[
+                                                        'chstatus'
+                                                    ]; ?></td>
+                                                    <td><?php echo $row[
+                                                        'hto'
+                                                    ]; ?></td>
                                                 </tr>
-                                                <?php } ?>
+                                                <?php }
+                                            ?>
                                                             
                                             </tbody>
                                             <tfoot>
@@ -371,32 +416,49 @@ $cdetails=$sql2->fetch(PDO::FETCH_ASSOC);
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                            <?php 
-                                                $query="SELECT * FROM hab.roomrecords Where rollno={$details['rollno']};";
-                                                $sql=$conn->query($query);
-                                                while($row=$sql->fetch(PDO::FETCH_ASSOC))
-                                                 {
-                                                    if($row['tdate']!=""){
-                                                ?>
+                                            <?php
+                                            $query = "SELECT * FROM hab.roomrecords Where rollno={$details['rollno']};";
+                                            $sql = $conn->query($query);
+                                            while (
+                                                $row = $sql->fetch(
+                                                    PDO::FETCH_ASSOC
+                                                )
+                                            ) {
+                                                if ($row['tdate'] != '') { ?>
                                                 <tr>
-                                                    <td><?php echo $row['recordid'];?></td>
-                                                    <td><?php echo $row['roomid'];?></td>
-                                                    <td><?php echo $row['sdate'];?></td>
-                                                    <td><?php echo $row['tdate'];?></td>
-                                                    <td class="text-dark-green"><?php echo "Completed";?></td>
+                                                    <td><?php echo $row[
+                                                        'recordid'
+                                                    ]; ?></td>
+                                                    <td><?php echo $row[
+                                                        'roomid'
+                                                    ]; ?></td>
+                                                    <td><?php echo $row[
+                                                        'sdate'
+                                                    ]; ?></td>
+                                                    <td><?php echo $row[
+                                                        'tdate'
+                                                    ]; ?></td>
+                                                    <td class="text-dark-green"><?php echo 'Completed'; ?></td>
                                                 </tr>
-                                                <?php } 
-                                                    else
-                                                    {
-                                                ?>
+                                                <?php } else { ?>
                                                     <tr>
-                                                        <td><?php echo $row['recordid'];?></td>
-                                                        <td><?php echo $row['roomid'];?></td>
-                                                        <td><?php echo $row['sdate'];?></td>
-                                                        <td><?php echo $row['tdate'];?></td>
-                                                        <td class="text-primary"><?php echo "Current";?></td>
+                                                        <td><?php echo $row[
+                                                            'recordid'
+                                                        ]; ?></td>
+                                                        <td><?php echo $row[
+                                                            'roomid'
+                                                        ]; ?></td>
+                                                        <td><?php echo $row[
+                                                            'sdate'
+                                                        ]; ?></td>
+                                                        <td><?php echo $row[
+                                                            'tdate'
+                                                        ]; ?></td>
+                                                        <td class="text-primary"><?php echo 'Current'; ?></td>
                                                     </tr>
-                                                <?php } }?>
+                                                <?php }
+                                            }
+                                            ?>
                                             </tbody>
                                             <tfoot>
                                                 <tr>
@@ -415,7 +477,7 @@ $cdetails=$sql2->fetch(PDO::FETCH_ASSOC);
                     </div>
                 </div>
 </div>
-<?php elseif($row['type']=="HAB"): ?>
+<?php elseif ($row['type'] == 'HAB'): ?>
     <div class="nav-left-sidebar sidebar-dark">
 
             <div class="menu-list" style="overflow: hidden; width:auto; height:100%;">
@@ -739,7 +801,6 @@ $cdetails=$sql2->fetch(PDO::FETCH_ASSOC);
 <?php endif; ?>
 </body>
 </html>
-<?php 
-
+<?php
 endif;
 ?>
