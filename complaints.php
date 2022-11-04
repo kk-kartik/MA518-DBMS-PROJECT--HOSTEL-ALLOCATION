@@ -124,7 +124,7 @@ $.extend(
    
 <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav flex-column">
-                <!-- --------------          PROJECT STAFF MENU START   --------------           -->
+                <!-- --------------          STUDENT MENU START   --------------           -->
 
                 
                 <li class="nav-divider">
@@ -140,12 +140,6 @@ $.extend(
                             <li class="nav-item">
                                 <a class="nav-link" href="cyreg.php"><i class="fa-solid fa-person-biking"></i>Cycle Registration</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="hleave.php"><i class="fas fa-cog"></i>Hostel leave</a>
-                            </li>
-                <!-- --------------          PROJECT STAFF MENU ENDS   --------------           -->
-                <!-- <li class="nav-divider"></li><li class="nav-item"></li><li class="nav-item">&nbsp;</li><li class="nav-item">&nbsp;</li><li class="nav-item">&nbsp;</li> -->
-
 </ul>
 </div>
 </nav>
@@ -167,7 +161,12 @@ $.extend(
 
                     <!-- code here -->
                    <!------------------------------- Change Room Request Table --------------------------->
-                    
+                   <?php
+                   require_once "connect.php";
+$query="SELECT * FROM hab.students WHERE email = '{$_SESSION['postdata']['username']}'; ";
+$sql2=$conn->query($query);
+$details=$sql2->fetch(PDO::FETCH_ASSOC);
+?>
                    <div class="row">
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                             <h3 class="text-right"><!-- Button trigger modal -->
@@ -183,32 +182,44 @@ $.extend(
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                             <div class="card text-dark">
                                 <div class="card-header">
-                                    Change Room Request History
+                                Complaints History
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
                                         <table class="table table-striped table-bordered first">
                                             <thead>
                                                 <tr>
-                                                    <th>Request Date</th>
-                                                    <th>Previous Room</th>
-                                                    <th>Reason for Change</th>
+                                                    <th>Complaint ID</th>
+                                                    <th>Complaint Date</th>
+                                                    <th>Description</th>
                                                     <th>Current Desk</th>
                                                     <th>Status</th>
-                                                    <th>New Room</th>
+
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                
+                                            <?php 
+                                                $query="SELECT * FROM hab.complaints Where givenby={$details['rollno']};";
+                                                $sql=$conn->query($query);
+                                                while($row=$sql->fetch(PDO::FETCH_ASSOC))
+                                                 {
+                                                ?>
+                                                <tr>
+                                                    <td><?php echo $row['cmpid'];?></td>
+                                                    <td><?php echo $row['cdate'];?></td>
+                                                    <td><?php echo $row['description'];?></td>
+                                                    <td><?php echo $row['offid'];?></td>
+                                                    <td><?php echo $row['cstatus'];?></td>
+                                                </tr>
+                                                <?php } ?>
                                             </tbody>
                                             <tfoot>
                                                 <tr>
-                                                    <th>Request Date</th>
-                                                    <th>Previous Room</th>
-                                                    <th>Reason for Change</th>
+                                                    <th>Complaint ID</th>
+                                                    <th>Complaint Date</th>
+                                                    <th>Description</th>
                                                     <th>Current Desk</th>
                                                     <th>Status</th>
-                                                    <th>New Room</th>
                                                 </tr>
                                             </tfoot>
                                         </table>

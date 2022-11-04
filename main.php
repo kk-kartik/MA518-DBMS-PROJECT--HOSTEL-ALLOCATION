@@ -30,6 +30,7 @@ if (array_key_exists('postdata', $_SESSION)):
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous" />
     <!-- <link href="assets/vendor/fonts/circular-std/style.css" rel="stylesheet"> -->
     <script src="https://kit.fontawesome.com/099dc0ed07.js" crossorigin="anonymous"></script>
+        <!-- css handled here -->
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/fontawesome-all.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
@@ -148,9 +149,6 @@ $.extend(
                                     <li class="nav-item">
                                         <a class="nav-link" href="cyreg.php"><i class="fa-solid fa-person-biking"></i>Cycle Registration</a>
                                     </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="hleave.php"><i class="fas fa-cog"></i>Hostel leave</a>
-                                    </li>
                         <!-- --------------          PROJECT STAFF MENU ENDS   --------------           -->
                         <!-- <li class="nav-divider"></li><li class="nav-item"></li><li class="nav-item">&nbsp;</li><li class="nav-item">&nbsp;</li><li class="nav-item">&nbsp;</li> -->
         
@@ -187,8 +185,16 @@ $.extend(
 $query="SELECT * FROM hab.students WHERE email = '{$_SESSION['postdata']['username']}'; ";
 $sql2=$conn->query($query);
 $details=$sql2->fetch(PDO::FETCH_ASSOC);
-
-
+$query="SELECT * FROM hab.roomrecords WHERE rollno = {$details['rollno']}; ";
+$sql2=$conn->query($query);
+$rdetails=$sql2->fetch(PDO::FETCH_ASSOC);
+$query="SELECT * FROM hab.hostel WHERE hid IN (SELECT s.hid FROM hab.rooms s WHERE s.roomid={$rdetails['roomid']}) ; ";
+$sql2=$conn->query($query);
+$hdetails=$sql2->fetch(PDO::FETCH_ASSOC);
+$query="SELECT * FROM hab.cycles WHERE ownerid ={$details['rollno']} ; ";
+//$cdetails['cycleid']=" ";
+$sql2=$conn->query($query);
+$cdetails=$sql2->fetch(PDO::FETCH_ASSOC);
 ?>
                             
 
@@ -198,17 +204,17 @@ $details=$sql2->fetch(PDO::FETCH_ASSOC);
                                 <div class="row">
                                     <h4 class="col-md-4">Name: <span class="text-muted"><?php echo $details['name'];?> </span>  </h4>
                                     <h4 class="col-md-4">Department: <span class="text-muted"><?php echo $details['dept'];?></span> </h4>
-                                    <h4 class="col-md-4">Hostel: <span class="text-muted">Umiam</span> </h4>
+                                    <h4 class="col-md-4">Hostel: <span class="text-muted"><?php echo $hdetails['hname'];?></span> </h4>
                                 </div>
                                 <div class="row">
                                     <h4 class="col-md-4">Email: <span class="text-muted"><?php echo $details['email'];?></span> </h4>
                                     <h4 class="col-md-4">Programme: <span class="text-muted"><?php echo $details['prog'];?></span> </h4>
-                                    <h4 class="col-md-4">Room No: <span class="text-muted">C-302</span> </h4>
+                                    <h4 class="col-md-4">Room No: <span class="text-muted"><?php echo $rdetails['roomid'];?></span> </h4>
                                 </div>
                                 <div class="row">
                                     <h4 class="col-md-4">Roll No: <span class="text-muted"><?php echo $details['rollno'];?></span></h4>
                                     <h4 class="col-md-4">Date of Birth: <span class="text-muted"><?php echo $details['dob'];?></span></h4>
-                                    <h4 class="col-md-4">Floor: <span class="text-muted">Third Floor</span> </h4>
+                                    <h4 class="col-md-4">Cycle No: <span class="text-muted"><?php echo $cdetails['cycleid'] ?? 'No Cycle registered';?></span> </h4>
                                 </div>
                             </div>
                         </div>
@@ -357,8 +363,7 @@ $details=$sql2->fetch(PDO::FETCH_ASSOC);
                                         <table class="table table-striped table-bordered first">
                                             <thead>
                                                 <tr>
-                                                    <th>Hostel</th>
-                                                    <th>Block</th>
+                                                    <th>Record ID</th>
                                                     <th>Room Number</th>
                                                     <th>Start Date</th>
                                                     <th>End Date</th>
@@ -371,6 +376,7 @@ $details=$sql2->fetch(PDO::FETCH_ASSOC);
                                                 $sql=$conn->query($query);
                                                 while($row=$sql->fetch(PDO::FETCH_ASSOC))
                                                  {
+                                                    if($row['tdate']!=""){
                                                 ?>
                                                 <tr>
                                                     <td><?php echo $row['recordid'];?></td>
@@ -379,12 +385,22 @@ $details=$sql2->fetch(PDO::FETCH_ASSOC);
                                                     <td><?php echo $row['tdate'];?></td>
                                                     <td class="text-dark-green"><?php echo "Completed";?></td>
                                                 </tr>
-                                                <?php } ?>
+                                                <?php } 
+                                                    else
+                                                    {
+                                                ?>
+                                                    <tr>
+                                                        <td><?php echo $row['recordid'];?></td>
+                                                        <td><?php echo $row['roomid'];?></td>
+                                                        <td><?php echo $row['sdate'];?></td>
+                                                        <td><?php echo $row['tdate'];?></td>
+                                                        <td class="text-primary"><?php echo "Current";?></td>
+                                                    </tr>
+                                                <?php } }?>
                                             </tbody>
                                             <tfoot>
                                                 <tr>
-                                                    <th>Hostel</th>
-                                                    <th>Block</th>
+                                                    <th>Record ID</th>
                                                     <th>Room Number</th>
                                                     <th>Start Date</th>
                                                     <th>End Date</th>
@@ -426,9 +442,6 @@ $details=$sql2->fetch(PDO::FETCH_ASSOC);
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" href="cyreg.php"><i class="fa-solid fa-person-biking"></i>Cycle Registration</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="hleave.php"><i class="fas fa-cog"></i>Hostel leave</a>
                                     </li>
                         <!-- --------------          PROJECT STAFF MENU ENDS   --------------           -->
                         <!-- <li class="nav-divider"></li><li class="nav-item"></li><li class="nav-item">&nbsp;</li><li class="nav-item">&nbsp;</li><li class="nav-item">&nbsp;</li> -->

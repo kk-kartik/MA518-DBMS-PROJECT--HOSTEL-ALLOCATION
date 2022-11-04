@@ -140,24 +140,35 @@ $.extend(
                             <li class="nav-item">
                                 <a class="nav-link" href="cyreg.php"><i class="fa-solid fa-person-biking"></i>Cycle Registration</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="hleave.php"><i class="fas fa-cog"></i>Hostel leave</a>
-                            </li>
-                <!-- --------------          PROJECT STAFF MENU ENDS   --------------           -->
-                <!-- <li class="nav-divider"></li><li class="nav-item"></li><li class="nav-item">&nbsp;</li><li class="nav-item">&nbsp;</li><li class="nav-item">&nbsp;</li> -->
-
 </ul>
 </div>
 </nav>
 </div>
                         </div>
+
+                        <?php
+                        require_once 'connect.php';
+                        $query="SELECT * FROM hab.students WHERE email = '{$_SESSION['postdata']['username']}'; ";
+                        $sql2=$conn->query($query);
+                        $details=$sql2->fetch(PDO::FETCH_ASSOC);
+                        $query="SELECT * FROM hab.roomrecords WHERE rollno = {$details['rollno']}; ";
+                        $sql2=$conn->query($query);
+                        $rdetails=$sql2->fetch(PDO::FETCH_ASSOC);
+                        $query="SELECT * FROM hab.hostel WHERE hid IN (SELECT s.hid FROM hab.rooms s WHERE s.roomid={$rdetails['roomid']}) ; ";
+                        $sql2=$conn->query($query);
+                        $hdetails=$sql2->fetch(PDO::FETCH_ASSOC);
+                        $query="SELECT * FROM hab.cycles WHERE ownerid ={$details['rollno']} ; ";
+                        //$cdetails['cycleid']=" ";
+                        $sql2=$conn->query($query);
+                        $cdetails=$sql2->fetch(PDO::FETCH_ASSOC);
+                        ?>
                         <div class="dashboard-wrapper">
                 
                 <div class="container-fluid dashboard-content">
                     
                     <!-- pageheader -->
                     <!-- In case no cycle was registered by user yet -->
-                    <?php if(true): ?>
+                    <?php if(empty($cdetails)): ?>
                     <div class="row">
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                             <div class="page-header">
@@ -171,169 +182,59 @@ $.extend(
 												<div class="form-row">
 													<div class="form-group col-md-6">
 														<label for="bname">Name</label>
-														<input id="bname" type="text" name="bname" readonly="" placeholder="" autocomplete="off" class="form-control">
+														<input id="bname" type="text" name="bname" readonly="" placeholder="" autocomplete="off" class="form-control" value="<?php echo $details['name'];?>">
 													</div>
 													<div class="form-group col-md-6">
-														<label for="bcategory">Category</label>
-														<input id="bcategory" type="text" name="bcategory" readonly="" placeholder="" autocomplete="off" class="form-control">
+														<label for="bcategory">Date of Birth</label>
+														<input id="bcategory" type="text" name="bcategory" readonly="" placeholder="" autocomplete="off" class="form-control" value="<?php echo $details['dob'];?>">
 													</div>
 												</div>
 											
 												<div class="form-row">
-													<div class="form-group col-md-3">
+													<div class="form-group col-md-4">
 														<label for="bdept">Department</label>
-														<input id="bdept" type="text" name="bdept" readonly="" placeholder="" autocomplete="off" class="form-control input-height">
+														<input id="bdept" type="text" name="bdept" readonly="" placeholder="" autocomplete="off" class="form-control input-height" value="<?php echo $details['dept'];?>">
 													</div>
-													<div class="form-group col-md-3">
+													<div class="form-group col-md-4">
 														<label for="bprogram">Program</label>
-														<input id="bprogram" type="text" name="bprogram" readonly="" placeholder="" autocomplete="off" class="form-control input-height">
+														<input id="bprogram" type="text" name="bprogram" readonly="" placeholder="" autocomplete="off" class="form-control input-height" value="<?php echo $details['prog'];?>">
 													</div>
 													
-															<div class="form-group col-md-3">
+															<div class="form-group col-md-4">
 																<label for="brollno">Roll Number</label>
-																<input id="brollno" type="text" name="brollno" readonly="" placeholder="" autocomplete="off" class="form-control input-height">
+																<input id="brollno" type="text" name="brollno" readonly="" placeholder="" autocomplete="off" class="form-control input-height" value="<?php echo $details['rollno'];?>">
 															</div>
-															<div class="form-group col-md-3">
-																<label for="bsem">Semester</label>
-																<select id="bsem" name="bsem" class="form-control">
-																	<option value="">Choose Semester...</option>
-																	<option value="1">1</option>
-																	<option value="2">2</option>
-																	<option value="3">3</option>
-																	<option value="4">4</option>
-																	<option value="5">5</option>
-																	<option value="6">6</option>
-																	<option value="7">7</option>
-																	<option value="8">8</option>
-																	<option value="9">9</option>
-																	<option value="10">10</option>
-																</select>
-															</div>
-														
 												</div>
 												
 												<div class="form-row">
 													<div class="form-group col-md-4">
 														<label for="bemail">Email</label>
-														<input id="bemail" type="text" name="bemail" readonly="" placeholder="" autocomplete="off" class="form-control">
+														<input id="bemail" type="text" name="bemail" readonly="" placeholder="" autocomplete="off" class="form-control" value="<?php echo $details['email'];?>">
 													</div>
 													<div class="form-group col-md-5">
 														<label for="bhostel">Hostel Details</label>
-														<input id="bhostel" type="text" name="bhostel" readonly="" placeholder="" autocomplete="off" class="form-control">
+														<input id="bhostel" type="text" name="bhostel" readonly="" placeholder="" autocomplete="off" class="form-control" value="<?php echo $hdetails['hname'];?>">
 													</div>
 													<div class="form-group col-md-3">
-														<label for="bmobile">Mobile<span class="text-danger">*</span></label>
+														<label for="bmobile">Registration No.<span class="text-danger">*</span></label>
 														<input id="bmobile" type="text" name="bmobile" minlength="10" maxlength="10" required="" placeholder="" autocomplete="off" class="form-control numberonly">
 													</div>
 												</div>
-		
-												<div class="form-row">
-													<div class="form-group col-md-9">
-														<label for="bhomeadd">Home Address<span class="text-danger">* (Max 200 Chars)</span></label>
-														<input id="bhomeadd" type="text" name="bhomeadd" maxlength="200" placeholder="" autocomplete="off" required="" class="form-control">
-													</div>
-													<div class="form-group col-md-3">
-														<label for="bhomeph">Home Mobile<span class="text-danger">*</span></label>
-														<input id="bhomeph" type="text" name="bhomeph" minlength="10" maxlength="10" placeholder="" autocomplete="off" required="" class="form-control numberonly">
-													</div>
-												</div>
-												
-												<div class="form-row">
-													<div class="form-group col-md-9">
-														<label for="bcontactadd">Contact Address During Leave Period<span class="text-danger">* (Max 200 Chars)</span></label>
-														<input id="bcontactadd" type="text" name="bcontactadd" maxlength="200" placeholder="" autocomplete="off" required="" class="form-control">
-													</div>
-													<div class="form-group col-md-3">
-														<label for="bcontactaddph">Contact Address Mobile<span class="text-danger">*</span></label>
-														<input id="bcontactaddph" type="text" name="bcontactaddph" minlength="10" maxlength="10" placeholder="" autocomplete="off" required="" class="form-control numberonly">
-													</div>
-												</div>
-												
-												<div class="form-row">
-													<div class="form-group col-md-12">
-														<label for="bleavereason">Purpose of Hostel Leave<span class="text-danger">* (Max 300 Chars)</span></label>
-														<input id="bleavereason" type="text" name="bleavereason" maxlength="300" placeholder="" autocomplete="off" required="" class="form-control">
-													</div>
-												</div>
-																						
-												
-														<div class="form-row">
-															<div class="form-group col-md-12">
-																<label for="bupload">PS/M.Tech./ Ph.D Students if you vacate the room on account of completion/other reasons. Attach a copy medical document if any / leave approved from Dept. concerned <span class="text-danger">(Type: .pdf, Max size: 2 MB)</span></label>
-																<input id="bupload" type="file" name="bupload" placeholder="" autocomplete="off" class="form-control" accept=".pdf">
-															</div>
-														</div>
-														
-														<div class="form-row">
-															<div class="form-group col-md-12">
-																<label for="bsupervisor">Name of Supervisor/Guide in case of M. Tech/Ph.D student<span class="text-danger">(Max 100 Chars)</span></label>
-																<input id="bsupervisor" type="text" name="bsupervisor" maxlength="100" placeholder="" autocomplete="off" class="form-control">
-															</div>
-														</div>												
-													
-												
-												<div class="form-row">
-													<div class="form-group col-md-3">
-														<label for="blstdate">Leave Start Date<span class="text-danger">*</span></label>
-														<input id="blstdate" type="date" name="blstdate" placeholder="" autocomplete="off" required="" class="form-control">
-													</div>
-													<div class="form-group col-md-3">
-														<label for="blsttime">Leave Start Time<span class="text-danger">*</span></label>
-														<input id="blsttime" type="time" name="blsttime" placeholder="" autocomplete="off" required="" class="form-control bs-timepicker">
-													</div>
-													<div class="form-group col-md-3">
-														<label for="blenddate">Leave End Date<span class="text-danger">*</span></label>
-														<input id="blenddate" type="date" name="blenddate" placeholder="" autocomplete="off" required="" class="form-control">
-													</div>
-													<div class="form-group col-md-3">
-														<label for="blentime">Leave End Time<span class="text-danger">*</span></label>
-														<input id="blentime" type="time" name="blentime" placeholder="" autocomplete="off" required="" class="form-control bs-timepicker">
-													</div>
-												</div>
-												
-												<div class="form-row">
-													<div class="form-group col-md-3">
-														<label for="btotallv">Total Leave Duration <span class="text-danger">*(Max 50 Chars)</span></label>
-														<input id="btotallv" type="text" name="btotallv" maxlength="50" placeholder="" autocomplete="off" required="" class="form-control input-height">
-													</div>
+                                                <div class="form-row">
 													<div class="form-group col-md-4">
-														<label for="bmessmon">Latest Mess Bill Paid For The Month<span class="text-danger">*</span></label>
-														<select id="bmessmon" name="bmessmon" class="form-control" required="">
-															<option value="">Choose Month...</option>
-															<option value="January">January</option>
-															<option value="February">February</option>
-															<option value="March">March</option>
-															<option value="April">April</option>
-															<option value="May">May</option>
-															<option value="June">June</option>
-															<option value="July">July</option>
-															<option value="August">August</option>
-															<option value="September">September</option>
-															<option value="October">October</option>
-															<option value="November">November</option>
-															<option value="December">December</option>
-														</select>
+														<label for="bbill">Bill No.</label>
+														<input id="bbill" type="text" name="bbill" required="" placeholder="" autocomplete="off" class="form-control" value="<?php echo $details['email'];?>">
 													</div>
-													<div class="form-group col-md-2">
-														<label for="bamtpaid">Amount Paid (₹)<span class="text-danger">*</span></label>
-														<input id="bamtpaid" type="text" name="bamtpaid" maxlength="5" placeholder="" autocomplete="off" required="" class="form-control input-height">
+													<div class="form-group col-md-5">
+														<label for="bcolor">Color</label>
+														<input id="bcolor" type="text" name="bcolor" required="" placeholder="" autocomplete="off" class="form-control" value="<?php echo $hdetails['hname'];?>">
 													</div>
 													<div class="form-group col-md-3">
-														<label for="bdatepay">Date of Pay<span class="text-danger">*</span></label>
-														<input id="bdatepay" type="date" name="bdatepay" placeholder="" autocomplete="off" required="" class="form-control input-height">
-													</div>
-												</div>												
-
-												<div class="form-row">
-													<div class="form-group col-md-12">
-														<label for="" class="text-danger">Declaration:</label>
-														<ul class="list-unstyled arrow text-dark">
-															<li>I declare that I have taken all necessary consent for going out of the campus from my parents before applying for this leave.</li>
-															<li>I have taken all necessary permission from my Department / Centre / School for this leave, where necessary.</li>
-														</ul>
+														<label for="bbrand">Brand<span class="text-danger">*</span></label>
+														<input id="bbrand" type="text" name="bbrand" required="" placeholder="" autocomplete="off" class="form-control numberonly">
 													</div>
 												</div>
-
+												
 												<div class="form-row">
 													<div class="form-group col-md-12">
 														<label class="custom-control custom-checkbox">
@@ -359,25 +260,21 @@ $.extend(
 
                             
 
-                            <div id="curprofiledata" class="alert alert-primary" 
-                                    data-studname="KARTIK KURUPASWAMY" data-studemail="kartik.kurupaswamy" data-studmobile="9427686046" data-studemp="212123027" 
-                                    data-studdept="MATHS" data-studprog="MSc" data-studhostel="Umiam" data-studblock="C" 
-                                    data-studfloor="Third Floor" data-studroom="C-302" data-deptid='8' data-progid='5' role="alert">
-
-                                <div class="row">
-                                    <h4 class="col-md-4">Name: <span class="text-muted">KARTIK KURUPASWAMY </span>  </h4>
-                                    <h4 class="col-md-4">Department: <span class="text-muted">MATHS</span> </h4>
-                                    <h4 class="col-md-4">Hostel: <span class="text-muted">Umiam</span> </h4>
+                            <div id="curprofiledata" class="alert alert-primary"  role="alert">
+                            <div class="row">
+                                    <h4 class="col-md-4">Name: <span class="text-muted"><?php echo $details['name'];?> </span>  </h4>
+                                    <h4 class="col-md-4">Department: <span class="text-muted"><?php echo $details['dept'];?></span> </h4>
+                                    <h4 class="col-md-4">Hostel: <span class="text-muted"><?php echo $hdetails['hname'];?></span> </h4>
                                 </div>
                                 <div class="row">
-                                    <h4 class="col-md-4">Email: <span class="text-muted">kartik.kurupaswamy</span> </h4>
-                                    <h4 class="col-md-4">Programme: <span class="text-muted">MSc</span> </h4>
-                                    <h4 class="col-md-4">Room No: <span class="text-muted">C-302</span> </h4>
+                                    <h4 class="col-md-4">Email: <span class="text-muted"><?php echo $details['email'];?></span> </h4>
+                                    <h4 class="col-md-4">Cycle No.: <span class="text-muted"><?php echo $cdetails['cycleid'];?></span> </h4>
+                                    <h4 class="col-md-4">Color: <span class="text-muted"><?php echo $cdetails['color'];?></span> </h4>
                                 </div>
                                 <div class="row">
-                                    <h4 class="col-md-4">Roll No: <span class="text-muted">212123027</span></h4>
-                                    <h4 class="col-md-4">Cycle No: <span class="text-muted">2102001</span></h4>
-                                    <h4 class="col-md-4">Floor: <span class="text-muted">Third Floor</span> </h4>
+                                    <h4 class="col-md-4">Reg No: <span class="text-muted"><?php echo $cdetails['regno'];?></span></h4>
+                                    <h4 class="col-md-4">Bill No: <span class="text-muted"><?php echo $cdetails['billno'];?></span></h4>
+                                    <h4 class="col-md-4">Brand: <span class="text-muted"><?php echo $cdetails['brand'] ?? 'No Cycle registered';?></span> </h4>
                                 </div>
                             </div>
                         </div>
