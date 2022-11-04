@@ -128,17 +128,17 @@ $.extend(
 
                 
                 <li class="nav-divider">
-                                Staff Menu
+                                HAB Menu
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="main.php"><i class="fas fa-home"></i>Home</a>
                             </li>
                             
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
                                 <a class="nav-link" href="allocateroom.php"><i class="fas fa-hand-paper"></i>Allocate Rooms</a>
-                            </li>
+                            </li> -->
                             <li class="nav-item">
-                                <a class="nav-link" href="addemployee.php"><i class="fa-solid fa-person-biking"></i>Add Employees</a>
+                                <a class="nav-link" href="addemployee.php"><i class="fas fa-hand-paper"></i>Add Employees</a>
                             </li>
 </ul>
 </div>
