@@ -5,12 +5,23 @@ if (!isset($_SESSION)) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $_SESSION['postdata'] = $_POST;
+//     foreach ($_POST as $key=>$value ){
+//         if (is_array($_POST[$key])) {
+//             $_SESSION['postdata'][$key]=$_POST[$key];
+//     } else {
+
+//       $_SESSION['postdata'][$key]=stripslashes(strval($value));
+//    }
+
+//   }
+
+   $_SESSION['postdata'] = $_POST;
     unset($_POST);
     header('Location: ' . $_SERVER['PHP_SELF']);
     exit();
 }
 if (array_key_exists('postdata', $_SESSION)): ?>
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -161,11 +172,27 @@ $.extend(
 
                     <!-- code here -->
                    <?php
+                   
                    require_once 'connect.php';
                    $query = "SELECT * FROM hab.students WHERE email = '{$_SESSION['postdata']['username']}'; ";
                    $sql2 = $conn->query($query);
                    $details = $sql2->fetch(PDO::FETCH_ASSOC);
                    ?>
+<?php
+
+$query = "SELECT * FROM hab.roomrecords WHERE rollno = {$details['rollno']}; ";
+$sql2 = $conn->query($query);
+$rdetails = $sql2->fetch(PDO::FETCH_ASSOC);
+$query = "SELECT * FROM hab.hostel WHERE hid IN (SELECT s.hid FROM hab.rooms s WHERE s.roomid={$rdetails['roomid']}) ; ";
+$sql2 = $conn->query($query);
+$hdetails = $sql2->fetch(PDO::FETCH_ASSOC);
+if(isset($_SESSION['postdata']['cmpdesc'])){
+    $query="INSERT INTO hab.`complaints`( `description`, `cstatus`, `givenby`, `offid`, `cdate`) VALUES ('{$_SESSION['postdata']['cmpdesc']}','PENDING','{$details['rollno']}','{$hdetails['warden']}',CURRENT_DATE);";
+    unset($_SESSION['postdata']['cmpdesc']);
+    $stmt=$conn->prepare($query);
+    $stmt->execute();
+}
+?>
                    <div class="row">
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                             <h3 class="text-right"><!-- Button trigger modal -->
@@ -235,7 +262,9 @@ $.extend(
                                                 </tr>
                                             </tfoot>
                                         </table>
+
                                     </div>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -247,7 +276,7 @@ $.extend(
 </div>
 
 
-<!----------------------------------- Married Scholar Accommodation Request Details Modal --------------------->
+<!----------------------------------- Complaints Modal --------------------->
 
 <div class="modal fade" id="viewmshrequestM" tabindex="-1" role="dialog" aria-labelledby="viewmshrequestMH" aria-hidden="true">
                         <div class="modal-dialog modal-lg" role="document">
@@ -256,45 +285,46 @@ $.extend(
                                     <h5 class="modal-title text-center" id="viewmshrequestMH">View Married Scholar Hostel Accomodation Request</h5>
                                     <button class="close closebtn" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                 </div>
-                                <form>
+                                <form method="POST" action="complaints.php">
                                     <div class="modal-body">
                                         <div id="basicform">
 
                                             <div class="form-row">
                                                 <div class="form-group col-md-6">
                                                     <label for="vmshbname">Name</label>
-                                                    <input id="vmshbname" type="text" name="name"  required placeholder="" autocomplete="off" class="form-control" readonly >
+                                                    <input id="vmshbname" type="text" name="cmpname"  required placeholder="" autocomplete="off" class="form-control" readonly value="<?php echo $details['name']; ?>">
                                                 </div>
                                                     
                                                 <div class="form-group col-md-6">
-                                                    <label for="vmshrollno">Roll Number</label>
-                                                    <input id="vmshrollno" type="number" name="rollno"  required placeholder="" autocomplete="off" class="form-control" readonly>
+                                                    <label for="vmshrollno">Email</label>
+                                                    <input id="vmshrollno" type="text" name="username"  required placeholder="" autocomplete="off" class="form-control" readonly value="<?php echo $_SESSION['postdata']['username']; ?>">
+                                                    <input name="password" value="<?php echo $_SESSION['postdata']['password']; ?>" type="password" hidden>
                                                 </div>
                                             </div>
                                             
                                             <div class="form-row">
                                                 <div class="form-group col-md-6">
                                                     <label for="vmshphone">Hostel</label>
-                                                    <input id="vmshphone" type="text" name="hostel"  required placeholder="" autocomplete="off" class="form-control" readonly>
+                                                    <input id="vmshphone" type="text" name="cmphostel"  required placeholder="" autocomplete="off" class="form-control" readonly value="<?php echo $hdetails['hname']; ?>">
                                                 </div>
                                                     
                                                 <div class="form-group col-md-6">
                                                     <label for="vmshemail">Room No.</label>
-                                                    <input id="vmshemail" type="number" name="rommno"  required placeholder="" autocomplete="off" class="form-control" readonly>
+                                                    <input id="vmshemail" type="number" name="cmproomno"  required placeholder="" autocomplete="off" class="form-control" readonly value="<?php echo $rdetails['roomid']; ?>">
                                                 </div>
                                             </div>
                                             
                                             <div class="form-row">
                                                 <div class="form-group col-md-12">
                                                     <label for="vmshperadd">Describe your complaint</label>
-                                                    <input id="vmshperadd" type="text" name="desc"  required placeholder="" autocomplete="off" class="form-control">
+                                                    <input id="vmshperadd" type="text" name="cmpdesc"  required placeholder="" autocomplete="off" class="form-control">
                                                 </div>
                                             </div>
                                             
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <button class="btn btn-primary" type="submit">Submit</button>
+                                        <button class="btn btn-primary" type="submit" name="regcmp">Submit</button>
                                         <button class="btn btn-secondary closebtn" data-dismiss="modal">Close</button>
                                     </div>
                                 </form>
