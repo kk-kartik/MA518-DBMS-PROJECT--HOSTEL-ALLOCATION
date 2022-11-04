@@ -674,11 +674,20 @@ $cdetails = $sql2->fetch(PDO::FETCH_ASSOC);
                                     </li>
                                     
                                     <li class="nav-item">
-                                        <a class="nav-link" href="complaints.php"><i class="fas fa-hand-paper"></i>Complaints</a>
+                                        <a class="nav-link" href="addstudents.php"><i class="fas fa-hand-paper"></i>Add Students</a>
                                     </li>
+
                                     <li class="nav-item">
-                                        <a class="nav-link" href="cyreg.php"><i class="fa-solid fa-person-biking"></i>Cycle Registration</a>
+                                        <a class="nav-link" href="allocateroom.php"><i class="fas fa-hand-paper"></i>Allocate Rooms</a>
                                     </li>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="addemployee.php"><i class="fas fa-hand-paper"></i>Add Employee</a>
+                                    </li>
+
+                                    <!-- <li class="nav-item">
+                                        <a class="nav-link" href="cyreg.php"><i class="fa-solid fa-person-biking"></i>Requests</a>
+                                    </li> -->
                         <!-- --------------          PROJECT STAFF MENU ENDS   --------------           -->
                         <!-- <li class="nav-divider"></li><li class="nav-item"></li><li class="nav-item">&nbsp;</li><li class="nav-item">&nbsp;</li><li class="nav-item">&nbsp;</li> -->
         
@@ -765,7 +774,7 @@ $cdetails = $sql2->fetch(PDO::FETCH_ASSOC);
                     <div class="row">
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                             <h3 class="text-right"><!-- Button trigger modal -->
-                            <a href="vacatingform.pdf" class="btn btn-info" target="_blank">
+                            <a href="vacatingform.pdf" class="btn btn-primary" target="_blank">
                                     Hostel Shift
                                 </a>
                             </h3>
