@@ -176,7 +176,7 @@
 
     a.activeMenuItem 
     {
-        background-color: #f0346e;
+        background-color: #34f04d;
         color: white !important;
     }
 
@@ -190,7 +190,7 @@ body {
     font-weight: bold;
     font-size: 14px;
     color: #2f3a45;
-    background-color: #e7e9f0;
+    background-color: #96bab4 !important;
     -webkit-font-smoothing: antialiased;
 }
 
@@ -894,7 +894,10 @@ Background Color / Color
     background-color: #5969ff !important;
     color: #fff !important;
 }
-
+.bg-primary2 {
+    background-color: #107c2a !important;
+    color: #fff !important;
+}
 .bg-brand {
     background-color: #ffc750 !important;
 }
@@ -917,7 +920,7 @@ Background Color / Color
 }
 
 .bg-info {
-    background-color: #25d5f2 !important;
+    background-color: #25f2ae !important;
 }
 
 .bg-light {
@@ -1013,7 +1016,7 @@ Borders
 }
 
 .text-warning {
-    bcolor: #ffc108 !important;
+    color: #ffc108 !important;
 }
 
 .text-info {
@@ -1844,7 +1847,7 @@ Leftsidebar - dark
 ------------------------- */
 
 .sidebar-dark {
-    background-color: #0e0c28;
+    background-color: #0c280c;
     -webkit-box-shadow: 0px 0px 28px 0px rgba(82, 63, 105, 0.13);
     box-shadow: 0px 0px 28px 0px rgba(82, 63, 105, 0.13);
     -webkit-transition: all 0.3s ease;
@@ -1857,7 +1860,7 @@ Leftsidebar - dark
 }
 
 .sidebar-dark.nav-left-sidebar .nav-link i {
-    color: #7a80b4;
+    color: #7ad9ae;
 }
 
 .sidebar-dark.nav-left-sidebar .navbar-nav .nav-item {}
