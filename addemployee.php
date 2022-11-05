@@ -157,7 +157,7 @@ $.extend(
                     <div class="row">
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                             <div class="page-header">
-                                <h2 class="pageheader-title">Cycle Registration</h2>
+                                <h2 class="pageheader-title">Add Employee</h2>
                             </div>
                         </div>
                     </div>
