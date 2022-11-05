@@ -156,10 +156,10 @@ if (array_key_exists('postdata', $_SESSION)) : ?>
             $query = "SELECT * FROM hab.hostel WHERE hid IN (SELECT s.hid FROM hab.rooms s WHERE s.roomid={$rdetails['roomid']}) ; ";
             $sql2 = $conn->query($query);
             $hdetails = $sql2->fetch(PDO::FETCH_ASSOC);
-            if(isset($_SESSION['postdata']['doesAgree']) && $_SESSION['postdata']['doesAgree']=="on"){
-                $query="INSERT INTO hab.`cycles`( `ownerid`, `regno`, `billno`, `color`, `brand`) VALUES ('{$_SESSION['postdata']['rollno']}','{$_SESSION['postdata']['breg']}','{$_SESSION['postdata']['bbill']}','{$_SESSION['postdata']['bcolor']}','{$_SESSION['postdata']['bbrand']}');";
+            if (isset($_SESSION['postdata']['doesAgree']) && $_SESSION['postdata']['doesAgree'] == "on") {
+                $query = "INSERT INTO hab.`cycles`( `ownerid`, `regno`, `billno`, `color`, `brand`) VALUES ('{$_SESSION['postdata']['rollno']}','{$_SESSION['postdata']['breg']}','{$_SESSION['postdata']['bbill']}','{$_SESSION['postdata']['bcolor']}','{$_SESSION['postdata']['bbrand']}');";
                 unset($_SESSION['postdata']['doesAgree']);
-                $stmt=$conn->prepare($query);
+                $stmt = $conn->prepare($query);
                 $stmt->execute();
             }
             $query = "SELECT * FROM hab.cycles WHERE ownerid ={$details['rollno']} ; ";
@@ -184,7 +184,7 @@ if (array_key_exists('postdata', $_SESSION)) : ?>
 
                         <!-- code here -->
                         <div class="modal-body card">
-                            <form method="POST"  action="cyreg.php">
+                            <form method="POST" action="cyreg.php">
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
                                         <label for="bname">Name</label>
@@ -224,7 +224,7 @@ if (array_key_exists('postdata', $_SESSION)) : ?>
                                     </div>
                                     <div class="form-group col-md-3">
                                         <label for="bmobile">Registration No.<span class="text-danger">*</span></label>
-                                        <input id="bmobile" type="text" name="breg"  required="" placeholder="" autocomplete="off" class="form-control">
+                                        <input id="bmobile" type="text" name="breg" required="" placeholder="" autocomplete="off" class="form-control">
                                     </div>
                                 </div>
                                 <div class="form-row">
