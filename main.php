@@ -663,7 +663,7 @@ $cdetails = $sql2->fetch(PDO::FETCH_ASSOC);
            
     <div class="navbar-collapse collapse" id="navbarNav">
                     <ul class="navbar-nav flex-column">
-                        <!-- --------------          PROJECT STAFF MENU START   --------------           -->
+                        <!-- --------------          PROJECT STAFF MENU START --- HAB OFFICE  --------------           -->
         
                         
                         <li class="nav-divider">
