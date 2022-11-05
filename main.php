@@ -204,7 +204,10 @@ if (array_key_exists('postdata', $_SESSION)):
                                         $stmt->execute();
                                     }
 
-                                    if (isset($_SESSION['postdata']['hto']) && $_SESSION['postdata']['hto'] != "") {
+                                    if (
+                                        isset($_SESSION['postdata']['hto']) &&
+                                        $_SESSION['postdata']['hto'] != ''
+                                    ) {
                                         $query = "INSERT INTO hab.`hchange`( `rollno`, `empid`, `hfrom`, `hto`, `chstatus`) VALUES ('{$details['rollno']}','{$hdetails['warden']}','{$_SESSION['postdata']['hfrom']}','{$_SESSION['postdata']['hto']}','PENDING');";
                                         unset($_SESSION['postdata']['rto']);
                                         $stmt = $conn->prepare($query);
@@ -517,7 +520,9 @@ if (array_key_exists('postdata', $_SESSION)):
                                         <div class="form-row">
                                             <div class="form-group col-md-12">
                                                 <label for="hsbname">Name</label>
-                                                <input id="hsbname" type="text" name="hsbname" required placeholder="" autocomplete="off" class="form-control" readonly value="<?php echo $details['name']; ?>">
+                                                <input id="hsbname" type="text" name="hsbname" required placeholder="" autocomplete="off" class="form-control" readonly value="<?php echo $details[
+                                                    'name'
+                                                ]; ?>">
                                             </div>
 
 
@@ -526,21 +531,33 @@ if (array_key_exists('postdata', $_SESSION)):
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
                                                 <label for="hsrollno">Roll Number</label>
-                                                <input id="hsrollno" type="text" name="hsrollno" required placeholder="" autocomplete="off" class="form-control" readonly value="<?php echo $details['rollno']; ?>">
+                                                <input id="hsrollno" type="text" name="hsrollno" required placeholder="" autocomplete="off" class="form-control" readonly value="<?php echo $details[
+                                                    'rollno'
+                                                ]; ?>">
                                             </div>
 
                                             <div class="form-group col-md-6">
                                                 <label for="hsemail">Email</label>
-                                                <input id="hsemail" type="text" name="hsemail" required placeholder="" autocomplete="off" class="form-control" readonly value="<?php echo $details['email']; ?>">
+                                                <input id="hsemail" type="text" name="hsemail" required placeholder="" autocomplete="off" class="form-control" readonly value="<?php echo $details[
+                                                    'email'
+                                                ]; ?>">
                                             </div>
                                         </div>
 
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
                                                 <label for="hshostelfrom">Hostel From</label>
-                                                <input id="hfrom" type="text" name="hfrom" required placeholder="" autocomplete="off" class="form-control" readonly value="<?php echo $hdetails['hname']; ?>">
-                                                <input id="bemail" type="text" hidden name="username" readonly="" placeholder="" autocomplete="off" class="form-control" value="<?php echo $details['email']; ?>">
-                                                <input name="password" value="<?php echo $_SESSION['postdata']['password']; ?>" type="password" hidden>
+                                                <input id="hfrom" type="text" name="hfrom" required placeholder="" autocomplete="off" class="form-control" readonly value="<?php echo $hdetails[
+                                                    'hname'
+                                                ]; ?>">
+                                                <input id="bemail" type="text" hidden name="username" readonly="" placeholder="" autocomplete="off" class="form-control" value="<?php echo $details[
+                                                    'email'
+                                                ]; ?>">
+                                                <input name="password" value="<?php echo $_SESSION[
+                                                    'postdata'
+                                                ][
+                                                    'password'
+                                                ]; ?>" type="password" hidden>
                                             </div>
 
                                             <div class="form-group col-md-6">
@@ -550,9 +567,18 @@ if (array_key_exists('postdata', $_SESSION)):
                                                     <?php
                                                     $query = "SELECT H.hname as opt FROM hab.hostel H Where H.hname<>'{$hdetails['hname']}';";
                                                     $sql = $conn->query($query);
-                                                    while ($row = $sql->fetch(PDO::FETCH_ASSOC)) { ?>
-                                                        <option value="<?php echo $row['opt'] ?>"><?php echo $row['opt'] ?></option>
-                                                    <?php } ?>
+                                                    while (
+                                                        $row = $sql->fetch(
+                                                            PDO::FETCH_ASSOC
+                                                        )
+                                                    ) { ?>
+                                                        <option value="<?php echo $row[
+                                                            'opt'
+                                                        ]; ?>"><?php echo $row[
+    'opt'
+]; ?></option>
+                                                    <?php }
+                                                    ?>
 
                                                 </select>
                                             </div>
@@ -561,7 +587,9 @@ if (array_key_exists('postdata', $_SESSION)):
                                         <h3>DECLARATION</h3>
                                         <h5>
                                             <ol>
-                                                <li>I, Mr./Ms <span class="text-danger"> <?php echo strtoupper($details['name']); ?></span> hereby declare that, the above information is true to the best of my knowledge and belief. I am aware that, if I found false anytime, appropriate action will be taken against me.</li>
+                                                <li>I, Mr./Ms <span class="text-danger"> <?php echo strtoupper(
+                                                    $details['name']
+                                                ); ?></span> hereby declare that, the above information is true to the best of my knowledge and belief. I am aware that, if I found false anytime, appropriate action will be taken against me.</li>
                                                 <li>I agree with the decision of the Competent Authority on my hostel change request. I am aware that hostel change request are considered only under medical/specific issues as considered suitable by the Competent Authority.</li>
                                             </ol>
                                         </h5>
@@ -593,17 +621,29 @@ if (array_key_exists('postdata', $_SESSION)):
                                         <div class="form-row">
                                             <div class="form-group col-md-4">
                                                 <label for="presentH">Present Hostel</label>
-                                                <input id="presentH" type="text" name="presentH" required placeholder="" autocomplete="off" class="form-control" readonly value="<?php echo $hdetails['hname']; ?>">
+                                                <input id="presentH" type="text" name="presentH" required placeholder="" autocomplete="off" class="form-control" readonly value="<?php echo $hdetails[
+                                                    'hname'
+                                                ]; ?>">
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label for="presentB">Present Room Number</label>
-                                                <input id="presentB" type="text" name="rfrom" required placeholder="" autocomplete="off" class="form-control" readonly value="<?php echo $rdetails['roomid']; ?>">
+                                                <input id="presentB" type="text" name="rfrom" required placeholder="" autocomplete="off" class="form-control" readonly value="<?php echo $rdetails[
+                                                    'roomid'
+                                                ]; ?>">
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label for="presentR">Present Type</label>
-                                                <input id="presentR" type="text" name="presentR" required placeholder="" autocomplete="off" class="form-control" readonly value="<?php echo $rrdetails['type']; ?>">
-                                                <input id="bemail" type="text" hidden name="username" readonly="" placeholder="" autocomplete="off" class="form-control" value="<?php echo $details['email']; ?>">
-                                                <input name="password" value="<?php echo $_SESSION['postdata']['password']; ?>" type="password" hidden>
+                                                <input id="presentR" type="text" name="presentR" required placeholder="" autocomplete="off" class="form-control" readonly value="<?php echo $rrdetails[
+                                                    'type'
+                                                ]; ?>">
+                                                <input id="bemail" type="text" hidden name="username" readonly="" placeholder="" autocomplete="off" class="form-control" value="<?php echo $details[
+                                                    'email'
+                                                ]; ?>">
+                                                <input name="password" value="<?php echo $_SESSION[
+                                                    'postdata'
+                                                ][
+                                                    'password'
+                                                ]; ?>" type="password" hidden>
                                             </div>
                                         </div>
 
@@ -615,9 +655,18 @@ if (array_key_exists('postdata', $_SESSION)):
                                                     <?php
                                                     $query = "SELECT H.roomid as opt FROM hab.rooms H Where H.type > (SELECT COUNT(*) FROM hab.roomrecords R WHERE R.roomid=H.roomid and R.tdate IS NULL) AND H.roomid<>{$rdetails['roomid']};";
                                                     $sql = $conn->query($query);
-                                                    while ($row = $sql->fetch(PDO::FETCH_ASSOC)) { ?>
-                                                        <option value="<?php echo $row['opt'] ?>"><?php echo $row['opt'] ?></option>
-                                                    <?php } ?>
+                                                    while (
+                                                        $row = $sql->fetch(
+                                                            PDO::FETCH_ASSOC
+                                                        )
+                                                    ) { ?>
+                                                        <option value="<?php echo $row[
+                                                            'opt'
+                                                        ]; ?>"><?php echo $row[
+    'opt'
+]; ?></option>
+                                                    <?php }
+                                                    ?>
                                                 </select>
                                             </div>
                                         </div>
@@ -661,11 +710,11 @@ if (array_key_exists('postdata', $_SESSION)):
                                     </li> -->
 
                                         <li class="nav-item">
-                                            <a class="nav-link" href="allocateroom.php"><i class="fas fa-hand-paper"></i>Allocate Rooms</a>
+                                            <a class="nav-link" href="allocateroom.php"><i class="fa-solid fa-hotel"></i>Allocate Rooms</a>
                                         </li>
 
                                         <li class="nav-item">
-                                            <a class="nav-link" href="addemployee.php"><i class="fas fa-hand-paper"></i>Add Employee</a>
+                                            <a class="nav-link" href="addemployee.php"><i class="fa-solid fa-user"></i>Add Employee</a>
                                         </li>
 
                                         <!-- <li class="nav-item">
@@ -918,7 +967,7 @@ if (array_key_exists('postdata', $_SESSION)):
                                     </li> -->
 
                                                 <li class="nav-item">
-                                                    <a class="nav-link" href="offroomchange.php"><i class="fas fa-hand-paper"></i>Room Change Requests</a>
+                                                    <a class="nav-link" href="offroomchange.php"><i class="fa-solid fa-hotel"></i>Room Change Requests</a>
                                                 </li>
 
                                                 <li class="nav-item">
