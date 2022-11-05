@@ -11,13 +11,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     header('Location: ' . $_SERVER['PHP_SELF']);
     exit();
 }
-if (array_key_exists('postdata', $_SESSION)) :
+if (array_key_exists('postdata', $_SESSION)):
 
     $query = "SELECT * FROM hab.users WHERE email = '{$_SESSION['postdata']['username']}' and pwd ='{$_SESSION['postdata']['password']}' ; ";
     $sql = $conn->query($query);
     $row = $sql->fetch(PDO::FETCH_ASSOC);
-
-?>
+    ?>
     <!doctype html>
     <html lang="en">
 
@@ -70,10 +69,7 @@ if (array_key_exists('postdata', $_SESSION)) :
                 }
             });
         </script>
-        <?php
-        if (
-            $row['pwd'] == $_SESSION['postdata']['password']
-        ) : ?>
+        <?php if ($row['pwd'] == $_SESSION['postdata']['password']): ?>
             <!-- main wrapper -->
 
             <div class="dashboard-main-wrapper">
@@ -109,7 +105,9 @@ if (array_key_exists('postdata', $_SESSION)) :
                                 <div class="dropdown-menu dropdown-menu-right nav-user-dropdown" aria-labelledby="navbarDropdownMenuLink2">
                                     <div class="nav-user-info">
                                         <span class="status"></span><span class="ml-2">Logged in as</span>
-                                        <h5 class="mb-0 text-white nav-user-name ml-2"><?php echo $_SESSION['postdata']['username']; ?>
+                                        <h5 class="mb-0 text-white nav-user-name ml-2"><?php echo $_SESSION[
+                                            'postdata'
+                                        ]['username']; ?>
                                         </h5>
                                     </div>
                                     <a class="dropdown-item" href="index.php"><i class="fas fa-power-off"></i>Logout</a>
@@ -120,7 +118,7 @@ if (array_key_exists('postdata', $_SESSION)) :
                     </div>
 
                 </nav>
-                <?php if ($row['type'] == 'STUD') : ?>
+                <?php if ($row['type'] == 'STUD'): ?>
                     <div class="nav-left-sidebar sidebar-dark">
 
                         <div class="menu-list" style="overflow: hidden; width:auto; height:100%;">
@@ -218,19 +216,38 @@ if (array_key_exists('postdata', $_SESSION)) :
                                     <div id="curprofiledata" class="alert alert-primary bg-info">
 
                                         <div class="row">
-                                            <h4 class="col-md-4">Name: <span class="text-muted"><?php echo $details['name']; ?> </span> </h4>
-                                            <h4 class="col-md-4">Department: <span class="text-muted"><?php echo $details['dept']; ?></span> </h4>
-                                            <h4 class="col-md-4">Hostel: <span class="text-muted"><?php echo $hdetails['hname']; ?></span> </h4>
+                                            <h4 class="col-md-4">Name: <span class="text-muted"><?php echo $details[
+                                                'name'
+                                            ]; ?> </span> </h4>
+                                            <h4 class="col-md-4">Department: <span class="text-muted"><?php echo $details[
+                                                'dept'
+                                            ]; ?></span> </h4>
+                                            <h4 class="col-md-4">Hostel: <span class="text-muted"><?php echo $hdetails[
+                                                'hname'
+                                            ]; ?></span> </h4>
                                         </div>
                                         <div class="row">
-                                            <h4 class="col-md-4">Email: <span class="text-muted"><?php echo $details['email']; ?></span> </h4>
-                                            <h4 class="col-md-4">Programme: <span class="text-muted"><?php echo $details['prog']; ?></span> </h4>
-                                            <h4 class="col-md-4">Room No: <span class="text-muted"><?php echo $rdetails['roomid']; ?></span> </h4>
+                                            <h4 class="col-md-4">Email: <span class="text-muted"><?php echo $details[
+                                                'email'
+                                            ]; ?></span> </h4>
+                                            <h4 class="col-md-4">Programme: <span class="text-muted"><?php echo $details[
+                                                'prog'
+                                            ]; ?></span> </h4>
+                                            <h4 class="col-md-4">Room No: <span class="text-muted"><?php echo $rdetails[
+                                                'roomid'
+                                            ]; ?></span> </h4>
                                         </div>
                                         <div class="row">
-                                            <h4 class="col-md-4">Roll No: <span class="text-muted"><?php echo $details['rollno']; ?></span></h4>
-                                            <h4 class="col-md-4">Date of Birth: <span class="text-muted"><?php echo $details['dob']; ?></span></h4>
-                                            <h4 class="col-md-4">Cycle No: <span class="text-muted"><?php echo $cdetails['cycleid'] ?? 'No Cycle registered'; ?></span> </h4>
+                                            <h4 class="col-md-4">Roll No: <span class="text-muted"><?php echo $details[
+                                                'rollno'
+                                            ]; ?></span></h4>
+                                            <h4 class="col-md-4">Date of Birth: <span class="text-muted"><?php echo $details[
+                                                'dob'
+                                            ]; ?></span></h4>
+                                            <h4 class="col-md-4">Cycle No: <span class="text-muted"><?php echo $cdetails[
+                                                'cycleid'
+                                            ] ??
+                                                'No Cycle registered'; ?></span> </h4>
                                         </div>
                                     </div>
                                 </div>
@@ -272,18 +289,30 @@ if (array_key_exists('postdata', $_SESSION)) :
                                                     <tbody>
                                                         <?php
                                                         $query = "SELECT * FROM hab.rchange Where rollno={$details['rollno']};";
-                                                        $sql = $conn->query($query);
+                                                        $sql = $conn->query(
+                                                            $query
+                                                        );
                                                         while (
                                                             $row = $sql->fetch(
                                                                 PDO::FETCH_ASSOC
                                                             )
                                                         ) { ?>
                                                             <tr>
-                                                                <td><?php echo $row['rcid']; ?></td>
-                                                                <td><?php echo $row['rfrom']; ?></td>
-                                                                <td><?php echo $row['empid']; ?></td>
-                                                                <td><?php echo $row['rstatus']; ?></td>
-                                                                <td><?php echo $row['rto']; ?></td>
+                                                                <td><?php echo $row[
+                                                                    'rcid'
+                                                                ]; ?></td>
+                                                                <td><?php echo $row[
+                                                                    'rfrom'
+                                                                ]; ?></td>
+                                                                <td><?php echo $row[
+                                                                    'empid'
+                                                                ]; ?></td>
+                                                                <td><?php echo $row[
+                                                                    'rstatus'
+                                                                ]; ?></td>
+                                                                <td><?php echo $row[
+                                                                    'rto'
+                                                                ]; ?></td>
                                                             </tr>
                                                         <?php }
                                                         ?>
@@ -341,18 +370,30 @@ if (array_key_exists('postdata', $_SESSION)) :
 
                                                         <?php
                                                         $query = "SELECT * FROM hab.hchange Where rollno={$details['rollno']};";
-                                                        $sql = $conn->query($query);
+                                                        $sql = $conn->query(
+                                                            $query
+                                                        );
                                                         while (
                                                             $row = $sql->fetch(
                                                                 PDO::FETCH_ASSOC
                                                             )
                                                         ) { ?>
                                                             <tr>
-                                                                <td><?php echo $row['chid']; ?></td>
-                                                                <td><?php echo $row['hfrom']; ?></td>
-                                                                <td><?php echo $row['empid']; ?></td>
-                                                                <td><?php echo $row['chstatus']; ?></td>
-                                                                <td><?php echo $row['hto']; ?></td>
+                                                                <td><?php echo $row[
+                                                                    'chid'
+                                                                ]; ?></td>
+                                                                <td><?php echo $row[
+                                                                    'hfrom'
+                                                                ]; ?></td>
+                                                                <td><?php echo $row[
+                                                                    'empid'
+                                                                ]; ?></td>
+                                                                <td><?php echo $row[
+                                                                    'chstatus'
+                                                                ]; ?></td>
+                                                                <td><?php echo $row[
+                                                                    'hto'
+                                                                ]; ?></td>
                                                             </tr>
                                                         <?php }
                                                         ?>
@@ -397,26 +438,47 @@ if (array_key_exists('postdata', $_SESSION)) :
                                                     <tbody>
                                                         <?php
                                                         $query = "SELECT * FROM hab.roomrecords Where rollno={$details['rollno']};";
-                                                        $sql = $conn->query($query);
+                                                        $sql = $conn->query(
+                                                            $query
+                                                        );
                                                         while (
                                                             $row = $sql->fetch(
                                                                 PDO::FETCH_ASSOC
                                                             )
                                                         ) {
-                                                            if ($row['tdate'] != '') { ?>
+                                                            if (
+                                                                $row['tdate'] !=
+                                                                ''
+                                                            ) { ?>
                                                                 <tr>
-                                                                    <td><?php echo $row['recordid']; ?></td>
-                                                                    <td><?php echo $row['roomid']; ?></td>
-                                                                    <td><?php echo $row['sdate']; ?></td>
-                                                                    <td><?php echo $row['tdate']; ?></td>
+                                                                    <td><?php echo $row[
+                                                                        'recordid'
+                                                                    ]; ?></td>
+                                                                    <td><?php echo $row[
+                                                                        'roomid'
+                                                                    ]; ?></td>
+                                                                    <td><?php echo $row[
+                                                                        'sdate'
+                                                                    ]; ?></td>
+                                                                    <td><?php echo $row[
+                                                                        'tdate'
+                                                                    ]; ?></td>
                                                                     <td class="text-dark-green"><?php echo 'Completed'; ?></td>
                                                                 </tr>
                                                             <?php } else { ?>
                                                                 <tr>
-                                                                    <td><?php echo $row['recordid']; ?></td>
-                                                                    <td><?php echo $row['roomid']; ?></td>
-                                                                    <td><?php echo $row['sdate']; ?></td>
-                                                                    <td><?php echo $row['tdate']; ?></td>
+                                                                    <td><?php echo $row[
+                                                                        'recordid'
+                                                                    ]; ?></td>
+                                                                    <td><?php echo $row[
+                                                                        'roomid'
+                                                                    ]; ?></td>
+                                                                    <td><?php echo $row[
+                                                                        'sdate'
+                                                                    ]; ?></td>
+                                                                    <td><?php echo $row[
+                                                                        'tdate'
+                                                                    ]; ?></td>
                                                                     <td class="text-primary"><?php echo 'Current'; ?></td>
                                                                 </tr>
                                                         <?php }
@@ -572,7 +634,7 @@ if (array_key_exists('postdata', $_SESSION)) :
 
 
 
-                <?php elseif ($row['email'] == 'i.victor3') : ?>
+                <?php elseif ($row['email'] == 'i.victor3'): ?>
                     <div class="nav-left-sidebar sidebar-dark">
 
                         <div class="menu-list" style="overflow: hidden; width:auto; height:100%;">
@@ -829,7 +891,7 @@ if (array_key_exists('postdata', $_SESSION)) :
                 </div>
 </div> -->
 
-                        <?php elseif ($row['email'] == 'i.victor2') : ?>
+                        <?php elseif ($row['email'] == 'i.victor2'): ?>
                             <div class="nav-left-sidebar sidebar-dark">
 
                                 <div class="menu-list" style="overflow: hidden; width:auto; height:100%;">
@@ -1155,21 +1217,20 @@ if (array_key_exists('postdata', $_SESSION)) :
                                 });
                             </script>
                         <?php elseif (
-                        $_SESSION['postdata']['username'] == 'admin'
-                    ) : ?>
+            $_SESSION['postdata']['username'] == 'admin'
+        ): ?>
                             <script>
                                 $.redirectPost("/", {
                                     error: "Invalid Username"
                                 })
                             </script>
-                        <?php elseif ($_SESSION['postdata']['password']) :
-                        ?>
+                        <?php elseif ($_SESSION['postdata']['password']): ?>
                             <script>
                                 $.redirectPost("/", {
                                     error: "Invalid Password"
                                 })
                             </script>
-                        <?php else : ?>
+                        <?php else: ?>
                             <script>
                                 $.redirectPost("/");
                             </script>
