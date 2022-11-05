@@ -203,6 +203,13 @@ if (array_key_exists('postdata', $_SESSION)):
                                         $stmt = $conn->prepare($query);
                                         $stmt->execute();
                                     }
+
+                                    if (isset($_SESSION['postdata']['hto']) && $_SESSION['postdata']['hto'] != "") {
+                                        $query = "INSERT INTO hab.`hchange`( `rollno`, `empid`, `hfrom`, `hto`, `chstatus`) VALUES ('{$details['rollno']}','{$hdetails['warden']}','{$_SESSION['postdata']['hfrom']}','{$_SESSION['postdata']['hto']}','PENDING');";
+                                        unset($_SESSION['postdata']['rto']);
+                                        $stmt = $conn->prepare($query);
+                                        $stmt->execute();
+                                    }
                                     ?>
 
 
@@ -506,113 +513,65 @@ if (array_key_exists('postdata', $_SESSION)):
                                     <button class="close closebtn" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                 </div>
                                 <div class="modal-body">
-                                    <form action="changehostelreqtooldhs.jsp" method="POST" id="changehostelreqform">
+                                    <form action="main.php" method="POST" id="changehostelreqform">
                                         <div class="form-row">
-                                            <div class="form-group col-md-6">
+                                            <div class="form-group col-md-12">
                                                 <label for="hsbname">Name</label>
-                                                <input id="hsbname" type="text" name="hsbname" required placeholder="" autocomplete="off" class="form-control" readonly>
+                                                <input id="hsbname" type="text" name="hsbname" required placeholder="" autocomplete="off" class="form-control" readonly value="<?php echo $details['name']; ?>">
                                             </div>
 
-                                            <div class="form-group col-md-6">
-                                                <label for="hsrollno">Roll Number</label>
-                                                <input id="hsrollno" type="text" name="hsrollno" required placeholder="" autocomplete="off" class="form-control" readonly>
-                                            </div>
+
                                         </div>
 
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
-                                                <label for="hsphone">Phone</label>
-                                                <input id="hsphone" type="number" name="hsphone" required placeholder="" autocomplete="off" class="form-control" readonly>
+                                                <label for="hsrollno">Roll Number</label>
+                                                <input id="hsrollno" type="text" name="hsrollno" required placeholder="" autocomplete="off" class="form-control" readonly value="<?php echo $details['rollno']; ?>">
                                             </div>
 
                                             <div class="form-group col-md-6">
                                                 <label for="hsemail">Email</label>
-                                                <input id="hsemail" type="email" name="hsemail" required placeholder="" autocomplete="off" class="form-control" readonly>
+                                                <input id="hsemail" type="text" name="hsemail" required placeholder="" autocomplete="off" class="form-control" readonly value="<?php echo $details['email']; ?>">
                                             </div>
                                         </div>
 
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
                                                 <label for="hshostelfrom">Hostel From</label>
-                                                <input id="hshostelfrom" type="text" name="hshostelfrom" required placeholder="" autocomplete="off" class="form-control" readonly>
+                                                <input id="hfrom" type="text" name="hfrom" required placeholder="" autocomplete="off" class="form-control" readonly value="<?php echo $hdetails['hname']; ?>">
+                                                <input id="bemail" type="text" hidden name="username" readonly="" placeholder="" autocomplete="off" class="form-control" value="<?php echo $details['email']; ?>">
+                                                <input name="password" value="<?php echo $_SESSION['postdata']['password']; ?>" type="password" hidden>
                                             </div>
 
                                             <div class="form-group col-md-6">
                                                 <label for="hshostelto">Hostel To<span class="text-danger">*</span></label>
-                                                <select name="hshostelto" id="hshostelto" class="form-control">
-                                                    <option value="">Choose Hostel...</option>
+                                                <select name="hto" id="hshostelto" class="form-control">
+                                                    <option value="" disabled selected>Choose a Hostel</option>
+                                                    <?php
+                                                    $query = "SELECT H.hname as opt FROM hab.hostel H Where H.hname<>'{$hdetails['hname']}';";
+                                                    $sql = $conn->query($query);
+                                                    while ($row = $sql->fetch(PDO::FETCH_ASSOC)) { ?>
+                                                        <option value="<?php echo $row['opt'] ?>"><?php echo $row['opt'] ?></option>
+                                                    <?php } ?>
 
                                                 </select>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-row">
-                                            <div class="form-group col-md-6">
-                                                <label for="hsoldroom">Old Hostel Room Details</label>
-                                                <input id="hsoldroom" type="text" name="hsoldroom" required placeholder="" autocomplete="off" class="form-control" readonly>
-                                            </div>
-
-                                            <div class="form-group col-md-6">
-                                                <label for="hsshiftdate">Tentative Date of Shift<span class="text-danger">*</span></label>
-                                                <input id="hsshiftdate" type="date" name="hsshiftdate" required placeholder="" autocomplete="off" class="form-control">
-                                            </div>
-                                        </div>
-
-                                        <div class="form-row">
-                                            <div class="form-group col-md-12">
-                                                <label for="hsreason">Reason of Shift<span class="text-danger">*(Max 180 Characters)</span></label>
-                                                <input id="hsreason" type="text" name="hsreason" maxlength="180" required placeholder="" autocomplete="off" class="form-control">
-                                            </div>
-                                        </div>
-
-                                        <div class="form-row">
-                                            <div class="form-group col-md-4">
-                                                <label for="dhostelfees">Dues: Hostel Fee</label>
-                                                <input id="dhostelfees" type="text" name="dhostelfees" maxlength="5" placeholder="" autocomplete="off" class="form-control numberonly">
-                                            </div>
-
-                                            <div class="form-group col-md-4">
-                                                <label for="dmessfees">Dues: Mess Fee</label>
-                                                <input id="dmessfees" type="text" name="dmessfees" maxlength="5" placeholder="" autocomplete="off" class="form-control numberonly">
-                                            </div>
-
-                                            <div class="form-group col-md-4">
-                                                <label for="dsdcfee">Dues: HDC/IHDC/SDC Fee</label>
-                                                <input id="dsdcfee" type="text" name="dsdcfee" maxlength="5" placeholder="" autocomplete="off" class="form-control numberonly">
-                                            </div>
-                                        </div>
-
-                                        <div class="form-row">
-                                            <div class="form-group col-md-4">
-                                                <label for="dcanteen">Dues: Canteen</label>
-                                                <input id="dcanteen" type="text" name="dcanteen" maxlength="5" placeholder="" autocomplete="off" class="form-control numberonly">
-                                            </div>
-
-                                            <div class="form-group col-md-4">
-                                                <label for="dstationary">Dues: Stationary Shop</label>
-                                                <input id="dstationary" type="text" name="dstationary" maxlength="5" placeholder="" autocomplete="off" class="form-control numberonly">
-                                            </div>
-
-                                            <div class="form-group col-md-4">
-                                                <label for="djuicecen">Dues: Juice Center</label>
-                                                <input id="djuicecen" type="text" name="djuicecen" maxlength="5" placeholder="" autocomplete="off" class="form-control numberonly">
                                             </div>
                                         </div>
 
                                         <h3>DECLARATION</h3>
                                         <h5>
                                             <ol>
-                                                <li>I, Mr./Ms <span class="text-danger"> KARTIK KURUPASWAMY</span> hereby declare that, the above information is true to the best of my knowledge and belief. I am aware that, if I found false anytime, appropriate action will be taken against me.</li>
-                                                <li>I have declared that I have no dues in Hostel Canteen, Juice Center or Stationary Shop during my stay in the <span class="text-danger"> </span> Hostel.</li>
+                                                <li>I, Mr./Ms <span class="text-danger"> <?php echo strtoupper($details['name']); ?></span> hereby declare that, the above information is true to the best of my knowledge and belief. I am aware that, if I found false anytime, appropriate action will be taken against me.</li>
                                                 <li>I agree with the decision of the Competent Authority on my hostel change request. I am aware that hostel change request are considered only under medical/specific issues as considered suitable by the Competent Authority.</li>
                                             </ol>
                                         </h5>
+                                        <div class="modal-footer">
+                                            <button class="btn btn-secondary closebtn" data-dismiss="modal" type="reset">Close</button>
+                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                        </div>
                                     </form>
                                 </div>
-                                <div class="modal-footer">
-                                    <button class="btn btn-secondary closebtn" data-dismiss="modal">Close</button>
-                                    <button onclick="changehostelRequest()" class="btn btn-primary">Submit</button>
-                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -634,29 +593,17 @@ if (array_key_exists('postdata', $_SESSION)):
                                         <div class="form-row">
                                             <div class="form-group col-md-4">
                                                 <label for="presentH">Present Hostel</label>
-                                                <input id="presentH" type="text" name="presentH" required placeholder="" autocomplete="off" class="form-control" readonly value="<?php echo $hdetails[
-                                                    'hname'
-                                                ]; ?>">
+                                                <input id="presentH" type="text" name="presentH" required placeholder="" autocomplete="off" class="form-control" readonly value="<?php echo $hdetails['hname']; ?>">
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label for="presentB">Present Room Number</label>
-                                                <input id="presentB" type="text" name="rfrom" required placeholder="" autocomplete="off" class="form-control" readonly value="<?php echo $rdetails[
-                                                    'roomid'
-                                                ]; ?>">
+                                                <input id="presentB" type="text" name="rfrom" required placeholder="" autocomplete="off" class="form-control" readonly value="<?php echo $rdetails['roomid']; ?>">
                                             </div>
                                             <div class="form-group col-md-4">
                                                 <label for="presentR">Present Type</label>
-                                                <input id="presentR" type="text" name="presentR" required placeholder="" autocomplete="off" class="form-control" readonly value="<?php echo $rrdetails[
-                                                    'type'
-                                                ]; ?>">
-                                                <input id="bemail" type="text" hidden name="username" readonly="" placeholder="" autocomplete="off" class="form-control" value="<?php echo $details[
-                                                    'email'
-                                                ]; ?>">
-                                                <input name="password" value="<?php echo $_SESSION[
-                                                    'postdata'
-                                                ][
-                                                    'password'
-                                                ]; ?>" type="password" hidden>
+                                                <input id="presentR" type="text" name="presentR" required placeholder="" autocomplete="off" class="form-control" readonly value="<?php echo $rrdetails['type']; ?>">
+                                                <input id="bemail" type="text" hidden name="username" readonly="" placeholder="" autocomplete="off" class="form-control" value="<?php echo $details['email']; ?>">
+                                                <input name="password" value="<?php echo $_SESSION['postdata']['password']; ?>" type="password" hidden>
                                             </div>
                                         </div>
 
@@ -664,33 +611,23 @@ if (array_key_exists('postdata', $_SESSION)):
                                             <div class="form-group col-md-12">
                                                 <label for="rto">Requested Room</label>
                                                 <select name="rto" id="hshostelto" required class="form-control">
-                                                        <?php
-                                                        $query = "SELECT H.roomid as opt FROM hab.rooms H Where H.type > (SELECT COUNT(*) FROM hab.roomrecords R WHERE R.roomid=H.roomid) AND H.roomid<>{$rdetails['roomid']};";
-                                                        $sql = $conn->query(
-                                                            $query
-                                                        );
-                                                        while (
-                                                            $row = $sql->fetch(
-                                                                PDO::FETCH_ASSOC
-                                                            )
-                                                        ) { ?>
-                                                    <option value="<?php echo $row[
-                                                        'opt'
-                                                    ]; ?>" ><?php echo $row[
-    'opt'
-]; ?></option>
-                                                        <?php }
-                                                        ?>
+                                                    <option value="" disabled selected>Choose a Room</option>
+                                                    <?php
+                                                    $query = "SELECT H.roomid as opt FROM hab.rooms H Where H.type > (SELECT COUNT(*) FROM hab.roomrecords R WHERE R.roomid=H.roomid and R.tdate IS NULL) AND H.roomid<>{$rdetails['roomid']};";
+                                                    $sql = $conn->query($query);
+                                                    while ($row = $sql->fetch(PDO::FETCH_ASSOC)) { ?>
+                                                        <option value="<?php echo $row['opt'] ?>"><?php echo $row['opt'] ?></option>
+                                                    <?php } ?>
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <button class="btn btn-secondary closebtn" data-dismiss="modal">Close</button>
+                                            <button class="btn btn-secondary closebtn" data-dismiss="modal" type="reset">Close</button>
                                             <button type="submit" class="btn btn-primary">Submit</button>
                                         </div>
                                     </form>
                                 </div>
-                               
+
                             </div>
                         </div>
                     </div>
@@ -1274,7 +1211,7 @@ if (array_key_exists('postdata', $_SESSION)):
                                     $("#updatehostelModal").modal("show");
                                 }
                                 $(".closebtn").click(function() {
-                                    $("#updateprofileModal,#changeRoomReqModal,#updatehostelModal,#viewhostelshift,#viewmshrequestM").find("input,textarea,select").val('').end().find("input[type=checkbox], input[type=radio],input[type=date]").prop("checked", "").end();
+                                    $("#updateprofileModal,#changeRoomReqModal,#updatehostelModal,#viewhostelshift,#viewmshrequestM").find("textarea").val('').end().find("input[type=checkbox], input[type=radio],input[type=date]").prop("checked", "").end();
                                     $('#updateprofileModal,#changeRoomReqModal,#updatehostelModal,#viewhostelshift,#viewmshrequestM').modal('hide');
                                     $(".addon").remove();
                                 });
