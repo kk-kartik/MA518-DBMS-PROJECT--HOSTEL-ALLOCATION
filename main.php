@@ -194,7 +194,7 @@ if (array_key_exists('postdata', $_SESSION)) :
                                     //$cdetails['cycleid']=" ";
                                     $sql2 = $conn->query($query);
                                     $cdetails = $sql2->fetch(PDO::FETCH_ASSOC);
-                    print_r($_SESSION);
+                                    print_r($_SESSION);
                                     if (isset($_SESSION['postdata']['rto'])) {
                                         $query = "INSERT INTO hab.`rchange`( `rollno`, `empid`, `rfrom`, `rto`, `rstatus`) VALUES ('{$details['rollno']}','{$hdetails['warden']}','{$_SESSION['postdata']['rfrom']}','{$_SESSION['postdata']['rto']}','PENDING');";
                                         unset($_SESSION['postdata']['rto']);
@@ -202,11 +202,16 @@ if (array_key_exists('postdata', $_SESSION)) :
                                         $stmt->execute();
                                     }
 
-                                    if (isset($_SESSION['postdata']['hto']) && $_SESSION['postdata']['hto'] != "") {
-                                        $query = "INSERT INTO hab.`hchange`( `rollno`, `empid`, `hfrom`, `hto`, `chstatus`) VALUES ('{$details['rollno']}','1001','{$_SESSION['postdata']['hfrom']}','{$_SESSION['postdata']['hto']}','PENDING');";
-                                        unset($_SESSION['postdata']['hto']);
+                                    if (
+                                        isset($_SESSION['postdata']['hto']) &&
+                                        $_SESSION['postdata']['hto'] != ''
+                                    ) {
+                                        echo 'Hi';
+                                        $query = "INSERT INTO hab.`hchange`( `rollno`, `empid`, `hfrom`, `hto`, `chstatus`) VALUES ('{$_SESSION['postdata']['rollno']}','1001','{$_SESSION['postdata']['hfrom']}','{$_SESSION['postdata']['hto']}','PENDING');";
+                                        echo $query;
                                         $stmt = $conn->prepare($query);
                                         $stmt->execute();
+                                        unset($_SESSION['postdata']['hto']);
                                     }
                                     ?>
 
@@ -470,7 +475,7 @@ if (array_key_exists('postdata', $_SESSION)) :
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
                                                 <label for="hsrollno">Roll Number</label>
-                                                <input id="hsrollno" type="text" name="hsrollno" required placeholder="" autocomplete="off" class="form-control" readonly value="<?php echo $details['rollno']; ?>">
+                                                <input id="hsrollno" type="text" name="rollno" required placeholder="" autocomplete="off" class="form-control" readonly value="<?php echo $details['rollno']; ?>">
                                             </div>
 
                                             <div class="form-group col-md-6">
@@ -590,8 +595,7 @@ if (array_key_exists('postdata', $_SESSION)) :
 
 
 
-                    <?php else :
-                    $query = "SELECT * FROM hab.emply WHERE email = '{$_SESSION['postdata']['username']}'; ";
+                    <?php else : $query = "SELECT * FROM hab.emply WHERE email = '{$_SESSION['postdata']['username']}'; ";
                     $sql2 = $conn->query($query);
                     $details = $sql2->fetch(PDO::FETCH_ASSOC);
                     if ($details['etype'] == 'OFF') :
@@ -600,9 +604,7 @@ if (array_key_exists('postdata', $_SESSION)) :
                             unset($_SESSION['postdata']['submithm']);
                             $stmt = $conn->prepare($query);
                             $stmt->execute();
-                        }
-
-                    ?>
+                        } ?>
                         <div class="nav-left-sidebar sidebar-dark">
 
                             <div class="menu-list" style="overflow: hidden; width:auto; height:100%;">
@@ -675,7 +677,8 @@ if (array_key_exists('postdata', $_SESSION)) :
                                                         <tbody>
 
                                                             <?php
-                                                            $query = "SELECT * FROM hab.hchange WHERE chstatus='PENDING';";
+                                                            $query =
+                                                                "SELECT * FROM hab.hchange WHERE chstatus='PENDING';";
                                                             $sql = $conn->query(
                                                                 $query
                                                             );
@@ -697,7 +700,8 @@ if (array_key_exists('postdata', $_SESSION)) :
                                                             ?>
 
                                                             <?php
-                                                            $query = "SELECT * FROM hab.hchange WHERE chstatus='APPROVED';";
+                                                            $query =
+                                                                "SELECT * FROM hab.hchange WHERE chstatus='APPROVED';";
                                                             $sql = $conn->query(
                                                                 $query
                                                             );
@@ -718,7 +722,8 @@ if (array_key_exists('postdata', $_SESSION)) :
                                                             <?php }
                                                             ?>
                                                             <?php
-                                                            $query = "SELECT * FROM hab.hchange WHERE chstatus='REJECTED';";
+                                                            $query =
+                                                                "SELECT * FROM hab.hchange WHERE chstatus='REJECTED';";
                                                             $sql = $conn->query(
                                                                 $query
                                                             );
@@ -768,7 +773,7 @@ if (array_key_exists('postdata', $_SESSION)) :
                                                 </button>
                                             </div>
                                             <form action="main.php" method="POST" id="changeroomreqform">
-                                            <div class="modal-body">
+                                                <div class="modal-body">
                                                     <div class="form-row">
                                                         <div class="form-group col-md-4">
                                                             <label for="presentH">Request ID</label>
@@ -796,14 +801,16 @@ if (array_key_exists('postdata', $_SESSION)) :
                                                             <input id="presentB" type="text" name="hto" required placeholder="" autocomplete="off" class="form-control" readonly value="<?php echo $metach['hto']; ?>">
                                                         </div>
                                                     </div>
-                                            </div>
-                                            <?php if ($metach["chstatus"] == "PENDING") : ?>
-                                                <div class="modal-footer">
-                                                    <button class="btn btn-secondary closebtn" data-dismiss="modal" type="reset">Close</button>
-                                                    <button type="submit" name="submithm" value="REJECTED" class="btn btn-danger">Reject</button>
-                                                    <button type="submit" name="submithm" value="APPROVED" class="btn btn-primary">Approve</button>
                                                 </div>
-                                            <?php endif; ?>
+                                                <?php if (
+                                                    $metach['chstatus'] == 'PENDING'
+                                                ) : ?>
+                                                    <div class="modal-footer">
+                                                        <button class="btn btn-secondary closebtn" data-dismiss="modal" type="reset">Close</button>
+                                                        <button type="submit" name="submithm" value="REJECTED" class="btn btn-danger">Reject</button>
+                                                        <button type="submit" name="submithm" value="APPROVED" class="btn btn-primary">Approve</button>
+                                                    </div>
+                                                <?php endif; ?>
                                             </form>
 
                                         </div>
@@ -813,7 +820,8 @@ if (array_key_exists('postdata', $_SESSION)) :
 
 
 
-                            <?php elseif ($details['etype'] == 'HST') : ?>
+                            <?php
+                        elseif ($details['etype'] == 'HST') : ?>
                                 <div class="nav-left-sidebar sidebar-dark">
 
                                     <div class="menu-list" style="overflow: hidden; width:auto; height:100%;">
@@ -828,12 +836,12 @@ if (array_key_exists('postdata', $_SESSION)) :
                                                     <!-- --------------          HOSTEL OFFICE STAFF MENU START   --------------           -->
 
 
-                                                <li class="nav-divider">
-                                                    Warden Menu
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a class="nav-link" href="main.php"><i class="fas fa-home"></i>Home</a>
-                                                </li>
+                                                    <li class="nav-divider">
+                                                        Warden Menu
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" href="main.php"><i class="fas fa-home"></i>Home</a>
+                                                    </li>
 
                                                     <!-- <li class="nav-item">
                                         <a class="nav-link" href="addstudents.php"><i class="fas fa-hand-paper"></i>Add Students</a>
