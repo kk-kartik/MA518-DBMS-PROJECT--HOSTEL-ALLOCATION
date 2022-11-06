@@ -196,11 +196,12 @@ if (array_key_exists('postdata', $_SESSION)) :
                                     $cdetails = $sql2->fetch(PDO::FETCH_ASSOC);
                                     $query = "SELECT * FROM hab.hostel ; ";
                                     $sql2 = $conn->query($query);
-                                    while($row=$sql2->fetch(PDO::FETCH_ASSOC)){
-                                        $ahdetails["{$row['chid']}"]=$row['hname'];
+                                    $ahdetails;
+                                    while ($row = $sql2->fetch(PDO::FETCH_ASSOC)) {
+                                        $ahdetails["{$row['hid']}"] = "{$row['hname']}";
                                     }
 
-                                    print_r($_SESSION);
+                                    // print_r($_SESSION);
                                     if (isset($_SESSION['postdata']['rto'])) {
                                         $query = "INSERT INTO hab.`rchange`( `rollno`, `empid`, `rfrom`, `rto`, `rstatus`) VALUES ('{$details['rollno']}','{$hdetails['warden']}','{$_SESSION['postdata']['rfrom']}','{$_SESSION['postdata']['rto']}','PENDING');";
                                         unset($_SESSION['postdata']['rto']);
@@ -212,9 +213,9 @@ if (array_key_exists('postdata', $_SESSION)) :
                                         isset($_SESSION['postdata']['hto']) &&
                                         $_SESSION['postdata']['hto'] != ''
                                     ) {
-                                        
+
                                         $query = "INSERT INTO hab.`hchange`( `rollno`, `empid`, `hfrom`, `hto`, `chstatus`) VALUES ('{$_SESSION['postdata']['rollno']}','1001','{$_SESSION['postdata']['hfrom']}','{$_SESSION['postdata']['hto']}','PENDING');";
-                                        
+
                                         $stmt = $conn->prepare($query);
                                         $stmt->execute();
                                         unset($_SESSION['postdata']['hto']);
@@ -339,12 +340,11 @@ if (array_key_exists('postdata', $_SESSION)) :
                                                 <table class="table table-striped table-bordered first">
                                                     <thead>
                                                         <tr>
-                                                            <th>Request Date</th>
+                                                            <th>Request ID</th>
                                                             <th>Previous Hostel</th>
-                                                            <th>New Hostel</th>
                                                             <th>Current Desk</th>
-                                                            <th>Status</th>
-                                                            <th>Action</th>
+                                                            <th>Current Status</th>
+                                                            <th>New Hostel</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -354,6 +354,7 @@ if (array_key_exists('postdata', $_SESSION)) :
                                                         $sql = $conn->query(
                                                             $query
                                                         );
+                                                        // print_r($ahdetails);
                                                         while (
                                                             $row = $sql->fetch(
                                                                 PDO::FETCH_ASSOC
@@ -361,10 +362,10 @@ if (array_key_exists('postdata', $_SESSION)) :
                                                         ) { ?>
                                                             <tr>
                                                                 <td><?php echo $row['chid']; ?></td>
-                                                                <td><?php echo $ahdetails["{$row['hfrom']}"]; ?></td>
+                                                                <td><?php echo $ahdetails[$row['hfrom']]; ?></td>
                                                                 <td><?php echo $row['empid']; ?></td>
                                                                 <td><?php echo $row['chstatus']; ?></td>
-                                                                <td><?php echo $ahdetails["{$row['hto']}"]; ?></td>
+                                                                <td><?php echo $ahdetails[$row['hto']]; ?></td>
                                                             </tr>
                                                         <?php }
                                                         ?>
@@ -372,12 +373,11 @@ if (array_key_exists('postdata', $_SESSION)) :
                                                     </tbody>
                                                     <tfoot>
                                                         <tr>
-                                                            <th>Request Date</th>
+                                                            <th>Request ID</th>
                                                             <th>Previous Hostel</th>
-                                                            <th>New Hostel</th>
                                                             <th>Current Desk</th>
-                                                            <th>Status</th>
-                                                            <th>Action</th>
+                                                            <th>Current Status</th>
+                                                            <th>New Hostel</th>
                                                         </tr>
                                                     </tfoot>
                                                 </table>
@@ -493,9 +493,10 @@ if (array_key_exists('postdata', $_SESSION)) :
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
                                                 <label for="hshostelfrom">Hostel From</label>
-                                                <textbox id="hfrom" type="text" name="hfrom" required placeholder="" autocomplete="off" class="form-control" readonly value="<?php echo $hdetails['hid']; ?>"><?php echo $hdetails['hname']; ?></textbox>
-                                                <input id="bemail" type="text" hidden name="username" readonly="" placeholder="" autocomplete="off" class="form-control" value="<?php echo $details['email']; ?>">
-                                                <input name="password" value="<?php echo $_SESSION['postdata']['password']; ?>" type="password" hidden>
+                                                <textbox id="hfrom2" type="text" name="hfrom2" required placeholder="" autocomplete="off" class="form-control" readonly value="<?php echo $hdetails['hname']; ?>">
+                                                    <input id="hfrom" hidden type="text" name="hfrom" required placeholder="" autocomplete="off" class="form-control" readonly value="<?php echo $hdetails['hid']; ?>">
+                                                    <input id="bemail" type="text" hidden name="username" readonly="" placeholder="" autocomplete="off" class="form-control" value="<?php echo $details['email']; ?>">
+                                                    <input name="password" value="<?php echo $_SESSION['postdata']['password']; ?>" type="password" hidden>
                                             </div>
 
                                             <div class="form-group col-md-6">
