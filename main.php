@@ -803,29 +803,28 @@ if (array_key_exists('postdata', $_SESSION)) :
                                 </div>
 
                                 <!----------------------------------- Change Hostel M Request Modal ----------------------------------------------->
+                                <?php
+                                if (isset($_SESSION['postdata']['showch'])) :
+                                    $query =
+                                        "SELECT * FROM hab.hchange WHERE chid={$_SESSION['postdata']['showch']};";
+                                    $sql = $conn->query(
+                                        $query
+                                    );
+                                    $metach = $sql->fetch(
+                                        PDO::FETCH_ASSOC
+                                    );
+                                ?>
+                                    <div class="modal fade show" id="changeHM" tabindex="-1" role="dialog" aria-labelledby="addhosModalLabel" aria-modal="true" role="dialog" style="display:block;">
+                                        <div class="modal-dialog modal-lg" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title text-center" id="changeRoomReqModalH">Hostel Change Request</h5>
+                                                    <button class="close closebtn" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
 
-                                <div class="modal fade" id="changeHM" tabindex="-1" role="dialog" aria-labelledby="addhosModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog modal-lg" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title text-center" id="changeRoomReqModalH">Hostel Change Request</h5>
-                                                <button class="close closebtn" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
 
-                                            <?php
-                                            if (isset($_SESSION['postdata']['showch'])) :
-
-                                                $query =
-                                                    "SELECT * FROM hab.hchange WHERE chid={$_SESSION['postdata']['showch']};";
-                                                $sql = $conn->query(
-                                                    $query
-                                                );
-                                                $metach = $sql->fetch(
-                                                    PDO::FETCH_ASSOC
-                                                );
-                                            ?>
                                                 <form action="main.php" method="POST" id="changeroomreqform">
                                                     <div class="modal-body">
                                                         <div class="form-row">
@@ -866,12 +865,11 @@ if (array_key_exists('postdata', $_SESSION)) :
                                                         </div>
                                                     <?php endif; ?>
                                                 </form>
-                                            <?php
-                                            endif; ?>
+
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-
+                                <?php endif; ?>
 
 
 
