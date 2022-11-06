@@ -11,12 +11,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     header('Location: ' . $_SERVER['PHP_SELF']);
     exit();
 }
-if (array_key_exists('postdata', $_SESSION)):
+if (array_key_exists('postdata', $_SESSION)) :
 
     $query = "SELECT * FROM hab.users WHERE email = '{$_SESSION['postdata']['username']}' and pwd ='{$_SESSION['postdata']['password']}' ; ";
     $sql = $conn->query($query);
     $row = $sql->fetch(PDO::FETCH_ASSOC);
-    ?>
+?>
     <!doctype html>
     <html lang="en">
 
@@ -69,7 +69,7 @@ if (array_key_exists('postdata', $_SESSION)):
                 }
             });
         </script>
-        <?php if ($row['pwd'] == $_SESSION['postdata']['password']): ?>
+        <?php if ($row['pwd'] == $_SESSION['postdata']['password']) : ?>
             <!-- main wrapper -->
 
             <div class="dashboard-main-wrapper">
@@ -105,9 +105,7 @@ if (array_key_exists('postdata', $_SESSION)):
                                 <div class="dropdown-menu dropdown-menu-right nav-user-dropdown" aria-labelledby="navbarDropdownMenuLink2">
                                     <div class="nav-user-info">
                                         <span class="status"></span><span class="ml-2">Logged in as</span>
-                                        <h5 class="mb-0 text-white nav-user-name ml-2"><?php echo $_SESSION[
-                                            'postdata'
-                                        ]['username']; ?>
+                                        <h5 class="mb-0 text-white nav-user-name ml-2"><?php echo $_SESSION['postdata']['username']; ?>
                                         </h5>
                                     </div>
                                     <a class="dropdown-item" href="index.php"><i class="fas fa-power-off"></i>Logout</a>
@@ -118,7 +116,7 @@ if (array_key_exists('postdata', $_SESSION)):
                     </div>
 
                 </nav>
-                <?php if ($row['type'] == 'STUD'): ?>
+                <?php if ($row['type'] == 'STUD') : ?>
                     <div class="nav-left-sidebar sidebar-dark">
 
                         <div class="menu-list" style="overflow: hidden; width:auto; height:100%;">
@@ -204,11 +202,8 @@ if (array_key_exists('postdata', $_SESSION)):
                                         $stmt->execute();
                                     }
 
-                                    if (
-                                        isset($_SESSION['postdata']['hto']) &&
-                                        $_SESSION['postdata']['hto'] != ''
-                                    ) {
-                                        $query = "INSERT INTO hab.`hchange`( `rollno`, `empid`, `hfrom`, `hto`, `chstatus`) VALUES ('{$details['rollno']}','{$hdetails['warden']}','{$_SESSION['postdata']['hfrom']}','{$_SESSION['postdata']['hto']}','PENDING');";
+                                    if (isset($_SESSION['postdata']['hto']) && $_SESSION['postdata']['hto'] != "") {
+                                        $query = "INSERT INTO hab.`hchange`( `rollno`, `empid`, `hfrom`, `hto`, `chstatus`) VALUES ('{$details['rollno']}','1001','{$_SESSION['postdata']['hfrom']}','{$_SESSION['postdata']['hto']}','PENDING');";
                                         unset($_SESSION['postdata']['rto']);
                                         $stmt = $conn->prepare($query);
                                         $stmt->execute();
@@ -219,38 +214,20 @@ if (array_key_exists('postdata', $_SESSION)):
                                     <div id="curprofiledata" class="alert alert-primary bg-info">
 
                                         <div class="row">
-                                            <h4 class="col-md-4">Name: <span class="text-muted"><?php echo $details[
-                                                'name'
-                                            ]; ?> </span> </h4>
-                                            <h4 class="col-md-4">Department: <span class="text-muted"><?php echo $details[
-                                                'dept'
-                                            ]; ?></span> </h4>
-                                            <h4 class="col-md-4">Hostel: <span class="text-muted"><?php echo $hdetails[
-                                                'hname'
-                                            ]; ?></span> </h4>
+                                            <h4 class="col-md-4">Name: <span class="text-muted"><?php echo $details['name']; ?> </span> </h4>
+                                            <h4 class="col-md-4">Department: <span class="text-muted"><?php echo $details['dept']; ?></span> </h4>
+                                            <h4 class="col-md-4">Hostel: <span class="text-muted"><?php echo $hdetails['hname']; ?></span> </h4>
                                         </div>
                                         <div class="row">
-                                            <h4 class="col-md-4">Email: <span class="text-muted"><?php echo $details[
-                                                'email'
-                                            ]; ?></span> </h4>
-                                            <h4 class="col-md-4">Programme: <span class="text-muted"><?php echo $details[
-                                                'prog'
-                                            ]; ?></span> </h4>
-                                            <h4 class="col-md-4">Room No: <span class="text-muted"><?php echo $rdetails[
-                                                'roomid'
-                                            ]; ?></span> </h4>
+                                            <h4 class="col-md-4">Email: <span class="text-muted"><?php echo $details['email']; ?></span> </h4>
+                                            <h4 class="col-md-4">Programme: <span class="text-muted"><?php echo $details['prog']; ?></span> </h4>
+                                            <h4 class="col-md-4">Room No: <span class="text-muted"><?php echo $rdetails['roomid']; ?></span> </h4>
                                         </div>
                                         <div class="row">
-                                            <h4 class="col-md-4">Roll No: <span class="text-muted"><?php echo $details[
-                                                'rollno'
-                                            ]; ?></span></h4>
-                                            <h4 class="col-md-4">Date of Birth: <span class="text-muted"><?php echo $details[
-                                                'dob'
-                                            ]; ?></span></h4>
-                                            <h4 class="col-md-4">Cycle No: <span class="text-muted"><?php echo $cdetails[
-                                                'cycleid'
-                                            ] ??
-                                                'No Cycle registered'; ?></span> </h4>
+                                            <h4 class="col-md-4">Roll No: <span class="text-muted"><?php echo $details['rollno']; ?></span></h4>
+                                            <h4 class="col-md-4">Date of Birth: <span class="text-muted"><?php echo $details['dob']; ?></span></h4>
+                                            <h4 class="col-md-4">Cycle No: <span class="text-muted"><?php echo $cdetails['cycleid'] ??
+                                                                                                        'No Cycle registered'; ?></span> </h4>
                                         </div>
                                     </div>
                                 </div>
@@ -301,21 +278,11 @@ if (array_key_exists('postdata', $_SESSION)):
                                                             )
                                                         ) { ?>
                                                             <tr>
-                                                                <td><?php echo $row[
-                                                                    'rcid'
-                                                                ]; ?></td>
-                                                                <td><?php echo $row[
-                                                                    'rfrom'
-                                                                ]; ?></td>
-                                                                <td><?php echo $row[
-                                                                    'empid'
-                                                                ]; ?></td>
-                                                                <td><?php echo $row[
-                                                                    'rstatus'
-                                                                ]; ?></td>
-                                                                <td><?php echo $row[
-                                                                    'rto'
-                                                                ]; ?></td>
+                                                                <td><?php echo $row['rcid']; ?></td>
+                                                                <td><?php echo $row['rfrom']; ?></td>
+                                                                <td><?php echo $row['empid']; ?></td>
+                                                                <td><?php echo $row['rstatus']; ?></td>
+                                                                <td><?php echo $row['rto']; ?></td>
                                                             </tr>
                                                         <?php }
                                                         ?>
@@ -382,21 +349,11 @@ if (array_key_exists('postdata', $_SESSION)):
                                                             )
                                                         ) { ?>
                                                             <tr>
-                                                                <td><?php echo $row[
-                                                                    'chid'
-                                                                ]; ?></td>
-                                                                <td><?php echo $row[
-                                                                    'hfrom'
-                                                                ]; ?></td>
-                                                                <td><?php echo $row[
-                                                                    'empid'
-                                                                ]; ?></td>
-                                                                <td><?php echo $row[
-                                                                    'chstatus'
-                                                                ]; ?></td>
-                                                                <td><?php echo $row[
-                                                                    'hto'
-                                                                ]; ?></td>
+                                                                <td><?php echo $row['chid']; ?></td>
+                                                                <td><?php echo $row['hfrom']; ?></td>
+                                                                <td><?php echo $row['empid']; ?></td>
+                                                                <td><?php echo $row['chstatus']; ?></td>
+                                                                <td><?php echo $row['hto']; ?></td>
                                                             </tr>
                                                         <?php }
                                                         ?>
@@ -454,34 +411,18 @@ if (array_key_exists('postdata', $_SESSION)):
                                                                 ''
                                                             ) { ?>
                                                                 <tr>
-                                                                    <td><?php echo $row[
-                                                                        'recordid'
-                                                                    ]; ?></td>
-                                                                    <td><?php echo $row[
-                                                                        'roomid'
-                                                                    ]; ?></td>
-                                                                    <td><?php echo $row[
-                                                                        'sdate'
-                                                                    ]; ?></td>
-                                                                    <td><?php echo $row[
-                                                                        'tdate'
-                                                                    ]; ?></td>
+                                                                    <td><?php echo $row['recordid']; ?></td>
+                                                                    <td><?php echo $row['roomid']; ?></td>
+                                                                    <td><?php echo $row['sdate']; ?></td>
+                                                                    <td><?php echo $row['tdate']; ?></td>
                                                                     <td class="text-dark-green"><?php echo 'Completed'; ?></td>
                                                                 </tr>
                                                             <?php } else { ?>
                                                                 <tr>
-                                                                    <td><?php echo $row[
-                                                                        'recordid'
-                                                                    ]; ?></td>
-                                                                    <td><?php echo $row[
-                                                                        'roomid'
-                                                                    ]; ?></td>
-                                                                    <td><?php echo $row[
-                                                                        'sdate'
-                                                                    ]; ?></td>
-                                                                    <td><?php echo $row[
-                                                                        'tdate'
-                                                                    ]; ?></td>
+                                                                    <td><?php echo $row['recordid']; ?></td>
+                                                                    <td><?php echo $row['roomid']; ?></td>
+                                                                    <td><?php echo $row['sdate']; ?></td>
+                                                                    <td><?php echo $row['tdate']; ?></td>
                                                                     <td class="text-primary"><?php echo 'Current'; ?></td>
                                                                 </tr>
                                                         <?php }
@@ -683,7 +624,19 @@ if (array_key_exists('postdata', $_SESSION)):
 
 
 
-                <?php elseif ($row['email'] == 'i.victor3'): ?>
+                <?php else:
+                    $query = "SELECT * FROM hab.emply WHERE email = '{$_SESSION['postdata']['username']}'; ";
+                    $sql2 = $conn->query($query);
+                    $details = $sql2->fetch(PDO::FETCH_ASSOC);
+                if ($details['etype'] == 'OFF') : 
+                    if(isset($_SESSION['postdata']['submithm'])){
+                        $query="UPDATE hab.`hchange` SET `chstatus`='{$_SESSION['postdata']['submithm']}' WHERE `chid`={$_SESSION['postdata']['chid']};";
+                        unset($_SESSION['postdata']['submithm']);
+                        $stmt=$conn->prepare($query);
+                        $stmt->execute();
+                    }
+                    
+                    ?>
                     <div class="nav-left-sidebar sidebar-dark">
 
                         <div class="menu-list" style="overflow: hidden; width:auto; height:100%;">
@@ -705,10 +658,6 @@ if (array_key_exists('postdata', $_SESSION)):
                                             <a class="nav-link" href="main.php"><i class="fas fa-home"></i>Home</a>
                                         </li>
 
-                                        <!-- <li class="nav-item">
-                                        <a class="nav-link" href="addstudents.php"><i class="fas fa-hand-paper"></i>Add Students</a>
-                                    </li> -->
-
                                         <li class="nav-item">
                                             <a class="nav-link" href="allocateroom.php"><i class="fa-solid fa-hotel"></i>Allocate Rooms</a>
                                         </li>
@@ -716,13 +665,6 @@ if (array_key_exists('postdata', $_SESSION)):
                                         <li class="nav-item">
                                             <a class="nav-link" href="addemployee.php"><i class="fa-solid fa-user"></i>Add Employee</a>
                                         </li>
-
-                                        <!-- <li class="nav-item">
-                                        <a class="nav-link" href="cyreg.php"><i class="fa-solid fa-person-biking"></i>Requests</a>
-                                    </li> -->
-                                        <!-- --------------          PROJECT STAFF MENU ENDS   --------------           -->
-                                        <!-- <li class="nav-divider"></li><li class="nav-item"></li><li class="nav-item">&nbsp;</li><li class="nav-item">&nbsp;</li><li class="nav-item">&nbsp;</li> -->
-
                                     </ul>
                                 </div>
                             </nav>
@@ -747,73 +689,7 @@ if (array_key_exists('postdata', $_SESSION)):
 
                             <!-- end pageheader -->
 
-
-
-                            <!------------------------------- Change Room Request Table --------------------------->
-
-                            <!-- <div class="row">
-                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                            <h3 class="text-right">   //Button trigger modal 
-                            <a href="#" class="btn btn-primary" target="_blank">
-                                    Change Room
-                                </a> 
-                            </h3>
-                        </div>
-                    </div> -->
-
-
-                            <!-- <div class="row">
-                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                            <div class="card text-dark">
-                                <div class="card-header">
-                                    Change Room Request History
-                                </div>
-                                <div class="card-body">
-                                    <div class="table-responsive">
-                                        <table class="table table-striped table-bordered first">
-                                            <thead>
-                                                <tr>
-                                                    <th>Request Date</th>
-                                                    <th>Previous Room</th>
-                                                    <th>Reason for Change</th>
-                                                    <th>Current Desk</th>
-                                                    <th>Status</th>
-                                                    <th>New Room</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                
-                                            </tbody>
-                                            <tfoot>
-                                                <tr>
-                                                    <th>Request Date</th>
-                                                    <th>Previous Room</th>
-                                                    <th>Reason for Change</th>
-                                                    <th>Current Desk</th>
-                                                    <th>Status</th>
-                                                    <th>New Room</th>
-                                                </tr>
-                                            </tfoot>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> -->
-
                             <!------------------------------- Hostel Shift Request Table --------------------------->
-
-                            <div class="row">
-                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                    <h3 class="text-right">
-                                        <!-- Button trigger modal -->
-                                        <a href="vacatingform.pdf" class="btn btn-primary" target="_blank">
-                                            Hostel Shift
-                                        </a>
-                                    </h3>
-                                </div>
-                            </div>
-
 
                             <div class="row">
                                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
@@ -826,40 +702,87 @@ if (array_key_exists('postdata', $_SESSION)):
                                                 <table class="table table-striped table-bordered first">
                                                     <thead>
                                                         <tr>
-                                                            <th>Request Date</th>
+                                                            <th>Request ID</th>
                                                             <th>Previous Hostel</th>
                                                             <th>New Hostel</th>
-                                                            <th>Current Desk</th>
+                                                            <th>Roll Number</th>
                                                             <th>Status</th>
                                                             <th>Action</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
+                                                       
+                                                    <?php
+                                                        $query = "SELECT * FROM hab.hchange WHERE chstatus='PENDING';";
+                                                        $sql = $conn->query(
+                                                            $query
+                                                        );
+                                                        while (
+                                                            $row = $sql->fetch(
+                                                                PDO::FETCH_ASSOC
+                                                            )
+                                                        ) { ?>
+                                                            <tr>
+                                                                <td><?php echo $row['chid']; ?></td>
+                                                                <td><?php echo $row['hfrom']; ?></td>
+                                                                <td><?php echo $row['hto']; ?></td>
+                                                                <td><?php echo $row['rollno']; ?></td>
+                                                                <td class="text-primary"><?php echo $row['chstatus']; ?></td>
+                                                                <td><a href="javascript:void(0)" class="viewhostelshift" onclick="<?php $metach=$row; ?> showchm();"><i class="fas fa-eye"></i>
+                                                                        </a></td>
+                                                            </tr>
+                                                        <?php }
+                                                        ?>
 
-                                                        <tr>
-                                                            <td>2022-08-26</td>
-                                                            <td>Umiam</td>
-                                                            <td>Siang</td>
-                                                            <td class="text-dark-green">
-                                                                Hostel Office
-
-                                                            </td>
-                                                            <td>
-                                                                <span class='text-primary'>Approved</span>
-                                                            </td>
-                                                            <td>
-                                                                <a href="javascript:void(0)" class="viewhostelshift" data-name='Kartik Kurupaswamy' data-email='NA' data-roll_reg_no='212123027' data-contact='9427686046' data-cur_room='Umiam~C~Third Floor~C-302' data-hosfrom='Umiam' data-hosto='Siang' data-shiftdate='2022-08-13' data-reason='My classes start at 8 in the morning and go upto 6pm in the evening. Commuting to hostels become hectic and I dont know to ride bicycle, I am unable to maintain my health.' data-hosfee='0' data-messfee='0' data-canteenfee='0' data-stanfee='0' data-juicefee='0' data-dsdcfee='0'><i class="fas fa-eye"></i>
-                                                                </a>&nbsp&nbsp&nbsp
-                                                            </td>
-                                                        </tr>
-
+<?php
+                                                        $query = "SELECT * FROM hab.hchange WHERE chstatus='APPROVED';";
+                                                        $sql = $conn->query(
+                                                            $query
+                                                        );
+                                                        while (
+                                                            $row = $sql->fetch(
+                                                                PDO::FETCH_ASSOC
+                                                            )
+                                                        ) { ?>
+                                                            <tr>
+                                                                <td><?php echo $row['chid']; ?></td>
+                                                                <td><?php echo $row['hfrom']; ?></td>
+                                                                <td><?php echo $row['hto']; ?></td>
+                                                                <td><?php echo $row['rollno']; ?></td>
+                                                                <td class="text-dark-green"><?php echo $row['chstatus']; ?></td>
+                                                                <td><a href="javascript:void(0)" class="viewhostelshift" onclick="<?php $metach=$row; ?> showchm();"><i class="fas fa-eye"></i>
+                                                                        </a></td>
+                                                            </tr>
+                                                        <?php }
+                                                        ?>
+<?php
+                                                        $query = "SELECT * FROM hab.hchange WHERE chstatus='REJECTED';";
+                                                        $sql = $conn->query(
+                                                            $query
+                                                        );
+                                                        while (
+                                                            $row = $sql->fetch(
+                                                                PDO::FETCH_ASSOC
+                                                            )
+                                                        ) { ?>
+                                                            <tr>
+                                                                <td><?php echo $row['chid']; ?></td>
+                                                                <td><?php echo $row['hfrom']; ?></td>
+                                                                <td><?php echo $row['hto']; ?></td>
+                                                                <td><?php echo $row['rollno']; ?></td>
+                                                                <td class="text-danger"><?php echo $row['chstatus']; ?></td>
+                                                                <td><a href="javascript:void(0)" class="viewhostelshift" onclick="<?php $metach=$row; ?> showchm();"><i class="fas fa-eye"></i>
+                                                                        </a></td>
+                                                            </tr>
+                                                        <?php }
+                                                        ?>
                                                     </tbody>
                                                     <tfoot>
                                                         <tr>
-                                                            <th>Request Date</th>
+                                                            <th>Request ID</th>
                                                             <th>Previous Hostel</th>
                                                             <th>New Hostel</th>
-                                                            <th>Current Desk</th>
+                                                            <th>Roll Number</th>
                                                             <th>Status</th>
                                                             <th>Action</th>
                                                         </tr>
@@ -870,77 +793,64 @@ if (array_key_exists('postdata', $_SESSION)):
                                     </div>
                                 </div>
                             </div>
-                            <!------------------------------- Accommodation History Table ------------------------------------------------>
+                            
+<!----------------------------------- Change Hostel M Request Modal ----------------------------------------------->
 
-                            <!-- <div class="row">
-                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                            <div class="card text-dark">
-                                <div class="card-header">
-                                    Accomodation History
+<div class="modal fade" id="changeHM" tabindex="-1" role="dialog" aria-labelledby="addhosModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title text-center" id="changeRoomReqModalH">Hostel Change Request</h5>
+                                    <button class="close closebtn" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
                                 </div>
-                                <div class="card-body">
-                                    <div class="table-responsive">
-                                        <table class="table table-striped table-bordered first">
-                                            <thead>
-                                                <tr>
-                                                    <th>Hostel</th>
-                                                    <th>Block</th>
-                                                    <th>Room Number</th>
-                                                    <th>Start Date</th>
-                                                    <th>End Date</th>
-                                                    <th>Status</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                
-                                                                <tr>
-                                                                    <td>Barak</td>
-                                                                    <td>A</td>
-                                                                    <td>A-024</td>
-                                                                    <td>2022-03-08</td>
-                                                                    <td>2022-03-08</td>
-                                                                    <td><span class='text-dark-green'>Completed</span></td>
-                                                                </tr>
-                                                            
-                                                                <tr>
-                                                                    <td>Barak</td>
-                                                                    <td>A</td>
-                                                                    <td>A-029</td>
-                                                                    <td>2022-03-08</td>
-                                                                    <td>2022-07-19</td>
-                                                                    <td><span class='text-dark-green'>Completed</span></td>
-                                                                </tr>
-                                                            
-                                                                <tr>
-                                                                    <td>Umiam</td>
-                                                                    <td>C</td>
-                                                                    <td>C-302</td>
-                                                                    <td>2022-07-28</td>
-                                                                    <td>-</td>
-                                                                    <td><span class='text-primary'>On Going</span></td>
-                                                                </tr>
-                                                            
-                                            </tbody>
-                                            <tfoot>
-                                                <tr>
-                                                    <th>Hostel</th>
-                                                    <th>Block</th>
-                                                    <th>Room Number</th>
-                                                    <th>Start Date</th>
-                                                    <th>End Date</th>
-                                                    <th>Status</th>
-                                                </tr>
-                                            </tfoot>
-                                        </table>
-                                    </div>
+                                <div class="modal-body">
+                                    <form action="main.php" method="POST" id="changeroomreqform">
+                                        <div class="form-row">
+                                            <div class="form-group col-md-4">
+                                                <label for="presentH">Request ID</label>
+                                                <input id="presentH" type="text" name="chid" required placeholder="" autocomplete="off" class="form-control" readonly value="<?php echo $metach['chid']; ?>">
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="presentB">Current Status</label>
+                                                <input id="presentB" type="text" name="rfrom" required placeholder="" autocomplete="off" class="form-control" readonly value="<?php echo $metach['chstatus']; ?>">
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="presentR">Roll Number</label>
+                                                <input id="presentR" type="text" name="presentR" required placeholder="" autocomplete="off" class="form-control" readonly value="<?php echo $metach['rollno']; ?>">
+                                                <input id="bemail" type="text" hidden name="username" readonly="" placeholder="" autocomplete="off" class="form-control" value="<?php echo $details['email']; ?>">
+                                                <input name="password" value="<?php echo $_SESSION['postdata']['password']; ?>" type="password" hidden>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label for="presentH">Present Hostel</label>
+                                                <input id="presentH" type="text" name="hfrom" required placeholder="" autocomplete="off" class="form-control" readonly value="<?php echo $metach['hfrom']; ?>">
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="presentB">Change Requested</label>
+                                                <input id="presentB" type="text" name="hto" required placeholder="" autocomplete="off" class="form-control" readonly value="<?php echo $metach['hto']; ?>">
+                                            </div>
+                                        </div><?php if($metach["chstatus"]=="PENDING"):?>
+                                        <div class="modal-footer">
+                                            <button class="btn btn-secondary closebtn" data-dismiss="modal" type="reset">ACCEPT</button>
+                                            <button type="submit" name="submithm" value="REJECTED" class="btn btn-danger">Reject</button>
+                                            <button type="submit" name="submithm" value="APPROVED" class="btn btn-primary">Approve</button>
+                                        </div>
+                                        <?php endif;?>
+                                    </form>
                                 </div>
+
                             </div>
                         </div>
                     </div>
-                </div>
-</div> -->
 
-                        <?php elseif ($row['email'] == 'i.victor2'): ?>
+
+
+
+                        <?php elseif ($details['etype'] == 'HST') : ?>
                             <div class="nav-left-sidebar sidebar-dark">
 
                                 <div class="menu-list" style="overflow: hidden; width:auto; height:100%;">
@@ -1200,7 +1110,8 @@ if (array_key_exists('postdata', $_SESSION)):
 
 
 
-                                <?php endif; ?>
+                                <?php endif;
+                                endif; ?>
                                 <div class="footer" style="position:fixed; bottom:0; width:100%; z-index:-1;">
                                     <div class="container-fluid">
                                         <div class="row">
@@ -1259,27 +1170,30 @@ if (array_key_exists('postdata', $_SESSION)):
                                 function showhsreqmodal() {
                                     $("#updatehostelModal").modal("show");
                                 }
+                                function showchm() {
+                                    $("#changeHM").modal("show");
+                                }
                                 $(".closebtn").click(function() {
-                                    $("#updateprofileModal,#changeRoomReqModal,#updatehostelModal,#viewhostelshift,#viewmshrequestM").find("textarea").val('').end().find("input[type=checkbox], input[type=radio],input[type=date]").prop("checked", "").end();
-                                    $('#updateprofileModal,#changeRoomReqModal,#updatehostelModal,#viewhostelshift,#viewmshrequestM').modal('hide');
+                                    $("#changeHM,#changeRoomReqModal,#updatehostelModal,#viewhostelshift,#viewmshrequestM").find("textarea").val('').end().find("input[type=checkbox], input[type=radio],input[type=date]").prop("checked", "").end();
+                                    $('#changeHM,#changeRoomReqModal,#updatehostelModal,#viewhostelshift,#viewmshrequestM').modal('hide');
                                     $(".addon").remove();
                                 });
                             </script>
                         <?php elseif (
-            $_SESSION['postdata']['username'] == 'admin'
-        ): ?>
+                        $_SESSION['postdata']['username'] == 'admin'
+                    ) : ?>
                             <script>
                                 $.redirectPost("/", {
                                     error: "Invalid Username"
                                 })
                             </script>
-                        <?php elseif ($_SESSION['postdata']['password']): ?>
+                        <?php elseif ($_SESSION['postdata']['password']) : ?>
                             <script>
                                 $.redirectPost("/", {
                                     error: "Invalid Password"
                                 })
                             </script>
-                        <?php else: ?>
+                        <?php else : ?>
                             <script>
                                 $.redirectPost("/");
                             </script>
