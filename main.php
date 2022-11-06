@@ -245,7 +245,16 @@ if (array_key_exists('postdata', $_SESSION)) :
                                 </div>
                             </div>
                             <!------------------------------- Change Room Request Table --------------------------->
-
+                            <?php
+                                        $query = "SELECT * FROM hab.rchange Where rollno={$details['rollno']};";
+                                                        
+                                        $sql = $conn->query(
+                                            $query
+                                        );
+                                        if(!($row=$sql->fetch(
+                                            PDO::FETCH_ASSOC
+                                        ))): 
+                                        ?>
                             <div class="row">
                                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                     <h3 class="text-right">
@@ -257,7 +266,7 @@ if (array_key_exists('postdata', $_SESSION)) :
                                 </div>
                             </div>
 
-
+                            <?php endif;?>
                             <div class="row">
                                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                     <div class="card text-dark">
@@ -316,10 +325,19 @@ if (array_key_exists('postdata', $_SESSION)) :
                             </div>
 
                             <!------------------------------- Hostel Shift Request Table --------------------------->
-
+                            <?php
+                                        $query = "SELECT * FROM hab.hchange Where rollno={$details['rollno']};";
+                                        $sql = $conn->query(
+                                            $query
+                                        );
+                                        if(!($row=$sql->fetch(
+                                            PDO::FETCH_ASSOC
+                                        ))):
+                                        ?>
                             <div class="row">
                                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                     <h3 class="text-right">
+                                        
                                         <!-- Button trigger modal -->
                                         <button class="btn btn-primary showmshmodal" onclick="showhsreqmodal()">
                                             Hostel Shift Request
@@ -327,7 +345,7 @@ if (array_key_exists('postdata', $_SESSION)) :
                                     </h3>
                                 </div>
                             </div>
-
+<?php endif;?>
 
                             <div class="row">
                                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
@@ -350,10 +368,7 @@ if (array_key_exists('postdata', $_SESSION)) :
                                                     <tbody>
 
                                                         <?php
-                                                        $query = "SELECT * FROM hab.hchange Where rollno={$details['rollno']};";
-                                                        $sql = $conn->query(
-                                                            $query
-                                                        );
+                                                        
                                                         // print_r($ahdetails);
                                                         while (
                                                             $row = $sql->fetch(
@@ -493,7 +508,7 @@ if (array_key_exists('postdata', $_SESSION)) :
                                         <div class="form-row">
                                             <div class="form-group col-md-6">
                                                 <label for="hshostelfrom">Hostel From</label>
-                                                <textbox id="hfrom2" type="text" name="hfrom2" required placeholder="" autocomplete="off" class="form-control" readonly value="<?php echo $hdetails['hname']; ?>">
+                                                <input id="hfrom2" type="text" name="hfrom2" required placeholder="" autocomplete="off" class="form-control" readonly value="<?php echo $hdetails['hname']; ?>">
                                                     <input id="hfrom" hidden type="text" name="hfrom" required placeholder="" autocomplete="off" class="form-control" readonly value="<?php echo $hdetails['hid']; ?>">
                                                     <input id="bemail" type="text" hidden name="username" readonly="" placeholder="" autocomplete="off" class="form-control" value="<?php echo $details['email']; ?>">
                                                     <input name="password" value="<?php echo $_SESSION['postdata']['password']; ?>" type="password" hidden>
@@ -700,7 +715,7 @@ if (array_key_exists('postdata', $_SESSION)) :
                                                                     <td><?php echo $row['hto']; ?></td>
                                                                     <td><?php echo $row['rollno']; ?></td>
                                                                     <td class="text-primary"><?php echo $row['chstatus']; ?></td>
-                                                                    <td><a href="javascript:void(0)" class="viewhostelshift" onclick="<?php $metach = $row; ?> showchm();"><i class="fas fa-eye"></i>
+                                                                    <td><a href="javascript:void(0)" class="viewhostelshift" onclick="showchm(<?php echo $row['chid'] ?>);"><i class="fas fa-eye"></i>
                                                                         </a></td>
                                                                 </tr>
                                                             <?php }
@@ -723,7 +738,7 @@ if (array_key_exists('postdata', $_SESSION)) :
                                                                     <td><?php echo $row['hto']; ?></td>
                                                                     <td><?php echo $row['rollno']; ?></td>
                                                                     <td class="text-dark-green"><?php echo $row['chstatus']; ?></td>
-                                                                    <td><a href="javascript:void(0)" class="viewhostelshift" onclick="<?php $metach = $row; ?> showchm();"><i class="fas fa-eye"></i>
+                                                                    <td><a href="javascript:void(0)" class="viewhostelshift" onclick="showchm(<?php echo $row['chid'] ?>);"><i class="fas fa-eye"></i>
                                                                         </a></td>
                                                                 </tr>
                                                             <?php }
@@ -745,7 +760,7 @@ if (array_key_exists('postdata', $_SESSION)) :
                                                                     <td><?php echo $row['hto']; ?></td>
                                                                     <td><?php echo $row['rollno']; ?></td>
                                                                     <td class="text-danger"><?php echo $row['chstatus']; ?></td>
-                                                                    <td><a href="javascript:void(0)" class="viewhostelshift" onclick="<?php $metach = $row; ?> showchm();"><i class="fas fa-eye"></i>
+                                                                    <td><a href="javascript:void(0)" class="viewhostelshift" onclick="showchm(<?php echo $row['chid'] ?>);"><i class="fas fa-eye"></i>
                                                                         </a></td>
                                                                 </tr>
                                                             <?php }
@@ -1149,18 +1164,32 @@ if (array_key_exists('postdata', $_SESSION)) :
                                         $("#updatehostelModal").modal("show");
                                     }
 
-                                    function showchm() {
+                                    function showchm(x) {
+                                        document.cookie = "chid = " + x;
+                                        <?php
+                                        if(isset($_COOKIE['chid'])){
+                                        $query =
+                                            "SELECT * FROM hab.hchange WHERE chid={$_COOKIE['chid']};";
+                                        $sql = $conn->query(
+                                            $query
+                                        );
+                                        $metach = $sql->fetch(
+                                                PDO::FETCH_ASSOC
+                                        );
+                                        }
+                                        ?>
                                         $("#changeHM").modal("show");
                                     }
                                     $(".closebtn").click(function() {
                                         $("#changeHM,#changeRoomReqModal,#updatehostelModal,#viewhostelshift,#viewmshrequestM").find("textarea").val('').end().find("input[type=checkbox], input[type=radio],input[type=date]").prop("checked", "").end();
                                         $('#changeHM,#changeRoomReqModal,#updatehostelModal,#viewhostelshift,#viewmshrequestM').modal('hide');
                                         $(".addon").remove();
+                                        <?php unset($metach);?>
                                     });
                                 </script>
                             <?php elseif (
-                            $_SESSION['postdata']['username'] == 'admin'
-                        ) : ?>
+                        $_SESSION['postdata']['username'] == 'admin'
+                    ) : ?>
                                 <script>
                                     $.redirectPost("/", {
                                         error: "Invalid Username"
