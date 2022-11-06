@@ -695,7 +695,7 @@ if (array_key_exists('postdata', $_SESSION)):
 
                                 <div class="navbar-collapse collapse" id="navbarNav">
                                     <ul class="navbar-nav flex-column">
-                                        <!-- --------------          PROJECT STAFF MENU START   --------------           -->
+                                        <!-- --------------          PROJECT STAFF MENU START -- Admin Module HAB OFFICE  --------------           -->
 
 
                                         <li class="nav-divider">
@@ -956,7 +956,7 @@ if (array_key_exists('postdata', $_SESSION)):
 
 
                                                 <li class="nav-divider">
-                                                    Hostel Office Menu
+                                                    Warden Menu
                                                 </li>
                                                 <li class="nav-item">
                                                     <a class="nav-link" href="main.php"><i class="fas fa-home"></i>Home</a>
