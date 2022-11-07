@@ -1000,7 +1000,8 @@ if (array_key_exists('postdata', $_SESSION)) :
                     $("#changeHM,#changeRoomReqModal,#updatehostelModal,#viewhostelshift,#viewmshrequestM").find("textarea").val('').end().find("input[type=checkbox], input[type=radio],input[type=date]").prop("checked", "").end();
                     $('#changeHM,#changeRoomReqModal,#updatehostelModal,#viewhostelshift,#viewmshrequestM').modal('hide');
                     $(".addon").remove();
-                    <?php unset($metach); ?>
+                    $("#rejhm").removeAttr("hidden");
+                    $("#apphm").removeAttr("hidden");
                 });
                 $(document).on("click",".viewhostelshift",function()
                 {
