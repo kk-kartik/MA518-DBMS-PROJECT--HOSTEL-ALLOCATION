@@ -81,11 +81,7 @@ if (array_key_exists('postdata', $_SESSION)) :
                         <a class="dashboard-logo" href="https://www.iitg.ac.in/"><img src="assets/images/iitg.ico" alt="IITG Logo" style="max-width:50%;"></a>
                     </div>
 
-                    <!-- <button style="border: none; border-radius: 4px; margin-left: 10rem;" class="btn-warning opennoticemodal btn-xs" data-toggle="modal" data-target="#requestCountModal">
-                <span class="fa-stack">
-                    <i class="fa fa-bell fa-stack-1x fa-inverse request-notification" data-count="0"></i>
-                </span>
-            </button> -->
+                    
 
                     <button class="btn-warning user-avatar-md btn-xs navbar-toggler">
                         <a href="index.php"><i class="fas fa-power-off"></i></a>
@@ -203,7 +199,7 @@ if (array_key_exists('postdata', $_SESSION)) :
                                         $ahdetails["{$row['hid']}"] = "{$row['hname']}";
                                     }
 
-                                    // print_r($_SESSION);
+                                     print_r($_SESSION);
                                     if (isset($_SESSION['postdata']['rto'])) {
                                         $query = "INSERT INTO hab.`rchange`( `rollno`, `empid`, `rfrom`, `rto`, `rstatus`) VALUES ('{$details['rollno']}','{$hdetails['warden']}','{$_SESSION['postdata']['rfrom']}','{$_SESSION['postdata']['rto']}','PENDING');";
                                         unset($_SESSION['postdata']['rto']);
@@ -323,7 +319,7 @@ if (array_key_exists('postdata', $_SESSION)) :
 
                             <!------------------------------- Hostel Shift Request Table --------------------------->
                             <?php
-                            $query = "SELECT * FROM hab.hchange Where rollno={$details['rollno']};";
+                            $query = "SELECT * FROM hab.hchange Where rollno={$details['rollno']} and chstatus='PENDING';";
                             $sql = $conn->query($query);
                             if (!($row = $sql->fetch(PDO::FETCH_ASSOC))) { ?>
                                 <div class="row">
@@ -361,6 +357,8 @@ if (array_key_exists('postdata', $_SESSION)) :
                                                     <tbody>
 
                                                         <?php // print_r($ahdetails);
+                                                        $query = "SELECT * FROM hab.hchange Where rollno={$details['rollno']};";
+                                                        $sql = $conn->query($query);
                                                         while (
                                                             $row = $sql->fetch(
                                                                 PDO::FETCH_ASSOC
@@ -692,7 +690,7 @@ if (array_key_exists('postdata', $_SESSION)) :
                                                             print_r($_SESSION);
 
                                                             $query =
-                                                                "SELECT * FROM hab.hchange WHERE chstatus='PENDING';";
+                                                                "SELECT * FROM hab.hchange;";
                                                             $sql = $conn->query(
                                                                 $query
                                                             );
@@ -706,72 +704,14 @@ if (array_key_exists('postdata', $_SESSION)) :
                                                                     <td><?php echo $row['hfrom']; ?></td>
                                                                     <td><?php echo $row['hto']; ?></td>
                                                                     <td><?php echo $row['rollno']; ?></td>
-                                                                    <td class="text-primary"><?php echo $row['chstatus']; ?></td>
+                                                                    <td class="<?php echo ($row['chstatus']=="PENDING")?"text-primary":(($row['chstatus']=="APPROVED")?"text-dark-green":"text-danger");?>"><?php echo $row['chstatus']; ?></td>
                                                                     <td>
-                                                                        <form action="main.php" method="POST">
-                                                                            <input hidden name="username" readonly="" placeholder="" autocomplete="off" class="form-control" value="<?php echo $_SESSION['postdata']['username']; ?>">
-                                                                            <input name="password" value="<?php echo $_SESSION['postdata']['password']; ?>" hidden>
-                                                                            <button class="viewhostelshift" type="submit" name="showch" value="<?php echo $row['chid']; ?>" style="background:none; border:none;"><i class="fas fa-eye"></i></button>
-                                                                        </form>
+                                                                            <a class="viewhostelshift"  data-chid="<?php echo $row['chid']; ?>" data-hfrom="<?php echo $row['hfrom']; ?>" data-hto="<?php echo $row['hto']; ?>" data-rollno="<?php echo $row['rollno']; ?>" data-status="<?php echo $row['chstatus']; ?>" ><i class="fas fa-eye"></i></a>
                                                                     </td>
                                                                 </tr>
                                                             <?php }
                                                             ?>
 
-                                                            <?php
-                                                            $query =
-                                                                "SELECT * FROM hab.hchange WHERE chstatus='APPROVED';";
-                                                            $sql = $conn->query(
-                                                                $query
-                                                            );
-                                                            while (
-                                                                $row = $sql->fetch(
-                                                                    PDO::FETCH_ASSOC
-                                                                )
-                                                            ) { ?>
-                                                                <tr>
-                                                                    <td><?php echo $row['chid']; ?></td>
-                                                                    <td><?php echo $row['hfrom']; ?></td>
-                                                                    <td><?php echo $row['hto']; ?></td>
-                                                                    <td><?php echo $row['rollno']; ?></td>
-                                                                    <td class="text-dark-green"><?php echo $row['chstatus']; ?></td>
-                                                                    <td>
-                                                                        <form action="main.php" method="POST">
-                                                                            <input hidden name="username" readonly="" placeholder="" autocomplete="off" class="form-control" value="<?php echo $_SESSION['postdata']['username']; ?>">
-                                                                            <input name="password" value="<?php echo $_SESSION['postdata']['password']; ?>" hidden>
-                                                                            <button class="viewhostelshift" type="submit" name="showch" value="<?php echo $row['chid']; ?>" style="background:none; border:none;"><i class="fas fa-eye"></i></button>
-                                                                        </form>
-                                                                    </td>
-                                                                </tr>
-                                                            <?php }
-                                                            ?>
-                                                            <?php
-                                                            $query =
-                                                                "SELECT * FROM hab.hchange WHERE chstatus='REJECTED';";
-                                                            $sql = $conn->query(
-                                                                $query
-                                                            );
-                                                            while (
-                                                                $row = $sql->fetch(
-                                                                    PDO::FETCH_ASSOC
-                                                                )
-                                                            ) { ?>
-                                                                <tr>
-                                                                    <td><?php echo $row['chid']; ?></td>
-                                                                    <td><?php echo $row['hfrom']; ?></td>
-                                                                    <td><?php echo $row['hto']; ?></td>
-                                                                    <td><?php echo $row['rollno']; ?></td>
-                                                                    <td class="text-danger"><?php echo $row['chstatus']; ?></td>
-                                                                    <td>
-                                                                        <form onsubmit="showchm();" action="main.php" method="POST">
-                                                                            <input hidden name="username" readonly="" placeholder="" autocomplete="off" class="form-control" value="<?php echo $_SESSION['postdata']['username']; ?>">
-                                                                            <input name="password" value="<?php echo $_SESSION['postdata']['password']; ?>" hidden>
-                                                                            <button class="viewhostelshift" type="submit" name="showch" value="<?php echo $row['chid']; ?>" style="background:none; border:none;"><i class="fas fa-eye"></i></button>
-                                                                        </form>
-                                                                    </td>
-                                                                </tr>
-                                                            <?php }
-                                                            ?>
                                                         </tbody>
                                                         <tfoot>
                                                             <tr>
@@ -791,15 +731,8 @@ if (array_key_exists('postdata', $_SESSION)) :
                                 </div>
 
                                 <!----------------------------------- Change Hostel M Request Modal ----------------------------------------------->
-                                <?php if (
-                                    isset($_SESSION['postdata']['showch'])
-                                ) :
-
-                                    $query = "SELECT * FROM hab.hchange WHERE chid={$_SESSION['postdata']['showch']};";
-                                    $sql = $conn->query($query);
-                                    $metach = $sql->fetch(PDO::FETCH_ASSOC);
-                                ?>
-                                    <div class="modal fade show" id="changeHM" tabindex="-1" role="dialog" aria-labelledby="addhosModalLabel" aria-modal="true" role="dialog" style="display:block;">
+                               
+                                    <div class="modal fade" id="changeHM" tabindex="-1" role="dialog" aria-labelledby="addhosModalLabel" aria-hidden="true">
                                         <div class="modal-dialog modal-lg" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
@@ -831,32 +764,27 @@ if (array_key_exists('postdata', $_SESSION)) :
 
                                                         <div class="form-row">
                                                             <div class="form-group col-md-6">
-                                                                <label for="presentH">Present Hostel</label>
-                                                                <input id="presentH" type="text" name="hfrom" required placeholder="" autocomplete="off" class="form-control" readonly value="<?php echo $metach['hfrom']; ?>">
+                                                                <label for="presentH1">Present Hostel</label>
+                                                                <input id="presentH1" type="text" name="hfrom" required placeholder="" autocomplete="off" class="form-control" readonly value="<?php echo $metach['hfrom']; ?>">
                                                             </div>
                                                             <div class="form-group col-md-6">
-                                                                <label for="presentB">Change Requested</label>
-                                                                <input id="presentB" type="text" name="hto" required placeholder="" autocomplete="off" class="form-control" readonly value="<?php echo $metach['hto']; ?>">
+                                                                <label for="presentB2">Change Requested</label>
+                                                                <input id="presentB2" type="text" name="hto" required placeholder="" autocomplete="off" class="form-control" readonly value="<?php echo $metach['hto']; ?>">
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <?php if (
-                                                        $metach['chstatus'] ==
-                                                        'PENDING'
-                                                    ) : ?>
+                                                    
                                                         <div class="modal-footer">
                                                             <button class="btn btn-secondary closebtn" data-dismiss="modal" type="reset">Close</button>
-                                                            <button type="submit" name="submithm" value="REJECTED" class="btn btn-danger">Reject</button>
-                                                            <button type="submit" name="submithm" value="APPROVED" class="btn btn-primary">Approve</button>
+                                                            <button type="submit" id="rejhm" name="submithm" value="REJECTED" class="btn btn-danger">Reject</button>
+                                                            <button type="submit" id="apphm" name="submithm" value="APPROVED" class="btn btn-primary">Approve</button>
                                                         </div>
-                                                    <?php endif; ?>
+                                                    
                                                 </form>
 
                                             </div>
                                         </div>
                                     </div>
-                                <?php
-                                endif; ?>
                             </div>
                         </div>
 
@@ -1074,6 +1002,20 @@ if (array_key_exists('postdata', $_SESSION)) :
                     $(".addon").remove();
                     <?php unset($metach); ?>
                 });
+                $(document).on("click",".viewhostelshift",function()
+                {
+                    $("#presentH").val($(this).data("chid"));
+                    $("#presentB").val($(this).data("status"));
+                    $("#presentR").val($(this).data("rollno"));
+                    $("#presentH1").val($(this).data("hfrom"));
+                    $("#presentB2").val($(this).data("hto"));
+                    $("#changeHM").modal("show");
+                    if($(this).data("status") != "PENDING"){
+                        $("#rejhm").attr("hidden","");
+                        $("#apphm").attr("hidden","");
+                    }
+                }) 
+
             </script>
 
         <?php elseif ($_SESSION['postdata']['username'] == 'admin') : ?>

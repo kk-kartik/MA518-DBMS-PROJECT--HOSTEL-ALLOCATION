@@ -168,90 +168,61 @@ $.extend(
                     </div>
 
                     <!-- code here -->
-                    <div class="modal-body card">
-												<div class="form-row">
-													<div class="form-group col-md-6">
-														<label for="bname">Name</label>
-														<input id="bname" type="text" name="bname" readonly="" placeholder="" autocomplete="off" class="form-control" value="<?php echo $details[
-                  'name'
-              ]; ?>">
-													</div>
-													<div class="form-group col-md-6">
-														<label for="bcategory">Date of Birth</label>
-														<input id="bcategory" type="text" name="bcategory" readonly="" placeholder="" autocomplete="off" class="form-control" value="<?php echo $details[
-                  'dob'
-              ]; ?>">
-													</div>
-												</div>
-											
-												<div class="form-row">
-													<div class="form-group col-md-4">
-														<label for="bdept">Department</label>
-														<input id="bdept" type="text" name="bdept" readonly="" placeholder="" autocomplete="off" class="form-control input-height" value="<?php echo $details[
-                  'dept'
-              ]; ?>">
-													</div>
-													<div class="form-group col-md-4">
-														<label for="bprogram">Program</label>
-														<input id="bprogram" type="text" name="bprogram" readonly="" placeholder="" autocomplete="off" class="form-control input-height" value="<?php echo $details[
-                  'prog'
-              ]; ?>">
-													</div>
-													
-															<div class="form-group col-md-4">
-																<label for="brollno">Roll Number</label>
-																<input id="brollno" type="text" name="brollno" readonly="" placeholder="" autocomplete="off" class="form-control input-height" value="<?php echo $details[
-                    'rollno'
-                ]; ?>">
-															</div>
-												</div>
-												
-												<div class="form-row">
-													<div class="form-group col-md-4">
-														<label for="bemail">Email</label>
-														<input id="bemail" type="text" name="bemail" readonly="" placeholder="" autocomplete="off" class="form-control" value="<?php echo $details[
-                  'email'
-              ]; ?>">
-													</div>
-													<div class="form-group col-md-5">
-														<label for="bhostel">Hostel Details</label>
-														<input id="bhostel" type="text" name="bhostel" readonly="" placeholder="" autocomplete="off" class="form-control" value="<?php echo $hdetails[
-                  'hname'
-              ]; ?>">
-													</div>
-													<div class="form-group col-md-3">
-														<label for="bmobile">Registration No.<span class="text-danger">*</span></label>
-														<input id="bmobile" type="text" name="bmobile" minlength="10" maxlength="10" required="" placeholder="" autocomplete="off" class="form-control numberonly">
-													</div>
-												</div>
-                                                <div class="form-row">
-													<div class="form-group col-md-4">
-														<label for="bbill">Bill No.</label>
-														<input id="bbill" type="text" name="bbill" required="" placeholder="" autocomplete="off" class="form-control" value="<?php echo $details[
-                  'email'
-              ]; ?>">
-													</div>
-													<div class="form-group col-md-5">
-														<label for="bcolor">Color</label>
-														<input id="bcolor" type="text" name="bcolor" required="" placeholder="" autocomplete="off" class="form-control" value="<?php echo $hdetails[
-                  'hname'
-              ]; ?>">
-													</div>
-													<div class="form-group col-md-3">
-														<label for="bbrand">Brand<span class="text-danger">*</span></label>
-														<input id="bbrand" type="text" name="bbrand" required="" placeholder="" autocomplete="off" class="form-control numberonly">
-													</div>
-												</div>
-												
-												<div class="form-row">
-													<div class="form-group col-md-12">
-														<label class="custom-control custom-checkbox">
-															<input type="checkbox" id="doesAgree" name="doesAgree" class="custom-control-input"><span class="custom-control-label text-danger">* All of the above information furnished is best to my knowledge and belief. If any kind of information is found false, I shall be liable for appropriate action.</span>
-														</label>
-													</div>
-												</div>
-											</div>
+                    <div class="row">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                            <div class="card text-dark">
+                                <div class="card-header">
+                                    Complaints History
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-bordered first">
+                                            <thead>
+                                                <tr>
+                                                    <th>Complaint ID</th>
+                                                    <th>Complaint Date</th>
+                                                    <th>Description</th>
+                                                    <th>Current Desk</th>
+                                                    <th>Status</th>
 
+                                                </tr>
+                                            </thead>
+                                            <!-- <tbody>
+                                                <?php
+                                                // $query = "SELECT * FROM hab.complaints Where givenby={$details['rollno']};";
+                                                // $sql = $conn->query($query);
+                                                // while (
+                                                //     $row = $sql->fetch(
+                                                //         PDO::FETCH_ASSOC
+                                                //     )
+                                                // ) { ?>
+                                                    <tr>
+                                                        <td><?php //echo $row['cmpid']; ?></td>
+                                                        <td><?php //echo $row['cdate']; ?></td>
+                                                        <td><?php //echo $row['description']; ?></td>
+                                                        <td><?php //echo $row['offid']; ?></td>
+                                                        <td><?php //echo $row['cstatus']; ?></td>
+                                                    </tr>
+                                                <?php //}
+                                                ?>
+                                            </tbody> -->
+                                            <tfoot>
+                                                <tr>
+                                                    <th>Complaint ID</th>
+                                                    <th>Complaint Date</th>
+                                                    <th>Description</th>
+                                                    <th>Current Desk</th>
+                                                    <th>Status</th>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <!-- code here -->
 
                             
