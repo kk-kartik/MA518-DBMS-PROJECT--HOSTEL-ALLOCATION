@@ -161,6 +161,18 @@ if (array_key_exists('postdata', $_SESSION)) :
                 $query = "INSERT INTO hab.`students` VALUES ('{$_SESSION['postdata']['rollno']}','{$_SESSION['postdata']['name']}','{$_SESSION['postdata']['gender']}','{$_SESSION['postdata']['prog']}','{$_SESSION['postdata']['dept']}','{$_SESSION['postdata']['dob']}','{$_SESSION['postdata']['email']}');";
                 $stmt = $conn->prepare($query);
                 $stmt->execute();
+                $query = "SELECT hid as opt, nstud FROM hab.`hostel` WHERE `gender`='{$_SESSION['postdata']['gender']}' order by rand() LIMIT 1;  ";
+                $sql2 = $conn->query($query);
+                $hdd = $sql2->fetch(PDO::FETCH_ASSOC);
+                $query="SELECT H.roomid as opt FROM hab.rooms H Where H.`type`-(SELECT COUNT(*) FROM hab.roomrecords R WHERE R.roomid=H.roomid and R.tdate IS NULL) > 0  AND H.`type`={$_SESSION['postdata']['yos']} AND H.`hid`={$hdd['opt']} ORDER BY RAND() LIMIT 1;";
+                $sql2 = $conn->query($query);
+                $rdd = $sql2->fetch(PDO::FETCH_ASSOC);
+                $query = "INSERT INTO hab.`roomrecords`(`roomid`, `rollno`, `sdate`) VALUES ('{$rdd['opt']}','{$_SESSION['postdata']['rollno']}',CURRENT_DATE);";
+                $stmt = $conn->prepare($query);
+                $stmt->execute();
+                $query = "UPDATE hab.`hostel` SET `nstud`={$hdd['nstud']}+1 WHERE `hid`={$hdd['opt']};";
+                $stmt = $conn->prepare($query);
+                $stmt->execute();
                 unset($_SESSION['postdata']['alloc']);
             }
             
@@ -243,11 +255,11 @@ if (array_key_exists('postdata', $_SESSION)) :
                                     <label for="bmobile">Year of Study <span class="text-danger">*</span></label>
                                     <select id="bmobile" type="text" name="yos"  required="" placeholder="" autocomplete="off" class="form-control numberonly">
                                         <option value="" disabled selected>Select Year of Study</option>    
-                                        <option value="1">1st</option>
-                                        <option value="2">2nd</option>
-                                        <option value="3">3rd</option>
-                                        <option value="4">4th</option>
-                                        <option value="5">More than 4th</option>
+                                        <option value="2">1st</option>
+                                        <option value="1">2nd</option>
+                                        <option value="1">3rd</option>
+                                        <option value="1">4th</option>
+                                        <option value="1">More than 4th</option>
                                     </select>
                                 </div>
                             </div>

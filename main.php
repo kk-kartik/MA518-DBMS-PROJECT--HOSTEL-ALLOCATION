@@ -176,7 +176,7 @@ if (array_key_exists('postdata', $_SESSION)) :
                                     $query = "SELECT * FROM hab.students WHERE email = '{$_SESSION['postdata']['username']}'; ";
                                     $sql2 = $conn->query($query);
                                     $details = $sql2->fetch(PDO::FETCH_ASSOC);
-                                    $query = "SELECT * FROM hab.roomrecords WHERE rollno = {$details['rollno']}; ";
+                                    $query = "SELECT * FROM hab.roomrecords WHERE rollno = {$details['rollno']} and tdate IS NULL; ";
                                     $sql2 = $conn->query($query);
                                     $rdetails = $sql2->fetch(PDO::FETCH_ASSOC);
                                     $query = "SELECT * FROM hab.rooms s WHERE s.roomid={$rdetails['roomid']}; ";
@@ -243,7 +243,7 @@ if (array_key_exists('postdata', $_SESSION)) :
                             </div>
                             <!------------------------------- Change Room Request Table --------------------------->
                             <?php
-                            $query = "SELECT * FROM hab.rchange Where rollno={$details['rollno']};";
+                            $query = "SELECT * FROM hab.rchange Where rollno={$details['rollno']} and rstatus='PENDING';";
 
                             $sql = $conn->query($query);
                             if (!($row = $sql->fetch(PDO::FETCH_ASSOC))) : ?>
@@ -295,7 +295,7 @@ if (array_key_exists('postdata', $_SESSION)) :
                                                                 <td><?php echo $row['rcid']; ?></td>
                                                                 <td><?php echo $row['rfrom']; ?></td>
                                                                 <td><?php echo $row['empid']; ?></td>
-                                                                <td><?php echo $row['rstatus']; ?></td>
+                                                                <td  class="<?php echo ($row['rstatus']=="PENDING")?"text-primary":(($row['rstatus']=="APPROVED")?"text-dark-green":"text-danger");?>"><?php echo $row['rstatus']; ?></td>
                                                                 <td><?php echo $row['rto']; ?></td>
                                                             </tr>
                                                         <?php }
@@ -368,7 +368,7 @@ if (array_key_exists('postdata', $_SESSION)) :
                                                                 <td><?php echo $row['chid']; ?></td>
                                                                 <td><?php echo $ahdetails[$row['hfrom']]; ?></td>
                                                                 <td><?php echo $row['empid']; ?></td>
-                                                                <td><?php echo $row['chstatus']; ?></td>
+                                                                <td  class="<?php echo ($row['chstatus']=="PENDING")?"text-primary":(($row['chstatus']=="APPROVED")?"text-dark-green":"text-danger");?>"><?php echo $row['chstatus']; ?></td>
                                                                 <td><?php echo $ahdetails[$row['hto']]; ?></td>
                                                             </tr>
                                                         <?php } ?>
@@ -579,7 +579,7 @@ if (array_key_exists('postdata', $_SESSION)) :
                                                 <select name="rto" id="hshostelto" required class="form-control">
                                                     <option value="" disabled selected>Choose a Room</option>
                                                     <?php
-                                                    $query = "SELECT H.roomid as opt FROM hab.rooms H Where H.type > (SELECT COUNT(*) FROM hab.roomrecords R WHERE R.roomid=H.roomid and R.tdate IS NULL) AND H.roomid<>{$rdetails['roomid']};";
+                                                    $query = "SELECT H.roomid as opt FROM hab.rooms H Where H.`type`-(SELECT COUNT(*) FROM hab.roomrecords R WHERE R.roomid=H.roomid and R.tdate IS NULL) > 0 AND H.roomid<> {$rdetails['roomid']} AND H.`type`=(SELECT S.`type` FROM hab.rooms S WHERE S.roomid={$rdetails['roomid']}) AND H.`hid`=(SELECT S.`hid` FROM hab.rooms S WHERE S.roomid={$rdetails['roomid']});";
                                                     $sql = $conn->query($query);
                                                     while (
                                                         $row = $sql->fetch(
@@ -605,15 +605,32 @@ if (array_key_exists('postdata', $_SESSION)) :
 
 
 
-                    <?php else : $query = "SELECT * FROM hab.emply WHERE email = '{$_SESSION['postdata']['username']}'; ";
+                    <?php else :
+                    $query = "SELECT * FROM hab.emply WHERE email = '{$_SESSION['postdata']['username']}'; ";
                     $sql2 = $conn->query($query);
                     $details = $sql2->fetch(PDO::FETCH_ASSOC);
                     if ($details['etype'] == 'OFF') :
                         if (isset($_SESSION['postdata']['submithm'])) {
                             $query = "UPDATE hab.`hchange` SET `chstatus`='{$_SESSION['postdata']['submithm']}' WHERE `chid`={$_SESSION['postdata']['chid']};";
-                            unset($_SESSION['postdata']['submithm']);
+                            
                             $stmt = $conn->prepare($query);
                             $stmt->execute();
+                            if($_SESSION['postdata']['submithm']=="APPROVED"){
+                                $query = "SELECT * FROM hab.`roomrecords` WHERE `tdate` IS NULL and `rollno`={$_SESSION['postdata']['presentR']}; ";
+                                $sql2 = $conn->query($query);
+                                $hdd = $sql2->fetch(PDO::FETCH_ASSOC);
+                                $query = "UPDATE hab.`roomrecords` SET `tdate`=CURRENT_DATE WHERE `rollno`={$_SESSION['postdata']['presentR']} and `tdate` IS NULL;";
+                                $stmt = $conn->prepare($query);
+                                $stmt->execute();
+                                $query="SELECT H.roomid as opt FROM hab.rooms H Where H.`type`-(SELECT COUNT(*) FROM hab.roomrecords R WHERE R.roomid=H.roomid and R.tdate IS NULL) > 0  AND H.`type`=(SELECT S.`type` FROM hab.rooms S WHERE S.roomid={$hdd['roomid']}) AND H.`hid`={$_SESSION['postdata']['hto']} ORDER BY RAND() LIMIT 1;";
+                                $sql2 = $conn->query($query);
+                                $rdd = $sql2->fetch(PDO::FETCH_ASSOC);
+                                $query = "INSERT INTO hab.`roomrecords`(`roomid`, `rollno`, `sdate`) VALUES ('{$rdd['opt']}','{$_SESSION['postdata']['presentR']}',CURRENT_DATE);";
+                                $stmt = $conn->prepare($query);
+                                $stmt->execute();
+                            }
+
+                            unset($_SESSION['postdata']['submithm']);
                         } ?>
                         <div class="nav-left-sidebar sidebar-dark">
 
@@ -687,7 +704,7 @@ if (array_key_exists('postdata', $_SESSION)) :
                                                         <tbody>
 
                                                             <?php
-                                                            print_r($_SESSION);
+                                                            // print_r($_SESSION);
 
                                                             $query =
                                                                 "SELECT * FROM hab.hchange;";
@@ -1015,7 +1032,7 @@ if (array_key_exists('postdata', $_SESSION)) :
                         $("#rejhm").attr("hidden","");
                         $("#apphm").attr("hidden","");
                     }
-                }) 
+                }) ;
 
             </script>
 

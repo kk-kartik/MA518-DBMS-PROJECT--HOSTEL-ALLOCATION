@@ -10,7 +10,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     header('Location: ' . $_SERVER['PHP_SELF']);
     exit();
 }
-if (array_key_exists('postdata', $_SESSION)) : ?>
+if (array_key_exists('postdata', $_SESSION)) :
+    require_once "connect.php";
+?>
     <!doctype html>
     <html lang="en">
 
@@ -165,6 +167,18 @@ if (array_key_exists('postdata', $_SESSION)) : ?>
                         </div>
                     </div>
 
+                    <?php
+                    $query = "SELECT * FROM hab.emply WHERE email = '{$_SESSION['postdata']['username']}'; ";
+                    $sql2 = $conn->query($query);
+                    $details = $sql2->fetch(PDO::FETCH_ASSOC);
+
+                    if (isset($_SESSION['postdata']['submithm'])) {
+                        $query = "UPDATE hab.`complaints` SET `cstatus`='{$_SESSION['postdata']['submithm']}' WHERE `cmpid`={$_SESSION['postdata']['cmpid']};";
+                        unset($_SESSION['postdata']['submithm']);
+                        $stmt = $conn->prepare($query);
+                        $stmt->execute();
+                    }
+                    ?>
                     <!-- code here -->
 
                     <div class="row">
@@ -181,37 +195,41 @@ if (array_key_exists('postdata', $_SESSION)) : ?>
                                                     <th>Complaint ID</th>
                                                     <th>Complaint Date</th>
                                                     <th>Description</th>
-                                                    <th>Current Desk</th>
+                                                    <th>Given By</th>
                                                     <th>Status</th>
-
+                                                    <th>Action</th>
                                                 </tr>
                                             </thead>
-                                            <!-- <tbody>
+                                            <tbody>
                                                 <?php
-                                                // $query = "SELECT * FROM hab.complaints Where givenby={$details['rollno']};";
-                                                // $sql = $conn->query($query);
-                                                // while (
-                                                //     $row = $sql->fetch(
-                                                //         PDO::FETCH_ASSOC
-                                                //     )
-                                                // ) { ?>
+                                                $query = "SELECT * FROM hab.complaints Where offid={$details['empid']};";
+                                                $sql = $conn->query($query);
+                                                while (
+                                                    $row = $sql->fetch(
+                                                        PDO::FETCH_ASSOC
+                                                    )
+                                                ) { ?>
                                                     <tr>
-                                                        <td><?php //echo $row['cmpid']; ?></td>
-                                                        <td><?php //echo $row['cdate']; ?></td>
-                                                        <td><?php //echo $row['description']; ?></td>
-                                                        <td><?php //echo $row['offid']; ?></td>
-                                                        <td><?php //echo $row['cstatus']; ?></td>
+                                                        <td><?php echo $row['cmpid']; ?></td>
+                                                        <td><?php echo $row['cdate']; ?></td>
+                                                        <td><?php echo $row['description']; ?></td>
+                                                        <td><?php echo $row['givenby']; ?></td>
+                                                        <td class="<?php echo ($row['cstatus'] == "PENDING") ? "text-primary" : (($row['cstatus'] == "SOLVED") ? "text-dark-green" : "text-danger"); ?>"><?php echo $row['cstatus']; ?></td>
+                                                        <td>
+                                                            <a class="viewhostelshift" data-cmpid="<?php echo $row['cmpid']; ?>" data-givenby="<?php echo $row['givenby']; ?>" data-cdate="<?php echo $row['cdate']; ?>" data-desc="<?php echo $row['description']; ?>" data-status="<?php echo $row['cstatus']; ?>"><i class="fas fa-eye"></i></a>
+                                                        </td>
                                                     </tr>
-                                                <?php //}
+                                                <?php }
                                                 ?>
-                                            </tbody> -->
+                                            </tbody>
                                             <tfoot>
                                                 <tr>
                                                     <th>Complaint ID</th>
                                                     <th>Complaint Date</th>
                                                     <th>Description</th>
-                                                    <th>Current Desk</th>
+                                                    <th>Given By</th>
                                                     <th>Status</th>
+                                                    <th>Action</th>
                                                 </tr>
                                             </tfoot>
                                         </table>
@@ -224,7 +242,59 @@ if (array_key_exists('postdata', $_SESSION)) : ?>
                     </div>
 
                     <!-- code here -->
+                    <div class="modal fade" id="complaintmodal" tabindex="-1" role="dialog" aria-labelledby="addhosModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title text-center" id="changeRoomReqModalH">Room Change Request</h5>
+                                    <button class="close closebtn" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
 
+
+                                <form action="offcomplaints.php" method="POST" id="changeroomreqform">
+                                    <div class="modal-body">
+                                        <div class="form-row">
+                                            <div class="form-group col-md-3">
+                                                <label for="presentH">Complaint ID</label>
+                                                <input id="presentH" type="text" name="cmpid" required placeholder="" autocomplete="off" class="form-control" readonly value="">
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <label for="presentB">Current Status</label>
+                                                <input id="presentB" type="text" name="cstatus" required placeholder="" autocomplete="off" class="form-control" readonly value="">
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <label for="presentB2">Complaint Date</label>
+                                                <input id="presentB2" type="text" name="cdate" required placeholder="" autocomplete="off" class="form-control" readonly value="">
+                                            </div>
+                                            <div class="form-group col-md-3">
+                                                <label for="presentR">Given By</label>
+                                                <input id="presentR" type="text" name="givenby" required placeholder="" autocomplete="off" class="form-control" readonly >
+                                                <input id="bemail" type="text" hidden name="username" readonly="" placeholder="" autocomplete="off" class="form-control" value="<?php echo $details['email']; ?>">
+                                                <input name="password" value="<?php echo $_SESSION['postdata']['password']; ?>" type="password" hidden>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-row">
+                                            <div class="form-group col-md-12">
+                                                <label for="presentH1">Description</label>
+                                                <input id="presentH1" type="text" name="desc" required placeholder="" autocomplete="off" class="form-control" readonly >
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button class="btn btn-secondary closebtn" data-dismiss="modal" type="reset">Close</button>
+                                        <button type="submit" id="rejhm" name="submithm" value="INPROCESS" class="btn btn-danger">Appoint</button>
+                                        <button type="submit" id="apphm" name="submithm" value="SOLVED" class="btn btn-primary">Solved</button>
+                                    </div>
+
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
 
                 </div>
             </div>
@@ -280,6 +350,30 @@ if (array_key_exists('postdata', $_SESSION)) : ?>
                 $('.navbar-toggler').toggleClass('collapsed');
                 $('#navbarNav').toggleClass('show');
             }
+            $(".closebtn").click(function() {
+                    $("#complaintmodal,#changeRoomReqModal,#updatehostelModal,#viewhostelshift,#viewmshrequestM").find("textarea").val('').end().find("input[type=checkbox], input[type=radio],input[type=date]").prop("checked", "").end();
+                    $('#complaintmodal,#changeRoomReqModal,#updatehostelModal,#viewhostelshift,#viewmshrequestM').modal('hide');
+                    $(".addon").remove();
+                    $("#rejhm").removeAttr("hidden");
+                    $("#apphm").removeAttr("hidden");
+                });
+            $(document).on("click",".viewhostelshift",function()
+                {
+                    $("#presentH").val($(this).data("cmpid"));
+                    $("#presentB").val($(this).data("status"));
+                    $("#presentR").val($(this).data("givenby"));
+                    $("#presentH1").val($(this).data("desc"));
+                    $("#presentB2").val($(this).data("cdate"));
+                    $("#complaintmodal").modal("show");
+                    if($(this).data("status") == "SOLVED"){
+                        $("#rejhm").attr("hidden","");
+                        $("#apphm").attr("hidden","");
+                    }else if($(this).data("status") == "INPROCESS"){
+                        $("#rejhm").attr("hidden","");
+                    }else if($(this).data("status") == "PENDING"){
+                        $("#apphm").attr("hidden","");
+                    }
+                }) ;
         </script>
     <?php endif;
     ?>

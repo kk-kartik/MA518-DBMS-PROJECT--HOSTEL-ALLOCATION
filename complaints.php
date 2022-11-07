@@ -236,7 +236,7 @@ if (array_key_exists('postdata', $_SESSION)) : ?>
                                                         <td><?php echo $row['cdate']; ?></td>
                                                         <td><?php echo $row['description']; ?></td>
                                                         <td><?php echo $row['offid']; ?></td>
-                                                        <td><?php echo $row['cstatus']; ?></td>
+                                                        <td class="<?php echo ($row['cstatus'] == "PENDING") ? "text-primary" : (($row['cstatus'] == "SOLVED") ? "text-dark-green" : "text-danger"); ?>"><?php echo $row['cstatus']; ?></td>
                                                     </tr>
                                                 <?php }
                                                 ?>
@@ -313,8 +313,8 @@ if (array_key_exists('postdata', $_SESSION)) : ?>
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button class="btn btn-primary" type="submit" name="regcmp">Submit</button>
                             <button class="btn btn-secondary closebtn" data-dismiss="modal">Close</button>
+                            <button class="btn btn-primary" type="submit" name="regcmp">Submit</button>
                         </div>
                     </form>
                 </div>
