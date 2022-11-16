@@ -24,16 +24,16 @@ require_once "connect.php";
         <title>Student Hostel Portal</title>
         <link rel="icon" href="assets/images/iitg.ico" type="image/icon">
 
-        <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous" />
         <!-- <link href="assets/vendor/fonts/circular-std/style.css" rel="stylesheet"> -->
         <script src="https://kit.fontawesome.com/099dc0ed07.js" crossorigin="anonymous"></script>
+        <!-- css handled here -->
         <link rel="stylesheet" href="css/style.css">
         <link rel="stylesheet" href="css/fontawesome-all.css">
-        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap4.min.css">
-        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.bootstrap4.min.css">
-        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedheader/3.2.4/css/fixedHeader.dataTables.min.css">
-        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.4.0/css/select.dataTables.min.css">
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+        <link rel="stylesheet" type="text/css" href="css/buttons.bootstrap4.css">
+        <link rel="stylesheet" type="text/css" href="css/select.bootstrap4.css">
+        <link rel="stylesheet" type="text/css" href="css/fixedHeader.bootstrap4.css">
         <!-- <link rel="stylesheet" type="text/css" href="assets/vendor/datatables/css/buttons.bootstrap4.css">
         <link rel="stylesheet" type="text/css" href="assets/vendor/datatables/css/select.bootstrap4.css">
         <link rel="stylesheet" type="text/css" href="assets/vendor/datatables/css/fixedHeader.bootstrap4.css"> -->
@@ -198,7 +198,7 @@ require_once "connect.php";
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                             <div class="card text-dark">
                                 <div class="card-header">
-                                    Hostel Shift Request History
+                                    Room Change Request 
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
@@ -206,8 +206,8 @@ require_once "connect.php";
                                             <thead>
                                                 <tr>
                                                     <th>Request ID</th>
-                                                    <th>Previous Hostel</th>
-                                                    <th>New Hostel</th>
+                                                    <th>Previous Room</th>
+                                                    <th>New Room</th>
                                                     <th>Roll Number</th>
                                                     <th>Status</th>
                                                     <th>Action</th>
@@ -245,8 +245,8 @@ require_once "connect.php";
                                             <tfoot>
                                                 <tr>
                                                     <th>Request ID</th>
-                                                    <th>Previous Hostel</th>
-                                                    <th>New Hostel</th>
+                                                    <th>Previous Room</th>
+                                                    <th>New Room</th>
                                                     <th>Roll Number</th>
                                                     <th>Status</th>
                                                     <th>Action</th>

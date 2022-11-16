@@ -681,12 +681,21 @@ if (array_key_exists('postdata', $_SESSION)) :
                                 <!-- end pageheader -->
 
                                 <!------------------------------- Hostel Shift Request Table --------------------------->
-
+<?php 
+$query = 'SELECT * FROM hab.hostel ; ';
+$sql2 = $conn->query($query);
+$ahdetails;
+while (
+    $row = $sql2->fetch(PDO::FETCH_ASSOC)
+) {
+    $ahdetails["{$row['hid']}"] = "{$row['hname']}";
+}
+?>
                                 <div class="row">
                                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                         <div class="card text-dark">
                                             <div class="card-header">
-                                                Hostel Shift Request History
+                                                Hostel Shift Requests
                                             </div>
                                             <div class="card-body">
                                                 <div class="table-responsive">
@@ -718,12 +727,12 @@ if (array_key_exists('postdata', $_SESSION)) :
                                                             ) { ?>
                                                                 <tr>
                                                                     <td><?php echo $row['chid']; ?></td>
-                                                                    <td><?php echo $row['hfrom']; ?></td>
-                                                                    <td><?php echo $row['hto']; ?></td>
+                                                                    <td><?php echo $ahdetails[$row['hfrom']]; ?></td>
+                                                                    <td><?php echo $ahdetails[$row['hto']]; ?></td>
                                                                     <td><?php echo $row['rollno']; ?></td>
                                                                     <td class="<?php echo ($row['chstatus']=="PENDING")?"text-primary":(($row['chstatus']=="APPROVED")?"text-dark-green":"text-danger");?>"><?php echo $row['chstatus']; ?></td>
                                                                     <td>
-                                                                            <a class="viewhostelshift"  data-chid="<?php echo $row['chid']; ?>" data-hfrom="<?php echo $row['hfrom']; ?>" data-hto="<?php echo $row['hto']; ?>" data-rollno="<?php echo $row['rollno']; ?>" data-status="<?php echo $row['chstatus']; ?>" ><i class="fas fa-eye"></i></a>
+                                                                            <a class="viewhostelshift"  data-chid="<?php echo $row['chid']; ?>" data-hfrom="<?php echo $row['hfrom']; ?>" data-hto="<?php echo $row['hto']; ?>" data-hf="<?php echo $ahdetails[$row['hfrom']]; ?>" data-ht="<?php echo $ahdetails[$row['hto']]; ?>" data-rollno="<?php echo $row['rollno']; ?>" data-status="<?php echo $row['chstatus']; ?>" ><i class="fas fa-eye"></i></a>
                                                                     </td>
                                                                 </tr>
                                                             <?php }
@@ -773,8 +782,8 @@ if (array_key_exists('postdata', $_SESSION)) :
                                                             </div>
                                                             <div class="form-group col-md-4">
                                                                 <label for="presentR">Roll Number</label>
-                                                                <input id="presentR" type="text" name="presentR" required placeholder="" autocomplete="off" class="form-control" readonly value="<?php echo $metach['rollno']; ?>">
-                                                                <input id="bemail" type="text" hidden name="username" readonly="" placeholder="" autocomplete="off" class="form-control" value="<?php echo $details['email']; ?>">
+                                                                <input id="presentR" type="text" name="presentR" required placeholder="" autocomplete="off" class="form-control" readonly >
+                                                                <input id="bemail" type="text" hidden name="username" readonly="" placeholder="" autocomplete="off" class="form-control" value="<?php echo $_SESSION['postdata']['username']; ?>">
                                                                 <input name="password" value="<?php echo $_SESSION['postdata']['password']; ?>" type="password" hidden>
                                                             </div>
                                                         </div>
@@ -782,11 +791,13 @@ if (array_key_exists('postdata', $_SESSION)) :
                                                         <div class="form-row">
                                                             <div class="form-group col-md-6">
                                                                 <label for="presentH1">Present Hostel</label>
-                                                                <input id="presentH1" type="text" name="hfrom" required placeholder="" autocomplete="off" class="form-control" readonly value="<?php echo $metach['hfrom']; ?>">
+                                                                <input id="presentH1" type="text" name="hfrom2" required placeholder="" autocomplete="off" class="form-control" readonly >
+                                                                <input id="presentH11" type="text" name="hfrom" hidden required placeholder="" autocomplete="off" class="form-control" readonly >
                                                             </div>
                                                             <div class="form-group col-md-6">
                                                                 <label for="presentB2">Change Requested</label>
-                                                                <input id="presentB2" type="text" name="hto" required placeholder="" autocomplete="off" class="form-control" readonly value="<?php echo $metach['hto']; ?>">
+                                                                <input id="presentB2" type="text" name="hto2" required placeholder="" autocomplete="off" class="form-control" readonly >
+                                                                <input id="presentB21" type="text" name="hto" hidden required placeholder="" autocomplete="off" class="form-control" readonly >
                                                             </div>
                                                         </div>
                                                     </div>
@@ -878,21 +889,9 @@ if (array_key_exists('postdata', $_SESSION)) :
 
                                 <div class="row">
                                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                        <h3 class="text-right">
-                                            <!-- Button trigger modal -->
-                                            <a href="vacatingform.pdf" class="btn btn-primary" target="_blank">
-                                                Hostel Shift
-                                            </a>
-                                        </h3>
-                                    </div>
-                                </div>
-
-
-                                <div class="row">
-                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                                         <div class="card text-dark">
                                             <div class="card-header">
-                                                Hostel Shift Request History
+                                                Hostel Accomadation
                                             </div>
                                             <div class="card-body">
                                                 <div class="table-responsive">
@@ -909,22 +908,7 @@ if (array_key_exists('postdata', $_SESSION)) :
                                                         </thead>
                                                         <tbody>
 
-                                                            <tr>
-                                                                <td>2022-08-26</td>
-                                                                <td>Umiam</td>
-                                                                <td>Siang</td>
-                                                                <td class="text-dark-green">
-                                                                    Hostel Office
-
-                                                                </td>
-                                                                <td>
-                                                                    <span class='text-primary'>Approved</span>
-                                                                </td>
-                                                                <td>
-                                                                    <a href="javascript:void(0)" class="viewhostelshift" data-name='Kartik Kurupaswamy' data-email='NA' data-roll_reg_no='212123027' data-contact='9427686046' data-cur_room='Umiam~C~Third Floor~C-302' data-hosfrom='Umiam' data-hosto='Siang' data-shiftdate='2022-08-13' data-reason='My classes start at 8 in the morning and go upto 6pm in the evening. Commuting to hostels become hectic and I dont know to ride bicycle, I am unable to maintain my health.' data-hosfee='0' data-messfee='0' data-canteenfee='0' data-stanfee='0' data-juicefee='0' data-dsdcfee='0'><i class="fas fa-eye"></i>
-                                                                    </a>&nbsp&nbsp&nbsp
-                                                                </td>
-                                                            </tr>
+                                                            
 
                                                         </tbody>
                                                         <tfoot>
@@ -1025,8 +1009,10 @@ if (array_key_exists('postdata', $_SESSION)) :
                     $("#presentH").val($(this).data("chid"));
                     $("#presentB").val($(this).data("status"));
                     $("#presentR").val($(this).data("rollno"));
-                    $("#presentH1").val($(this).data("hfrom"));
-                    $("#presentB2").val($(this).data("hto"));
+                    $("#presentH1").val($(this).data("hf"));
+                    $("#presentB2").val($(this).data("ht"));
+                    $("#presentH11").val($(this).data("hfrom"));
+                    $("#presentB21").val($(this).data("hto"));
                     $("#changeHM").modal("show");
                     if($(this).data("status") != "PENDING"){
                         $("#rejhm").attr("hidden","");
