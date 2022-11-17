@@ -102,14 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
           </button>
         </form>
       </div>
-      <div class="card-footer bg-white p-0">
-        <div class="card-footer-item card-footer-item-bordered">
-          <a href="changepwd.php" target="_blank" class="footer-link">Change Password</a>
-        </div>
-        <div class="card-footer-item card-footer-item-bordered">
-          <a href="reset.php" target="_blank" class="footer-link">Reset Password</a>
-        </div>
-      </div>
+      
     </div>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>

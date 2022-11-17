@@ -102,7 +102,7 @@ if (array_key_exists('postdata', $_SESSION)) :
                                     <h5 class="mb-0 text-white nav-user-name ml-2"><?php echo $_SESSION['postdata']['username']; ?>
                                     </h5>
                                 </div>
-                                <a class="dropdown-item" href="index.php"><i class="fas fa-power-off"></i>Logout</a>
+                                <a class="dropdown-item" href="index.php"><i class="fas fa-power-off"></i> Logout</a>
                             </div>
                         </li>
 

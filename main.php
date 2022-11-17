@@ -104,7 +104,7 @@ if (array_key_exists('postdata', $_SESSION)) :
                                         <h5 class="mb-0 text-white nav-user-name ml-2"><?php echo $_SESSION['postdata']['username']; ?>
                                         </h5>
                                     </div>
-                                    <a class="dropdown-item" href="index.php"><i class="fas fa-power-off"></i>Logout</a>
+                                    <a class="dropdown-item" href="index.php"><i class="fas fa-power-off"></i> Logout</a>
                                 </div>
                             </li>
 
@@ -199,7 +199,7 @@ if (array_key_exists('postdata', $_SESSION)) :
                                         $ahdetails["{$row['hid']}"] = "{$row['hname']}";
                                     }
 
-                                     print_r($_SESSION);
+                                    //  print_r($_SESSION);
                                     if (isset($_SESSION['postdata']['rto'])) {
                                         $query = "INSERT INTO hab.`rchange`( `rollno`, `empid`, `rfrom`, `rto`, `rstatus`) VALUES ('{$details['rollno']}','{$hdetails['warden']}','{$_SESSION['postdata']['rfrom']}','{$_SESSION['postdata']['rto']}','PENDING');";
                                         unset($_SESSION['postdata']['rto']);
@@ -429,7 +429,7 @@ if (array_key_exists('postdata', $_SESSION)) :
                                                                     <td><?php echo $row['roomid']; ?></td>
                                                                     <td><?php echo $row['sdate']; ?></td>
                                                                     <td><?php echo $row['tdate']; ?></td>
-                                                                    <td class="text-dark-green"><?php echo 'Completed'; ?></td>
+                                                                    <td class="text-dark-green"><?php echo 'COMPLETED'; ?></td>
                                                                 </tr>
                                                             <?php } else { ?>
                                                                 <tr>
@@ -437,7 +437,7 @@ if (array_key_exists('postdata', $_SESSION)) :
                                                                     <td><?php echo $row['roomid']; ?></td>
                                                                     <td><?php echo $row['sdate']; ?></td>
                                                                     <td><?php echo $row['tdate']; ?></td>
-                                                                    <td class="text-primary"><?php echo 'Current'; ?></td>
+                                                                    <td class="text-primary"><?php echo 'CURRENT'; ?></td>
                                                                 </tr>
                                                         <?php }
                                                         }
@@ -636,7 +636,7 @@ if (array_key_exists('postdata', $_SESSION)) :
 
                             <div class="menu-list" style="overflow: hidden; width:auto; height:100%;">
                                 <nav class="navbar navbar-expand-lg navbar-light">
-                                    <a class="d-xl-none d-lg-none" href="#">Hostel Portal</a>
+                                    <a class="d-xl-none d-lg-none" href="#"> Student Hostel Portal</a>
                                     <button class="navbar-toggler" type="button" onclick="showmenu();" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                                         <span class="navbar-toggler-icon"></span>
                                     </button>
@@ -818,12 +818,14 @@ while (
 
 
                     <?php
-                    elseif ($details['etype'] == 'HST') : ?>
+                    elseif ($details['etype'] == 'HST') : 
+                    
+                    ?>
                         <div class="nav-left-sidebar sidebar-dark">
 
                             <div class="menu-list" style="overflow: hidden; width:auto; height:100%;">
                                 <nav class="navbar navbar-expand-lg navbar-light">
-                                    <a class="d-xl-none d-lg-none" href="#">Hostel Portal</a>
+                                    <a class="d-xl-none d-lg-none" href="#">Student Hostel Portal</a>
                                     <button class="navbar-toggler" type="button" onclick="showmenu();" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                                         <span class="navbar-toggler-icon"></span>
                                     </button>
@@ -898,27 +900,49 @@ while (
                                                     <table class="table table-striped table-bordered first">
                                                         <thead>
                                                             <tr>
-                                                                <th>Request Date</th>
-                                                                <th>Previous Hostel</th>
-                                                                <th>New Hostel</th>
-                                                                <th>Current Desk</th>
-                                                                <th>Status</th>
-                                                                <th>Action</th>
+                                                                <th>Room No.</th>
+                                                                <th>Name</th>
+                                                                <th>Department</th>
+                                                                <th>Course</th>
+                                                                <th>Start Date</th>
+                                                                <th>Email</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
+                                                            <?php
+                                                            // print_r($_SESSION);
 
+                                                            $query =
+                                                                "SELECT S.name as nm, S.dept as dt, S.prog as cr, S.email as eml, R.roomid as rmid, R.sdate as sdt  FROM hab.students S, hab.roomrecords R, hab.rooms R2 WHERE R.rollno=S.rollno and R.roomid=R2.roomid and R.tdate IS NULL and R2.hid IN (SELECT H.hid FROM hab.hostel H WHERE H.warden='{$details['empid']}');";
+                                                            $sql = $conn->query(
+                                                                $query
+                                                            );
+                                                            while (
+                                                                $row = $sql->fetch(
+                                                                    PDO::FETCH_ASSOC
+                                                                )
+                                                            ) { ?>
+                                                                <tr>
+                                                                    <td><?php echo $row['rmid']; ?></td>
+                                                                    <td><?php echo $row['nm']; ?></td>
+                                                                    <td><?php echo $row['dt']; ?></td>
+                                                                    <td><?php echo $row['cr']; ?></td>
+                                                                    <td><?php echo $row['sdt']; ?></td>
+                                                                    <td><?php echo $row['eml']; ?></td>
+                                                                </tr>
+                                                            <?php }
+                                                            ?>
                                                             
 
                                                         </tbody>
                                                         <tfoot>
                                                             <tr>
-                                                                <th>Request Date</th>
-                                                                <th>Previous Hostel</th>
-                                                                <th>New Hostel</th>
-                                                                <th>Current Desk</th>
-                                                                <th>Status</th>
-                                                                <th>Action</th>
+                                                                <th>Room No.</th>
+                                                                <th>Name</th>
+                                                                <th>Department</th>
+                                                                <th>Course</th>
+                                                                <th>Start Date</th>
+                                                                <th>Email</th>
                                                             </tr>
                                                         </tfoot>
                                                     </table>
