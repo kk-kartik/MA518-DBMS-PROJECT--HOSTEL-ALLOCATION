@@ -1808,9 +1808,11 @@ Leftsidebar - Primary
 }
 
 .sidebar-primary .nav-divider {
-    color: #ddddff;
+    color: #1d1d9e !important;
 }
-
+.font-new{
+    color: #1d1d9e !important;
+}
 .sidebar-primary.nav-left-sidebar .nav-link i {
     color: #8991d4;
 }

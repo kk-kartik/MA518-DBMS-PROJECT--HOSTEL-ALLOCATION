@@ -181,10 +181,14 @@ if (array_key_exists('postdata', $_SESSION)) : ?>
                     $sql2 = $conn->query($query);
                     $hdetails = $sql2->fetch(PDO::FETCH_ASSOC);
                     if (isset($_SESSION['postdata']['cmpdesc'])) {
+                        try{
                         $query = "INSERT INTO hab.`complaints`( `description`, `cstatus`, `givenby`, `offid`, `cdate`) VALUES ('{$_SESSION['postdata']['cmpdesc']}','PENDING','{$details['rollno']}','{$hdetails['warden']}',CURRENT_DATE);";
-                        unset($_SESSION['postdata']['cmpdesc']);
                         $stmt = $conn->prepare($query);
                         $stmt->execute();
+                        }catch(PDOException $e){
+                            $error=$e->getMessage();
+                        }
+                        unset($_SESSION['postdata']['cmpdesc']);
                     }
                     ?>
                     <div class="row">
@@ -206,6 +210,15 @@ if (array_key_exists('postdata', $_SESSION)) : ?>
                                     Complaints History
                                 </div>
                                 <div class="card-body">
+                                <?php if(isset($error)):?>
+                                <div class="p-2">
+                                    <div class="alert alert-danger" role="alert">
+                                    <?php echo $error;
+                                        unset($error);
+                                    ?>
+                                    </div>
+                                </div>
+                                <?php endif;?>
                                     <div class="table-responsive">
                                         <table class="table table-striped table-bordered first">
                                             <thead>

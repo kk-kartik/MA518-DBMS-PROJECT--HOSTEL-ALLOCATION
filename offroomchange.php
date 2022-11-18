@@ -108,7 +108,6 @@ require_once "connect.php";
                                 <a class="dropdown-item" href="index.php"><i class="fas fa-power-off"></i> Logout</a>
                             </div>
                         </li>
-
                     </ul>
                 </div>
 

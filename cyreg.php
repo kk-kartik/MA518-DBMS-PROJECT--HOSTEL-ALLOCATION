@@ -154,10 +154,14 @@ if (array_key_exists('postdata', $_SESSION)) : ?>
             $sql2 = $conn->query($query);
             $hdetails = $sql2->fetch(PDO::FETCH_ASSOC);
             if (isset($_SESSION['postdata']['doesAgree']) && $_SESSION['postdata']['doesAgree'] == "on") {
-                $query = "INSERT INTO hab.`cycles`( `ownerid`, `regno`, `billno`, `color`, `brand`) VALUES ('{$_SESSION['postdata']['rollno']}','{$_SESSION['postdata']['breg']}','{$_SESSION['postdata']['bbill']}','{$_SESSION['postdata']['bcolor']}','{$_SESSION['postdata']['bbrand']}');";
+                try{
+                    $query = "INSERT INTO hab.`cycles`( `ownerid`, `regno`, `billno`, `color`, `brand`) VALUES ('{$_SESSION['postdata']['rollno']}','{$_SESSION['postdata']['breg']}','{$_SESSION['postdata']['bbill']}','{$_SESSION['postdata']['bcolor']}','{$_SESSION['postdata']['bbrand']}');";
+                    $stmt = $conn->prepare($query);
+                    $stmt->execute();
+                }catch(PDOException $e){
+                    $error=$e->getMessage();
+                }
                 unset($_SESSION['postdata']['doesAgree']);
-                $stmt = $conn->prepare($query);
-                $stmt->execute();
             }
             $query = "SELECT * FROM hab.cycles WHERE ownerid ={$details['rollno']} ; ";
             //$cdetails['cycleid']=" ";
@@ -181,6 +185,15 @@ if (array_key_exists('postdata', $_SESSION)) : ?>
 
                         <!-- code here -->
                         <div class="modal-body card">
+                        <?php if(isset($error)):?>
+                        <div class="p-2">
+                            <div class="alert alert-danger" role="alert">
+                            <?php echo $error;
+                                unset($error);
+                            ?>
+                            </div>
+                        </div>
+                        <?php endif;?>
                             <form method="POST" action="cyreg.php">
                                 <div class="form-row">
                                     <div class="form-group col-md-6">

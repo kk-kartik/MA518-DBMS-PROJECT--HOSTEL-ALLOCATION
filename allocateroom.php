@@ -152,24 +152,29 @@ if (array_key_exists('postdata', $_SESSION)) :
             require_once 'connect.php';
             //print_r($_SESSION);
             if(isset($_SESSION['postdata']['alloc'])){
-                $query = "INSERT INTO hab.`users` VALUES ('{$_SESSION['postdata']['email']}','{$_SESSION['postdata']['pwd']}','STUD');";
-                $stmt = $conn->prepare($query);
-                $stmt->execute();
-                $query = "INSERT INTO hab.`students` VALUES ('{$_SESSION['postdata']['rollno']}','{$_SESSION['postdata']['name']}','{$_SESSION['postdata']['gender']}','{$_SESSION['postdata']['prog']}','{$_SESSION['postdata']['dept']}','{$_SESSION['postdata']['dob']}','{$_SESSION['postdata']['email']}');";
-                $stmt = $conn->prepare($query);
-                $stmt->execute();
-                $query = "SELECT hid as opt, nstud FROM hab.`hostel` WHERE `gender`='{$_SESSION['postdata']['gender']}' order by rand() LIMIT 1;  ";
-                $sql2 = $conn->query($query);
-                $hdd = $sql2->fetch(PDO::FETCH_ASSOC);
-                $query="SELECT H.roomid as opt FROM hab.rooms H Where H.`type`-(SELECT COUNT(*) FROM hab.roomrecords R WHERE R.roomid=H.roomid and R.tdate IS NULL) > 0  AND H.`type`={$_SESSION['postdata']['yos']} AND H.`hid`={$hdd['opt']} ORDER BY RAND() LIMIT 1;";
-                $sql2 = $conn->query($query);
-                $rdd = $sql2->fetch(PDO::FETCH_ASSOC);
-                $query = "INSERT INTO hab.`roomrecords`(`roomid`, `rollno`, `sdate`) VALUES ('{$rdd['opt']}','{$_SESSION['postdata']['rollno']}',CURRENT_DATE);";
-                $stmt = $conn->prepare($query);
-                $stmt->execute();
-                $query = "UPDATE hab.`hostel` SET `nstud`={$hdd['nstud']}+1 WHERE `hid`={$hdd['opt']};";
-                $stmt = $conn->prepare($query);
-                $stmt->execute();
+                try{
+                    $query = "INSERT INTO hab.`users` VALUES ('{$_SESSION['postdata']['email']}','{$_SESSION['postdata']['pwd']}','STUD');";
+                    $stmt = $conn->prepare($query);
+                    $stmt->execute();
+                    $query = "INSERT INTO hab.`students` VALUES ('{$_SESSION['postdata']['rollno']}','{$_SESSION['postdata']['name']}','{$_SESSION['postdata']['gender']}','{$_SESSION['postdata']['prog']}','{$_SESSION['postdata']['dept']}','{$_SESSION['postdata']['dob']}','{$_SESSION['postdata']['email']}');";
+                    $stmt = $conn->prepare($query);
+                    $stmt->execute();
+                    $query = "SELECT hid as opt, nstud FROM hab.`hostel` WHERE `gender`='{$_SESSION['postdata']['gender']}' order by rand() LIMIT 1;  ";
+                    $sql2 = $conn->query($query);
+                    $hdd = $sql2->fetch(PDO::FETCH_ASSOC);
+                    $query="SELECT H.roomid as opt FROM hab.rooms H Where H.`type`-(SELECT COUNT(*) FROM hab.roomrecords R WHERE R.roomid=H.roomid and R.tdate IS NULL) > 0  AND H.`type`={$_SESSION['postdata']['yos']} AND H.`hid`={$hdd['opt']} ORDER BY RAND() LIMIT 1;";
+                    $sql2 = $conn->query($query);
+                    $rdd = $sql2->fetch(PDO::FETCH_ASSOC);
+                    $query = "INSERT INTO hab.`roomrecords`(`roomid`, `rollno`, `sdate`) VALUES ('{$rdd['opt']}','{$_SESSION['postdata']['rollno']}',CURRENT_DATE);";
+                    $stmt = $conn->prepare($query);
+                    $stmt->execute();
+                    $query = "UPDATE hab.`hostel` SET `nstud`={$hdd['nstud']}+1 WHERE `hid`={$hdd['opt']};";
+                    $stmt = $conn->prepare($query);
+                    $stmt->execute();
+                    
+                }catch(PDOException $e){
+                    $error=$e->getMessage();
+                }
                 unset($_SESSION['postdata']['alloc']);
             }
             
@@ -186,6 +191,15 @@ if (array_key_exists('postdata', $_SESSION)) :
                     </div>
 
                     <div class="modal-body card" id="addemp">
+                    <?php if(isset($error)):?>
+                    <div class="p-2">
+                        <div class="alert alert-danger" role="alert">
+                        <?php echo $error;
+                            unset($error);
+                        ?>
+                        </div>
+                    </div>
+                    <?php endif;?>
                         <form action="allocateroom.php" method="POST">
                             <div class="form-row">
                                 <div class="form-group col-md-6">

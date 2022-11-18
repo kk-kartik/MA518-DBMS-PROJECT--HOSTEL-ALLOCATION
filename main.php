@@ -127,7 +127,7 @@ if (array_key_exists('postdata', $_SESSION)) :
                                         <!-- --------------          STUDENT MENU START   --------------           -->
 
 
-                                        <li class="nav-divider">
+                                        <li class="nav-divider font-new">
                                             Student Menu
                                         </li>
                                         <li class="nav-item">
@@ -201,20 +201,27 @@ if (array_key_exists('postdata', $_SESSION)) :
 
                                     //  print_r($_SESSION);
                                     if (isset($_SESSION['postdata']['rto'])) {
-                                        $query = "INSERT INTO hab.`rchange`( `rollno`, `empid`, `rfrom`, `rto`, `rstatus`) VALUES ('{$details['rollno']}','{$hdetails['warden']}','{$_SESSION['postdata']['rfrom']}','{$_SESSION['postdata']['rto']}','PENDING');";
-                                        unset($_SESSION['postdata']['rto']);
+                                        try{$query = "INSERT INTO hab.`rchange`( `rollno`, `empid`, `rfrom`, `rto`, `rstatus`) VALUES ('{$details['rollno']}','{$hdetails['warden']}','{$_SESSION['postdata']['rfrom']}','{$_SESSION['postdata']['rto']}','PENDING');";
+                                        
                                         $stmt = $conn->prepare($query);
                                         $stmt->execute();
+                                    }catch(PDOException $e){
+                                        $error1=$e->getMessage();
+                                    }
+                                        unset($_SESSION['postdata']['rto']);
                                     }
 
                                     if (
                                         isset($_SESSION['postdata']['hto']) &&
                                         $_SESSION['postdata']['hto'] != ''
                                     ) {
-                                        $query = "INSERT INTO hab.`hchange`( `rollno`, `empid`, `hfrom`, `hto`, `chstatus`) VALUES ('{$_SESSION['postdata']['rollno']}','1001','{$_SESSION['postdata']['hfrom']}','{$_SESSION['postdata']['hto']}','PENDING');";
+                                        try{$query = "INSERT INTO hab.`hchange`( `rollno`, `empid`, `hfrom`, `hto`, `chstatus`) VALUES ('{$_SESSION['postdata']['rollno']}','1001','{$_SESSION['postdata']['hfrom']}','{$_SESSION['postdata']['hto']}','PENDING');";
 
                                         $stmt = $conn->prepare($query);
                                         $stmt->execute();
+                                    }catch(PDOException $e){
+                                        $error2=$e->getMessage();
+                                    }
                                         unset($_SESSION['postdata']['hto']);
                                     }
                                     ?>
@@ -269,6 +276,15 @@ if (array_key_exists('postdata', $_SESSION)) :
 
 
                                         <div class="card-body">
+                                        <?php if(isset($error1)):?>
+                                            <div class="p-2">
+                                                <div class="alert alert-danger" role="alert">
+                                                <?php echo $error1;
+                                                    unset($error1);
+                                                ?>
+                                                </div>
+                                            </div>
+                                            <?php endif;?>
                                             <div class="table-responsive">
                                                 <table class="table table-striped table-bordered first">
                                                     <thead>
@@ -343,6 +359,15 @@ if (array_key_exists('postdata', $_SESSION)) :
                                             Hostel Shift Request History
                                         </div>
                                         <div class="card-body">
+                                        <?php if(isset($error2)):?>
+                                            <div class="p-2">
+                                                <div class="alert alert-danger" role="alert">
+                                                <?php echo $error2;
+                                                    unset($error2);
+                                                ?>
+                                                </div>
+                                            </div>
+                                            <?php endif;?>
                                             <div class="table-responsive">
                                                 <table class="table table-striped table-bordered first">
                                                     <thead>
@@ -616,18 +641,23 @@ if (array_key_exists('postdata', $_SESSION)) :
                             $stmt = $conn->prepare($query);
                             $stmt->execute();
                             if($_SESSION['postdata']['submithm']=="APPROVED"){
-                                $query = "SELECT * FROM hab.`roomrecords` WHERE `tdate` IS NULL and `rollno`={$_SESSION['postdata']['presentR']}; ";
-                                $sql2 = $conn->query($query);
-                                $hdd = $sql2->fetch(PDO::FETCH_ASSOC);
-                                $query = "UPDATE hab.`roomrecords` SET `tdate`=CURRENT_DATE WHERE `rollno`={$_SESSION['postdata']['presentR']} and `tdate` IS NULL;";
-                                $stmt = $conn->prepare($query);
-                                $stmt->execute();
-                                $query="SELECT H.roomid as opt FROM hab.rooms H Where H.`type`-(SELECT COUNT(*) FROM hab.roomrecords R WHERE R.roomid=H.roomid and R.tdate IS NULL) > 0  AND H.`type`=(SELECT S.`type` FROM hab.rooms S WHERE S.roomid={$hdd['roomid']}) AND H.`hid`={$_SESSION['postdata']['hto']} ORDER BY RAND() LIMIT 1;";
-                                $sql2 = $conn->query($query);
-                                $rdd = $sql2->fetch(PDO::FETCH_ASSOC);
-                                $query = "INSERT INTO hab.`roomrecords`(`roomid`, `rollno`, `sdate`) VALUES ('{$rdd['opt']}','{$_SESSION['postdata']['presentR']}',CURRENT_DATE);";
-                                $stmt = $conn->prepare($query);
-                                $stmt->execute();
+                                try{
+                                    $query = "SELECT * FROM hab.`roomrecords` WHERE `tdate` IS NULL and `rollno`={$_SESSION['postdata']['presentR']}; ";
+                                    $sql2 = $conn->query($query);
+                                    $hdd = $sql2->fetch(PDO::FETCH_ASSOC);
+                                    $query = "UPDATE hab.`roomrecords` SET `tdate`=CURRENT_DATE WHERE `rollno`={$_SESSION['postdata']['presentR']} and `tdate` IS NULL;";
+                                    $stmt = $conn->prepare($query);
+                                    $stmt->execute();
+                                    $query="SELECT H.roomid as opt FROM hab.rooms H Where H.`type`-(SELECT COUNT(*) FROM hab.roomrecords R WHERE R.roomid=H.roomid and R.tdate IS NULL) > 0  AND H.`type`=(SELECT S.`type` FROM hab.rooms S WHERE S.roomid={$hdd['roomid']}) AND H.`hid`={$_SESSION['postdata']['hto']} ORDER BY RAND() LIMIT 1;";
+                                    $sql2 = $conn->query($query);
+                                    $rdd = $sql2->fetch(PDO::FETCH_ASSOC);
+                                    $query = "INSERT INTO hab.`roomrecords`(`roomid`, `rollno`, `sdate`) VALUES ('{$rdd['opt']}','{$_SESSION['postdata']['presentR']}',CURRENT_DATE);";
+                                    $stmt = $conn->prepare($query);
+                                    $stmt->execute();
+                                }catch(PDOException $e){
+                                    $error="Error in Approval";
+                                }
+                                
                             }
 
                             unset($_SESSION['postdata']['submithm']);
@@ -698,6 +728,15 @@ while (
                                                 Hostel Shift Requests
                                             </div>
                                             <div class="card-body">
+                                            <?php if(isset($error)):?>
+                                            <div class="p-2">
+                                                <div class="alert alert-danger" role="alert">
+                                                <?php echo $error;
+                                                    unset($error);
+                                                ?>
+                                                </div>
+                                            </div>
+                                            <?php endif;?>
                                                 <div class="table-responsive">
                                                     <table class="table table-striped table-bordered first">
                                                         <thead>
